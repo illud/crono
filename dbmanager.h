@@ -43,7 +43,7 @@ public:
 
     const tablesAndColumns *allTables;
 
-    bool insertGame(const QString gameImage,const QString &gameName, const QString &gameExePath);
+    bool insertGame(const QString gameImage,const QString &gameName, const QString &gameExePath, const QString &gameExe);
 
     //Games struct
     struct Games{
@@ -51,6 +51,7 @@ public:
         QString gameImage;
         QString gameName;
         QString gameExePath;
+        QString gameExe;
         int timePlayed;
     };
 

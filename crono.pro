@@ -12,7 +12,8 @@ SOURCES += \
     dbmanager.cpp \
     main.cpp \
     mainwindow.cpp \
-    newgame.cpp
+    newgame.cpp \
+    util.cpp
 
 # Add libcurl lib
 LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.a
@@ -25,7 +26,8 @@ HEADERS += \
     ImageUtil.h \
     dbmanager.h \
     mainwindow.h \
-    newgame.h
+    newgame.h \
+    util.h
 
 FORMS += \
     mainwindow.ui \

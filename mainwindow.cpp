@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "newgame.h"
-#include <QProcess>
 #include <curl/curl.h>
+#include <QProcess>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -11,6 +11,7 @@
 #include <QTimer>
 #include "ImageUtil.h"
 #include "dbmanager.h"
+#include "util.h"
 #ifdef Q_OS_WIN // Windows-specific code
 #include <windows.h>
 #endif
@@ -35,7 +36,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+// NewGame form dialog
 void MainWindow::on_addGameBtn_clicked()
 {
     NewGame *newGame = new NewGame(this);
@@ -45,26 +46,6 @@ void MainWindow::on_addGameBtn_clicked()
     newGame->show();
 }
 
-QVector<QString> MainWindow::RemoveDupWord(std::string str)
-{
-    QVector<QString> words;
-    // Used to split string around spaces.
-    std::istringstream  ss(str);
-
-    std::string word; // for storing each word
-
-    // Traverse through all wordsF
-    // while loop till we get
-    // strings to store in string word
-    while (ss >> word)
-    {
-        // print the read word
-        words.push_back(word.c_str());
-    }
-
-    return words;
-}
-
 size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
 {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -72,7 +53,8 @@ size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
 }
 
 QString MainWindow::getGameImage(QString gameName){
-    QVector<QString> splitWords = RemoveDupWord(gameName.toStdString());
+    Util util;
+    QVector<QString> splitWords = util.removeDupWord(gameName.toStdString());
 
     // build a string by sequentially adding data to it.
     std::stringstream ss;
@@ -155,28 +137,6 @@ QString MainWindow::getGameImage(QString gameName){
     return imageUrl;
 }
 
-//Games struct
-/*struct Games{
-    int id;
-    QString gameImage;
-    QString gameName;
-    QString gameExePath;
-};*/
-
-//QVector<Games> games;
-
-
-QString MainWindow::secondsToTime(int time){
-    int h = time / 3600;
-    int m = time % 3600 / 60;
-
-    QString hours = QString::number(h);
-
-    QString minutes = QString::number(m);
-
-    return hours + "h " + minutes + "m";
-}
-
 void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
     static const QString path = "crono.db";
 
@@ -190,7 +150,8 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
     DbManager *db = new DbManager(path);
 
     // Inser into games table
-    db->insertGame(imageUrl, gameName, gameExePath);
+    Util util;
+    db->insertGame(imageUrl, gameName, gameExePath, util.findLastBackSlashWord(gameExePath.toStdString()));
     QVector<DbManager::Games> gamesResult = db->getGames();
 
     //qDebug() <<  gamesResult[0].gameName;
@@ -230,14 +191,15 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
                                 ui->tableWidget->setItem(currentRow, 0, imageItem);
                             });
 
+        Util util;
         ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(gamesResult[gamesList].gameName));
         //ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(gamesResult[gamesList].gameExePath));
-        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(secondsToTime(gamesResult[gamesList].timePlayed)));
+        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(util.secondsToTime(gamesResult[gamesList].timePlayed)));
 
         // CELL BUTTON
         QPushButton* button = new QPushButton();
         button->setText("PLAY");
-        button->setStyleSheet("QPushButton {    background-color: rgb(41, 98, 255);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
+        button->setStyleSheet("QPushButton {background-color: rgb(41, 98, 255);	font: 900 9pt 'Arial Black';color: rgb(255, 255, 255);border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
 
         //Sets button property to identify button
         button->setProperty("gameExePath", gamesResult[gamesList].gameExePath);
@@ -247,7 +209,7 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
 
         //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
         connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
-            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString());
+            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString(), gamesResult[gamesList].gameExe);
         });
 
         //Increases currentRow
@@ -302,7 +264,8 @@ void MainWindow::getGame(){
 
         ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(gamesResult[gamesList].gameName));
         //ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(gamesResult[gamesList].gameExePath));
-        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(secondsToTime(gamesResult[gamesList].timePlayed)));
+        Util util;
+        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(util.secondsToTime(gamesResult[gamesList].timePlayed)));
 
         // CELL BUTTON
         QPushButton* button = new QPushButton();
@@ -317,7 +280,7 @@ void MainWindow::getGame(){
 
         //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
         connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
-            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString());
+            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString(), gamesResult[gamesList].gameExe);
         });
 
         //Increases currentRow
@@ -327,11 +290,30 @@ void MainWindow::getGame(){
     }
 }
 
-void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath){
+void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath , QString gameExe){
     // Executes game
     QProcess::startDetached(gameExePath, QStringList());
     //qDebug() <<  gameExePath;
 
+    // Waits 1 minute so it can let the game start
+    // This is becouse some games takes up to 30-60 secons to start
+    QTimer timerDelay;
+    QEventLoop loop;
+
+    // Create a lambda function to execute after the delay
+    QObject::connect(&timerDelay, &QTimer::timeout, [&]() {
+        qDebug() << "One minute has passed.";
+        loop.quit(); // Exit the event loop
+    });
+
+    // Start the timer with a delay of one minute (60000 milliseconds)
+    timerDelay.singleShot(60000, &loop, &QEventLoop::quit);
+
+    // Start the event loop
+    loop.exec();
+
+
+    // Cron job to call checkRunningGame every 1 minute
     timer = new QTimer(this);
     timer->stop();
 
@@ -339,27 +321,30 @@ void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath){
     disconnect(timer, &QTimer::timeout, nullptr, nullptr);
 
     // Create a lambda function to connect to the timeout signal
-    auto timerFunction = [this, gameId]() {
-        checkRunningGame(gameId, "cronos.exe");
+    auto timerFunction = [this, gameId, gameExe]() {
+        checkRunningGame(gameId, gameExe);
     };
 
     // Connect the timer's timeout signal to the lambda function
     connect(timer, &QTimer::timeout, this, timerFunction);
 
-    // Start the timer initially (3000 milliseconds)
-    timer->start(3000);
+    // Start the timer initially (30000 milliseconds) 30 seconds
+    timer->start(30000);
 }
 
-void MainWindow::checkRunningGame(int gameId,QString gameName){
+void MainWindow::checkRunningGame(int gameId, QString gameName){
     QString processNameToCheck = gameName;
 
-    if (isProcessRunning(processNameToCheck)) {
+    Util util;
+    if (util.isProcessRunning(processNameToCheck)) {
         static const QString path = "crono.db";
         // Instance db conn
         DbManager *db = new DbManager(path);
 
         QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
         //qDebug() << gamesResult[0].gameName;
+
+        // Adds 30 seconds to timePlayed
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
 
         if(updateTime){
@@ -375,17 +360,3 @@ void MainWindow::checkRunningGame(int gameId,QString gameName){
     }
 }
 
-bool MainWindow::isProcessRunning(const QString &processName) {
-    QProcess process;
-#ifdef Q_OS_WIN
-    process.start("tasklist");
-#else
-    process.start("ps", QStringList() << "aux");
-#endif
-    process.waitForFinished();
-
-    QByteArray output = process.readAllStandardOutput();
-    QString outputStr = QString::fromLocal8Bit(output);
-
-    return outputStr.contains(processName, Qt::CaseInsensitive);
-}
