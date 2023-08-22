@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "qboxlayout.h"
 #include "ui_mainwindow.h"
 #include "newgame.h"
 #include <curl/curl.h>
@@ -29,6 +30,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Get games and start of the app
     getGame();
+
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // Disable the vertical header (row index counter)
+    ui->tableWidget->verticalHeader()->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -198,14 +203,49 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
 
         // CELL BUTTON
         QPushButton* button = new QPushButton();
+
+        // Create a layout to manage the button's size and alignment
+        QHBoxLayout *layout = new QHBoxLayout;
+        layout->addWidget(button);
+        layout->setAlignment(Qt::AlignCenter);
+        layout->setContentsMargins(0, 0, 0, 0); // No margins
+
+        // Create a container widget to hold the layout and button
+        QWidget *container = new QWidget();
+        container->setLayout(layout);
+
+        // Set button's parent to the container
+        button->setParent(container);
+
         button->setText("PLAY");
-        button->setStyleSheet("QPushButton {background-color: rgb(41, 98, 255);	font: 900 9pt 'Arial Black';color: rgb(255, 255, 255);border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
+        button->setStyleSheet("QPushButton {"
+                              "    background-color: rgb(41, 98, 255);"
+                              "    font: 900 9pt 'Arial Black';"
+                              "    color: rgb(255, 255, 255);"
+                              "    border: 0px;"
+                              "    border-radius: 10px;"
+                              "    border-style: outset;"
+                              "    width: 100px;"    // Adjust the width value as needed
+                              "    height: 30px;"    // Adjust the height value as needed
+                              "}"
+                              "QPushButton::hover {"
+                              "    background-color: rgb(33, 78, 203);"
+                              "    font: 900 9pt 'Arial Black';"
+                              "    color: rgb(255, 255, 255);"
+                              "    border: 0px;"
+                              "}"
+                              "QPushButton::focus:pressed {"
+                              "    background-color: rgb(38, 72, 184);"
+                              "    font: 900 9pt 'Arial Black';"
+                              "    color: rgb(255, 255, 255);"
+                              "    border: 0px;"
+                              "}");
 
         //Sets button property to identify button
         button->setProperty("gameExePath", gamesResult[gamesList].gameExePath);
 
         //Adds button to current index row
-        ui->tableWidget->setCellWidget(currentRow, 3, button);
+        ui->tableWidget->setCellWidget(currentRow, 3, container);
 
         //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
         connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
@@ -270,25 +310,80 @@ void MainWindow::getGame(){
         // CELL BUTTON
         QPushButton* button = new QPushButton();
 
+        // Create a layout to manage the button's size and alignment
+        QHBoxLayout *layout = new QHBoxLayout;
+        layout->addWidget(button);
+        layout->setAlignment(Qt::AlignCenter);
+        layout->setContentsMargins(0, 0, 0, 0); // No margins
+
+        // Create a container widget to hold the layout and button
+        QWidget *container = new QWidget();
+        container->setLayout(layout);
+
+        // Set button's parent to the container
+        button->setParent(container);
+
         if(gamesResult[gamesList].running){
             button->setText("RUNNING");
-            button->setStyleSheet("QPushButton {    background-color: rgb(46, 125, 50);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
+            button->setStyleSheet("QPushButton {"
+                                  "    background-color: rgb(46, 125, 50);"
+                                  "    font: 900 9pt 'Arial Black';"
+                                  "    color: rgb(255, 255, 255);"
+                                  "    border: 0px;"
+                                  "    border-radius: 10px;"
+                                  "    border-style: outset;"
+                                  "    width: 100px;"    // Adjust the width value as needed
+                                  "    height: 30px;"    // Adjust the height value as needed
+                                  "}"
+                                  "QPushButton::hover {"
+                                  "    background-color: rgb(33, 78, 203);"
+                                  "    font: 900 9pt 'Arial Black';"
+                                  "    color: rgb(255, 255, 255);"
+                                  "    border: 0px;"
+                                  "}"
+                                  "QPushButton::focus:pressed {"
+                                  "    background-color: rgb(38, 72, 184);"
+                                  "    font: 900 9pt 'Arial Black';"
+                                  "    color: rgb(255, 255, 255);"
+                                  "    border: 0px;"
+                                  "}");
 
             //Sets button property to identify button
             button->setProperty("gameExePath", gamesResult[gamesList].gameExePath);
 
             //Adds button to current index row
-            ui->tableWidget->setCellWidget(currentRow, 3, button);
+            ui->tableWidget->setCellWidget(currentRow, 3, container);
 
         }else{
             button->setText("PLAY");
-            button->setStyleSheet("QPushButton {    background-color: rgb(41, 98, 255);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
+            button->setStyleSheet("QPushButton {"
+                                  "    background-color: rgb(41, 98, 255);"
+                                  "    font: 900 9pt 'Arial Black';"
+                                  "    color: rgb(255, 255, 255);"
+                                  "    border: 0px;"
+                                  "    border-radius: 10px;"
+                                  "    border-style: outset;"
+                                  "    width: 100px;"    // Adjust the width value as needed
+                                  "    height: 30px;"    // Adjust the height value as needed
+                                  "}"
+                                  "QPushButton::hover {"
+                                  "    background-color: rgb(33, 78, 203);"
+                                  "    font: 900 9pt 'Arial Black';"
+                                  "    color: rgb(255, 255, 255);"
+                                  "    border: 0px;"
+                                  "}"
+                                  "QPushButton::focus:pressed {"
+                                  "    background-color: rgb(38, 72, 184);"
+                                  "    font: 900 9pt 'Arial Black';"
+                                  "    color: rgb(255, 255, 255);"
+                                  "    border: 0px;"
+                                  "}");
 
             //Sets button property to identify button
             button->setProperty("gameExePath", gamesResult[gamesList].gameExePath);
 
             //Adds button to current index row
-            ui->tableWidget->setCellWidget(currentRow, 3, button);
+            ui->tableWidget->setCellWidget(currentRow, 3, container);
 
             //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
             connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){

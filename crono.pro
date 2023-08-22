@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    CustomRowCard.cpp \
     dbmanager.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -23,6 +24,7 @@ LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.dll.a
 INCLUDEPATH += C:\Qt\6.5.1\mingw_64\include
 
 HEADERS += \
+    CustomRowCard.h \
     ImageUtil.h \
     dbmanager.h \
     mainwindow.h \
