@@ -17,7 +17,10 @@ public:
 
 private slots:
     void on_addGameBtn_clicked();
+    QString getGameImage(QString gameName);
     void addedGame(const QString &gameName,const QString &gameExePath);
+    void getGame();
+    void on_btnPlay_clicked(QString gameExePath);
 
 private:
     Ui::MainWindow *ui;

@@ -9,6 +9,7 @@ NewGame::NewGame(QWidget *parent) :
     ui(new Ui::NewGame)
 {
     ui->setupUi(this);
+    NewGame::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 }
 
 QString gameExe;
@@ -32,5 +33,11 @@ void NewGame::on_searchGameExeBtn_clicked()
     QString absolute = d.absoluteFilePath(filePath);
     gameExe = absolute;
     //qDebug() <<  gameExe;
+}
+
+
+void NewGame::on_closeBtn_clicked()
+{
+    this->close();
 }
 

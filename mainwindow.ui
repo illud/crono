@@ -192,6 +192,14 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 {
 }</string>
     </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>220</number>
+    </attribute>
+    <column>
+     <property name="text">
+      <string>IMAGE</string>
+     </property>
+    </column>
     <column>
      <property name="text">
       <string>TITLE</string>
@@ -199,7 +207,12 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
     </column>
     <column>
      <property name="text">
-      <string>IMAGE</string>
+      <string>EXE</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>PLAY</string>
      </property>
     </column>
    </widget>

@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,11 +9,21 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dbmanager.cpp \
     main.cpp \
     mainwindow.cpp \
     newgame.cpp
 
+# Add libcurl lib
+LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.a
+LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.dll.a
+
+# Include libcurl include folder
+INCLUDEPATH += C:\Qt\6.5.1\mingw_64\include
+
 HEADERS += \
+    ImageUtil.h \
+    dbmanager.h \
     mainwindow.h \
     newgame.h
 
