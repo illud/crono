@@ -19,7 +19,7 @@ DbManager::DbManager(const QString &path)
         bool success = true;
 
         QSqlQuery query;
-        query.prepare("CREATE TABLE games(id INTEGER PRIMARY KEY AUTOINCREMENT,gameName TEXT, gameImage TEXT, gameExePath TEXT, gameExe TEXT, timePlayed INTEGER);");
+        query.prepare("CREATE TABLE games(id INTEGER PRIMARY KEY AUTOINCREMENT,gameName TEXT, gameImage TEXT, gameExePath TEXT, gameExe TEXT, running BOOLEAN, timePlayed INTEGER);");
 
 
         if (!query.exec())
@@ -45,11 +45,12 @@ bool DbManager::insertGame(const QString gameImage,const QString &gameName, cons
     if (!gameName.isEmpty())
     {
         QSqlQuery queryAdd;
-        queryAdd.prepare("INSERT INTO games (gameImage,gameName,gameExePath,gameExe,timePlayed) VALUES (:gameImage,:gameName,:gameExePath,:gameExe,:timePlayed)");
+        queryAdd.prepare("INSERT INTO games (gameImage,gameName,gameExePath,gameExe,running,timePlayed) VALUES (:gameImage,:gameName,:gameExePath,:gameExe,:running,:timePlayed)");
         queryAdd.bindValue(":gameImage", gameImage);
         queryAdd.bindValue(":gameName", gameName);
         queryAdd.bindValue(":gameExePath", gameExePath);
         queryAdd.bindValue(":gameExe", gameExe);
+        queryAdd.bindValue(":running", false);
         queryAdd.bindValue(":timePlayed", 0);
 
         if(queryAdd.exec())
@@ -76,6 +77,7 @@ struct Games{
     QString gameName;
     QString gameExePath;
     QString gameExe;
+    bool running;
     int timePlayed;
 };
 
@@ -88,6 +90,7 @@ QVector<DbManager::Games> DbManager::getGames() {
     int gameNameIndex = query.record().indexOf("gameName");
     int gameExePathIndex = query.record().indexOf("gameExePath");
     int gameExeIndex = query.record().indexOf("gameExe");
+    int runningIndex = query.record().indexOf("running");
     int timePlayedIndex = query.record().indexOf("timePlayed");
 
     while (query.next()) {
@@ -96,9 +99,10 @@ QVector<DbManager::Games> DbManager::getGames() {
         QString gameName = query.value(gameNameIndex).toString();
         QString gameExePath = query.value(gameExePathIndex).toString();
         QString gameExe = query.value(gameExeIndex).toString();
+        bool running = query.value(runningIndex).toBool();
         int timePlayed = query.value(timePlayedIndex).toInt();
 
-        games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, timePlayed});
+        games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, running, timePlayed});
     }
 
     return games;
@@ -117,6 +121,7 @@ QVector<DbManager::Games> DbManager::getGameById(int gameId) {
         int gameNameIndex = query.record().indexOf("gameName");
         int gameExePathIndex = query.record().indexOf("gameExePath");
         int gameExeIndex = query.record().indexOf("gameExe");
+        bool runningIndex = query.record().indexOf("running");
         int timePlayedIndex = query.record().indexOf("timePlayed");
 
         while (query.next()) {
@@ -125,9 +130,10 @@ QVector<DbManager::Games> DbManager::getGameById(int gameId) {
             QString gameName = query.value(gameNameIndex).toString();
             QString gameExePath = query.value(gameExePathIndex).toString();
             QString gameExe = query.value(gameExeIndex).toString();
+            bool running = query.value(runningIndex).toBool();
             int timePlayed = query.value(timePlayedIndex).toInt();
 
-            games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, timePlayed});
+            games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, running, timePlayed});
         }
     } else {
         qDebug() << "Error executing query:" << query.lastError().text();
@@ -156,5 +162,28 @@ bool DbManager::updateTimePlayed(int gameId, int timePlayed)
             qDebug() << "Error: " << queryAdd.lastError();
         }
     }
+     return success;
+}
+
+bool DbManager::updateGameRunning(int gameId, bool running)
+{
+     bool success = false;
+
+     if(gameId != 0)
+     {
+        QSqlQuery queryAdd;
+        queryAdd.prepare("UPDATE games SET running = :running WHERE id = :id");
+        queryAdd.bindValue(":running", running);
+        queryAdd.bindValue(":id", gameId);
+
+        if(queryAdd.exec())
+        {
+            success = true;
+        }
+        else
+        {
+            qDebug() << "Error: " << queryAdd.lastError();
+        }
+     }
      return success;
 }

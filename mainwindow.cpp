@@ -269,19 +269,32 @@ void MainWindow::getGame(){
 
         // CELL BUTTON
         QPushButton* button = new QPushButton();
-        button->setText("PLAY");
-        button->setStyleSheet("QPushButton {    background-color: rgb(41, 98, 255);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
 
-        //Sets button property to identify button
-        button->setProperty("gameExePath", gamesResult[gamesList].gameExePath);
+        if(gamesResult[gamesList].running){
+            button->setText("RUNNING");
+            button->setStyleSheet("QPushButton {    background-color: rgb(46, 125, 50);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
 
-        //Adds button to current index row
-        ui->tableWidget->setCellWidget(currentRow, 3, button);
+            //Sets button property to identify button
+            button->setProperty("gameExePath", gamesResult[gamesList].gameExePath);
 
-        //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
-        connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
-            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString(), gamesResult[gamesList].gameExe);
-        });
+            //Adds button to current index row
+            ui->tableWidget->setCellWidget(currentRow, 3, button);
+
+        }else{
+            button->setText("PLAY");
+            button->setStyleSheet("QPushButton {    background-color: rgb(41, 98, 255);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;	border-radius: 10px;	border-style: outset;}QPushButton::hover{     background-color: rgb(33, 78, 203);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}QPushButton::focus:pressed{ 	background-color: rgb(38, 72, 184);	font: 900 9pt 'Arial Black';	color: rgb(255, 255, 255);    border: 0px;}");
+
+            //Sets button property to identify button
+            button->setProperty("gameExePath", gamesResult[gamesList].gameExePath);
+
+            //Adds button to current index row
+            ui->tableWidget->setCellWidget(currentRow, 3, button);
+
+            //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
+            connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
+                on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString(), gamesResult[gamesList].gameExe);
+            });
+        }
 
         //Increases currentRow
         currentRow = currentRow + 1;
@@ -294,6 +307,20 @@ void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath , QString ga
     // Executes game
     QProcess::startDetached(gameExePath, QStringList());
     //qDebug() <<  gameExePath;
+
+    // Update running
+    static const QString path = "crono.db";
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    bool updateRunning = db->updateGameRunning(gameId, true);
+
+    if(updateRunning){
+        qDebug() <<  "is running updated to true. " << gameId;
+    }
+
+    // Gets games to update running
+    getGame();
 
     // Waits 1 minute so it can let the game start
     // This is becouse some games takes up to 30-60 secons to start
@@ -335,12 +362,12 @@ void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath , QString ga
 void MainWindow::checkRunningGame(int gameId, QString gameName){
     QString processNameToCheck = gameName;
 
+    static const QString path = "crono.db";
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
     Util util;
     if (util.isProcessRunning(processNameToCheck)) {
-        static const QString path = "crono.db";
-        // Instance db conn
-        DbManager *db = new DbManager(path);
-
         QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
         //qDebug() << gamesResult[0].gameName;
 
@@ -349,6 +376,12 @@ void MainWindow::checkRunningGame(int gameId, QString gameName){
 
         if(updateTime){
             qDebug() << "Process" << processNameToCheck << "is running. " << gameId;
+            // Update running
+            bool updateRunning = db->updateGameRunning(gameId, true);
+
+            if(updateRunning){
+                qDebug() <<  "is running updated to true. " << gameId;
+            }
         }
 
         // Gets games when timePlayed is updated
@@ -357,6 +390,16 @@ void MainWindow::checkRunningGame(int gameId, QString gameName){
     } else {
         qDebug() << "Process" << processNameToCheck << "is not running.";
         timer->stop(); // Stop the timer
+
+        // Update running
+        bool updateRunning = db->updateGameRunning(gameId, false);
+
+        if(updateRunning){
+            qDebug() <<  "is running updated to false." << gameId;
+        }
+
+        // Gets games to update running
+        getGame();
     }
 }
 
