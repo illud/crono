@@ -332,18 +332,22 @@ void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath){
     QProcess::startDetached(gameExePath, QStringList());
     //qDebug() <<  gameExePath;
 
-    QTimer* timer = new QTimer(this);
+    timer = new QTimer(this);
     timer->stop();
+
+    // Disconnect any previous connection of the timeout signal
+    disconnect(timer, &QTimer::timeout, nullptr, nullptr);
+
     // Create a lambda function to connect to the timeout signal
     auto timerFunction = [this, gameId]() {
-        checkRunningGame(gameId, "crono.exe");
+        checkRunningGame(gameId, "cronos.exe");
     };
 
     // Connect the timer's timeout signal to the lambda function
     connect(timer, &QTimer::timeout, this, timerFunction);
 
-    // Start the timer initially (10000 milliseconds)
-    timer->start(3000); // Start with a 10-second interval
+    // Start the timer initially (3000 milliseconds)
+    timer->start(3000);
 }
 
 void MainWindow::checkRunningGame(int gameId,QString gameName){
@@ -355,15 +359,19 @@ void MainWindow::checkRunningGame(int gameId,QString gameName){
         DbManager *db = new DbManager(path);
 
         QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
-        qDebug() << gamesResult[0].gameName;
+        //qDebug() << gamesResult[0].gameName;
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
+
         if(updateTime){
             qDebug() << "Process" << processNameToCheck << "is running. " << gameId;
         }
+
+        // Gets games when timePlayed is updated
         getGame();
 
     } else {
         qDebug() << "Process" << processNameToCheck << "is not running.";
+        timer->stop(); // Stop the timer
     }
 }
 
