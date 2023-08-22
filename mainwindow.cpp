@@ -8,8 +8,12 @@
 #include <QJsonArray>
 #include <QVector>
 #include <sstream>
+#include <QTimer>
 #include "ImageUtil.h"
 #include "dbmanager.h"
+#ifdef Q_OS_WIN // Windows-specific code
+#include <windows.h>
+#endif
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -41,7 +45,7 @@ void MainWindow::on_addGameBtn_clicked()
     newGame->show();
 }
 
-QVector<QString> RemoveDupWord(std::string str)
+QVector<QString> MainWindow::RemoveDupWord(std::string str)
 {
     QVector<QString> words;
     // Used to split string around spaces.
@@ -162,6 +166,17 @@ QString MainWindow::getGameImage(QString gameName){
 //QVector<Games> games;
 
 
+QString MainWindow::secondsToTime(int time){
+    int h = time / 3600;
+    int m = time % 3600 / 60;
+
+    QString hours = QString::number(h);
+
+    QString minutes = QString::number(m);
+
+    return hours + "h " + minutes + "m";
+}
+
 void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
     static const QString path = "crono.db";
 
@@ -216,7 +231,8 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
                             });
 
         ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(gamesResult[gamesList].gameName));
-        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(gamesResult[gamesList].gameExePath));
+        //ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(gamesResult[gamesList].gameExePath));
+        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(secondsToTime(gamesResult[gamesList].timePlayed)));
 
         // CELL BUTTON
         QPushButton* button = new QPushButton();
@@ -230,8 +246,8 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
         ui->tableWidget->setCellWidget(currentRow, 3, button);
 
         //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
-        connect(button, &QPushButton::clicked, [this, button](){
-            on_btnPlay_clicked(button->property("gameExePath").toString());
+        connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
+            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString());
         });
 
         //Increases currentRow
@@ -285,7 +301,8 @@ void MainWindow::getGame(){
                            });
 
         ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(gamesResult[gamesList].gameName));
-        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(gamesResult[gamesList].gameExePath));
+        //ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(gamesResult[gamesList].gameExePath));
+        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(secondsToTime(gamesResult[gamesList].timePlayed)));
 
         // CELL BUTTON
         QPushButton* button = new QPushButton();
@@ -299,8 +316,8 @@ void MainWindow::getGame(){
         ui->tableWidget->setCellWidget(currentRow, 3, button);
 
         //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
-        connect(button, &QPushButton::clicked, [this, button](){
-            on_btnPlay_clicked(button->property("gameExePath").toString());
+        connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
+            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString());
         });
 
         //Increases currentRow
@@ -310,8 +327,57 @@ void MainWindow::getGame(){
     }
 }
 
-void MainWindow::on_btnPlay_clicked(QString gameExePath){
+void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath){
     // Executes game
     QProcess::startDetached(gameExePath, QStringList());
     //qDebug() <<  gameExePath;
+
+    QTimer* timer = new QTimer(this);
+    timer->stop();
+    // Create a lambda function to connect to the timeout signal
+    auto timerFunction = [this, gameId]() {
+        checkRunningGame(gameId, "crono.exe");
+    };
+
+    // Connect the timer's timeout signal to the lambda function
+    connect(timer, &QTimer::timeout, this, timerFunction);
+
+    // Start the timer initially (10000 milliseconds)
+    timer->start(3000); // Start with a 10-second interval
+}
+
+void MainWindow::checkRunningGame(int gameId,QString gameName){
+    QString processNameToCheck = gameName;
+
+    if (isProcessRunning(processNameToCheck)) {
+        static const QString path = "crono.db";
+        // Instance db conn
+        DbManager *db = new DbManager(path);
+
+        QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
+        qDebug() << gamesResult[0].gameName;
+        bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
+        if(updateTime){
+            qDebug() << "Process" << processNameToCheck << "is running. " << gameId;
+        }
+        getGame();
+
+    } else {
+        qDebug() << "Process" << processNameToCheck << "is not running.";
+    }
+}
+
+bool MainWindow::isProcessRunning(const QString &processName) {
+    QProcess process;
+#ifdef Q_OS_WIN
+    process.start("tasklist");
+#else
+    process.start("ps", QStringList() << "aux");
+#endif
+    process.waitForFinished();
+
+    QByteArray output = process.readAllStandardOutput();
+    QString outputStr = QString::fromLocal8Bit(output);
+
+    return outputStr.contains(processName, Qt::CaseInsensitive);
 }

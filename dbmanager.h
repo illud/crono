@@ -28,6 +28,7 @@ public:
         QString gameImage;
         QString gameName;
         QString gameExePath;
+        int timePlayed;
     } table_games ;
 
     /**
@@ -50,9 +51,13 @@ public:
         QString gameImage;
         QString gameName;
         QString gameExePath;
+        int timePlayed;
     };
 
     QVector<Games> getGames();
+    QVector<Games> getGameById(int gameId);
+
+    bool updateTimePlayed(int gameId, int timePlayed);
 
 };
 

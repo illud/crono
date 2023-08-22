@@ -207,7 +207,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
     </column>
     <column>
      <property name="text">
-      <string>EXE</string>
+      <string>PLAYED</string>
      </property>
     </column>
     <column>

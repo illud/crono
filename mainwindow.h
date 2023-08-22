@@ -20,7 +20,11 @@ private slots:
     QString getGameImage(QString gameName);
     void addedGame(const QString &gameName,const QString &gameExePath);
     void getGame();
-    void on_btnPlay_clicked(QString gameExePath);
+    QString secondsToTime(int time);
+    QVector<QString> RemoveDupWord(std::string str);
+    void on_btnPlay_clicked(int gameId, QString gameExePath);
+    bool isProcessRunning(const QString &processName);
+    void checkRunningGame(int gameId, QString gameName);
 
 private:
     Ui::MainWindow *ui;
