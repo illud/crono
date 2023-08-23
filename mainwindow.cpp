@@ -13,6 +13,7 @@
 #include "ImageUtil.h"
 #include "dbmanager.h"
 #include "util.h"
+#include <QMouseEvent>
 #ifdef Q_OS_WIN // Windows-specific code
 #include <windows.h>
 #endif
@@ -22,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    MainWindow::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+
+    // Install the event filter to capture mouse events for resizing
+    this->installEventFilter(this);
 
     static const QString path = "crono.db";
 
@@ -496,5 +501,54 @@ void MainWindow::checkRunningGame(int gameId, QString gameName){
         // Gets games to update running
         getGame();
     }
+}
+
+
+void MainWindow::on_btnClose_clicked()
+{
+    this->close();
+}
+
+
+void MainWindow::on_minimizeBtn_clicked()
+{
+    this->showMinimized();
+}
+
+
+void MainWindow::on_maxBtn_clicked()
+{
+    if (this->isMaximized()) {
+        this->showNormal(); // Restore the window to its normal size
+    } else {
+        this->showMaximized(); // Maximize the window
+    }
+}
+
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    startPos = event->pos();
+    QWidget::mousePressEvent(event);
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    QPoint delta = event->pos() - startPos;
+    QWidget * w = window();
+    if(w)
+        w->move(w->pos() + delta);
+    QWidget::mouseMoveEvent(event);
+}
+
+void MainWindow::on_btnGames_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_statsBtn_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(1);
 }
 

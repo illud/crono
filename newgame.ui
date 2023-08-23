@@ -172,14 +172,14 @@ color: rgb(255, 255, 255);</string>
 }
 
 QPushButton#closeBtn:hover{ 
-    background-color: rgb(33, 78, 203);
+    background-color: rgb(255, 32, 32);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
 }
 
 QPushButton#closeBtn::focus:pressed{ 
-	background-color: rgb(38, 72, 184);
+	background-color: rgb(38, 32, 32);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;

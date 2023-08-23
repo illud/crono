@@ -23,8 +23,25 @@ private slots:
     void on_btnPlay_clicked(int gameId, QString gameExePath, QString gameExe);
     void checkRunningGame(int gameId, QString gameName);
 
+    void on_btnClose_clicked();
+
+    void on_minimizeBtn_clicked();
+
+    void on_maxBtn_clicked();
+
+
+    void on_btnGames_clicked();
+
+    void on_statsBtn_clicked();
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+
 private:
     Ui::MainWindow *ui;
     QTimer* timer;
+    QPoint startPos;
+
 };
 #endif // MAINWINDOW_H
