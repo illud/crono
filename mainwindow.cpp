@@ -232,7 +232,7 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
 
         // Set button's parent to the container
         button->setParent(container);
-
+        button->setCursor(Qt::PointingHandCursor);
         button->setText("PLAY");
         button->setStyleSheet("QPushButton {"
                               "    background-color: rgb(41, 98, 255);"
@@ -249,6 +249,7 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
                               "    font: 900 9pt 'Arial Black';"
                               "    color: rgb(255, 255, 255);"
                               "    border: 0px;"
+                              "    cursor: pointer;"
                               "}"
                               "QPushButton::focus:pressed {"
                               "    background-color: rgb(38, 72, 184);"
@@ -371,6 +372,7 @@ void MainWindow::getGame(){
             ui->tableWidget->setCellWidget(currentRow, 3, container);
 
         }else{
+            button->setCursor(Qt::PointingHandCursor);
             button->setText("PLAY");
             button->setStyleSheet("QPushButton {"
                                   "    background-color: rgb(41, 98, 255);"
@@ -387,6 +389,7 @@ void MainWindow::getGame(){
                                   "    font: 900 9pt 'Arial Black';"
                                   "    color: rgb(255, 255, 255);"
                                   "    border: 0px;"
+                                  "    cursor: pointer;"
                                   "}"
                                   "QPushButton::focus:pressed {"
                                   "    background-color: rgb(38, 72, 184);"
