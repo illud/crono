@@ -14,6 +14,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     newgame.cpp \
+    stats.cpp \
     util.cpp
 
 # Add libcurl lib
@@ -29,11 +30,13 @@ HEADERS += \
     dbmanager.h \
     mainwindow.h \
     newgame.h \
+    stats.h \
     util.h
 
 FORMS += \
     mainwindow.ui \
-    newgame.ui
+    newgame.ui \
+    stats.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

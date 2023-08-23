@@ -1,4 +1,5 @@
 #include "dbmanager.h"
+#include "qdatetime.h"
 #include <QDebug>
 
 DbManager::DbManager(const QString &path)
@@ -19,7 +20,7 @@ DbManager::DbManager(const QString &path)
         bool success = true;
 
         QSqlQuery query;
-        query.prepare("CREATE TABLE games(id INTEGER PRIMARY KEY AUTOINCREMENT,gameName TEXT, gameImage TEXT, gameExePath TEXT, gameExe TEXT, running BOOLEAN, timePlayed INTEGER);");
+        query.prepare("CREATE TABLE games(id INTEGER PRIMARY KEY AUTOINCREMENT,gameName TEXT, gameImage TEXT, gameExePath TEXT, gameExe TEXT, running BOOLEAN, timePlayed INTEGER, createdAt TEXT);");
 
 
         if (!query.exec())
@@ -45,13 +46,21 @@ bool DbManager::insertGame(const QString gameImage,const QString &gameName, cons
     if (!gameName.isEmpty())
     {
         QSqlQuery queryAdd;
-        queryAdd.prepare("INSERT INTO games (gameImage,gameName,gameExePath,gameExe,running,timePlayed) VALUES (:gameImage,:gameName,:gameExePath,:gameExe,:running,:timePlayed)");
+        queryAdd.prepare("INSERT INTO games (gameImage,gameName,gameExePath,gameExe,running,timePlayed,createdAt) VALUES (:gameImage,:gameName,:gameExePath,:gameExe,:running,:timePlayed,:createdAt)");
         queryAdd.bindValue(":gameImage", gameImage);
         queryAdd.bindValue(":gameName", gameName);
         queryAdd.bindValue(":gameExePath", gameExePath);
         queryAdd.bindValue(":gameExe", gameExe);
         queryAdd.bindValue(":running", false);
         queryAdd.bindValue(":timePlayed", 0);
+
+        QDate currentDate = QDate::currentDate();
+        int year = currentDate.year();
+        int month = currentDate.month();
+        int day = currentDate.day();
+        QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+        queryAdd.bindValue(":createdAt", formattedDate);
 
         if(queryAdd.exec())
         {
@@ -79,6 +88,7 @@ struct Games{
     QString gameExe;
     bool running;
     int timePlayed;
+    QString createdAt;
 };
 
 QVector<DbManager::Games> DbManager::getGames() {
@@ -92,6 +102,7 @@ QVector<DbManager::Games> DbManager::getGames() {
     int gameExeIndex = query.record().indexOf("gameExe");
     int runningIndex = query.record().indexOf("running");
     int timePlayedIndex = query.record().indexOf("timePlayed");
+    int createdAtIndex = query.record().indexOf("createdAt");
 
     while (query.next()) {
         int id = query.value(idIndex).toInt();
@@ -101,8 +112,9 @@ QVector<DbManager::Games> DbManager::getGames() {
         QString gameExe = query.value(gameExeIndex).toString();
         bool running = query.value(runningIndex).toBool();
         int timePlayed = query.value(timePlayedIndex).toInt();
+        QString createdAt = query.value(createdAtIndex).toString();
 
-        games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, running, timePlayed});
+        games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, running, timePlayed, createdAt});
     }
 
     return games;
@@ -123,6 +135,7 @@ QVector<DbManager::Games> DbManager::getGameById(int gameId) {
         int gameExeIndex = query.record().indexOf("gameExe");
         bool runningIndex = query.record().indexOf("running");
         int timePlayedIndex = query.record().indexOf("timePlayed");
+        int createdAtIndex = query.record().indexOf("createdAt");
 
         while (query.next()) {
             int id = query.value(idIndex).toInt();
@@ -132,8 +145,9 @@ QVector<DbManager::Games> DbManager::getGameById(int gameId) {
             QString gameExe = query.value(gameExeIndex).toString();
             bool running = query.value(runningIndex).toBool();
             int timePlayed = query.value(timePlayedIndex).toInt();
+            QString createdAt = query.value(createdAtIndex).toString();
 
-            games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, running, timePlayed});
+            games.push_back(Games{id, gameImage, gameName, gameExePath, gameExe, running, timePlayed, createdAt});
         }
     } else {
         qDebug() << "Error executing query:" << query.lastError().text();
@@ -186,4 +200,39 @@ bool DbManager::updateGameRunning(int gameId, bool running)
         }
      }
      return success;
+}
+
+void DbManager::updateAllGameRunning(){
+     QSqlQuery queryAdd;
+     queryAdd.prepare("UPDATE games SET running = false");
+
+     if(queryAdd.exec())
+     {
+       qDebug() << "Success";
+     }
+     else
+     {
+        qDebug() << "Error: " << queryAdd.lastError();
+     }
+}
+
+int DbManager::totalTimePlayed(){
+     int totalTimePlayedResult = 0;
+
+     QSqlQuery query;
+     query.prepare("SELECT SUM(timePlayed) as totalTimePlayed FROM games");
+
+     if (query.exec()) {
+        int totalTimePlayedIndex = query.record().indexOf("totalTimePlayed");
+
+        while (query.next()) {
+            int totalTimePlayed = query.value(totalTimePlayedIndex).toInt();
+
+            totalTimePlayedResult = totalTimePlayed;
+        }
+     } else {
+        qDebug() << "Error executing query:" << query.lastError().text();
+     }
+
+     return totalTimePlayedResult;
 }

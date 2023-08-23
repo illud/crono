@@ -30,6 +30,7 @@ public:
         QString gameExePath;
         bool running;
         int timePlayed;
+        QString createdAt;
     } table_games ;
 
     /**
@@ -55,6 +56,7 @@ public:
         QString gameExe;
         bool running;
         int timePlayed;
+        QString createdAt;
     };
 
     QVector<Games> getGames();
@@ -63,6 +65,10 @@ public:
     bool updateTimePlayed(int gameId, int timePlayed);
 
     bool updateGameRunning(int gameId, bool running);
+
+    void updateAllGameRunning();
+
+    int totalTimePlayed();
 
 };
 

@@ -1,5 +1,6 @@
 #include "newgame.h"
 #include "ui_newgame.h"
+#include "util.h"
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -21,6 +22,9 @@ NewGame::~NewGame()
 
 void NewGame::on_addBtn_clicked()
 {
+    // Replace forward slashes with backslashes
+    gameExe.replace("/", "\\");
+
     emit gameAdded(ui->gameName->text(), gameExe);
     this->close();
 }

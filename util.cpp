@@ -1,6 +1,9 @@
 #include "util.h"
+#include "qdebug.h"
 #include <sstream>
 #include <QProcess>
+#include <QFile>
+#include <QTextStream>
 
 Util::Util()
 {
@@ -41,11 +44,53 @@ QString Util::secondsToTime(int time){
 
 // Finds game exe name (game.exe)
 QString Util::findLastBackSlashWord(std::string path){
-    auto const pos = path.find_last_of('/');
+    auto const pos = path.find_last_of("\\");
     const auto leaf = path.substr(pos + 1);
 
     return leaf.c_str();
 }
+
+QString Util::removeDataFromLasBackSlash(QString filePath){
+
+    // Find the index of the last backslash
+    int lastIndex = filePath.lastIndexOf("\\");
+
+    if (lastIndex != -1) {
+        // Extract the part of the string before the last backslash
+        QString newPath = filePath.left(lastIndex + 1);
+
+        return newPath;
+    }
+
+    return "Error";
+}
+
+bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe){
+    // Specify the file name/path
+    QString fileName = "crono_runner.bat";
+
+    // Create a QFile instance
+    QFile file(fileName);
+
+    // Open the file in write mode
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        // Create a QTextStream to write to the file
+        QTextStream out(&file);
+
+        // Write text to the file
+        out << "start /d ""\"" << gameExePath << "\" " << gameExe << Qt::endl;
+
+        // Close the file
+        file.close();
+
+        return true;
+    } else {
+        // Handle error if the file couldn't be opened
+        qDebug() << "Failed to open the file for writing.";
+        return false;
+    }
+}
+
 
 // Check if game is running
 bool Util::isProcessRunning(const QString &processName) {

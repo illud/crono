@@ -17,6 +17,8 @@
 #ifdef Q_OS_WIN // Windows-specific code
 #include <windows.h>
 #endif
+#include <QFile>
+#include <QTextStream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,12 +35,20 @@ MainWindow::MainWindow(QWidget *parent)
     // Instance db conn
     DbManager *db = new DbManager(path);
 
+    // Sets all running column to false at start of the app
+    db->updateAllGameRunning();
+
     // Get games and start of the app
     getGame();
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // Disable the vertical header (row index counter)
+    // Remove the header
+    ui->tableWidget->horizontalHeader()->setVisible(false);
     ui->tableWidget->verticalHeader()->setVisible(false);
+    ui->tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->tableWidget->setShowGrid(false);
 }
 
 MainWindow::~MainWindow()
@@ -161,7 +171,8 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
 
     // Inser into games table
     Util util;
-    db->insertGame(imageUrl, gameName, gameExePath, util.findLastBackSlashWord(gameExePath.toStdString()));
+
+    db->insertGame(imageUrl, gameName, util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()));
     QVector<DbManager::Games> gamesResult = db->getGames();
 
     //qDebug() <<  gamesResult[0].gameName;
@@ -338,7 +349,7 @@ void MainWindow::getGame(){
                                   "    border-radius: 10px;"
                                   "    border-style: outset;"
                                   "    width: 100px;"    // Adjust the width value as needed
-                                  "    height: 30px;"    // Adjust the height value as needed
+                                  "    height: 20px;"    // Adjust the height value as needed
                                   "}"
                                   "QPushButton::hover {"
                                   "    background-color: rgb(33, 78, 203);"
@@ -369,7 +380,7 @@ void MainWindow::getGame(){
                                   "    border-radius: 10px;"
                                   "    border-style: outset;"
                                   "    width: 100px;"    // Adjust the width value as needed
-                                  "    height: 30px;"    // Adjust the height value as needed
+                                  "    height: 20px;"    // Adjust the height value as needed
                                   "}"
                                   "QPushButton::hover {"
                                   "    background-color: rgb(33, 78, 203);"
@@ -404,9 +415,15 @@ void MainWindow::getGame(){
 }
 
 void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath , QString gameExe){
-    // Executes game
-    QProcess::startDetached(gameExePath, QStringList());
-    //qDebug() <<  gameExePath;
+    // Create or update crono_runner.bat
+    Util util;
+    bool fileCration = util.createCronoRunnerBatFile(gameExePath, gameExe);
+
+    if(fileCration){
+        // Executes game gameExePath
+        QProcess::startDetached("crono_runner.bat", QStringList());
+        //qDebug() <<  gameExePath;
+    }
 
     // Update running
     static const QString path = "crono.db";

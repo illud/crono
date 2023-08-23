@@ -30,7 +30,8 @@
 font: 900 9pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);
 border-bottom-width: 1px;
-border-color: none none gray none;</string>
+border-color: none none gray none;
+border-radius: 10px;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="searchGameExeBtn">
@@ -52,6 +53,7 @@ border-color: none none gray none;</string>
         border: 1px;
 	border-color: rgb(255, 255, 255);
 	border-style: outset;
+border-radius: 10px;
 }
 
 QPushButton#searchGameExeBtn:hover{ 
@@ -96,6 +98,7 @@ QPushButton#searchGameExeBtn::focus:pressed{
     border: 1px;
 	border-color: rgb(255, 255, 255);
 	border-style: outset;
+border-radius: 10px;
 }
 
 QPushButton#addBtn:hover{ 
@@ -130,7 +133,7 @@ QPushButton#addBtn::focus:pressed{
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 900 6pt &quot;Arial Black&quot;;
+    <string notr="true">font: 900 7pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
