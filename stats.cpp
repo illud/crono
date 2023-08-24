@@ -27,3 +27,20 @@ Stats::~Stats()
 {
     delete ui;
 }
+
+void Stats::on_reloadBtn_clicked()
+{
+    static const QString path = "crono.db";
+
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    int totalTimePlayed = db->totalTimePlayed();
+
+    Util util;
+    QString totalTimePlayedString = util.secondsToTime(totalTimePlayed);
+
+
+    ui->totalTimePlayedText->setText(totalTimePlayedString);
+}
+
