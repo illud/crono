@@ -68,6 +68,9 @@ font: 900 14pt &quot;Arial Black&quot;;</string>
     <property name="text">
      <string>TOTAL TIME PLAYED</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
   </widget>
   <widget class="QPushButton" name="reloadBtn">

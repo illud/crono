@@ -3,9 +3,8 @@
 #include "ui_stats.h"
 #include "util.h"
 
-Stats::Stats(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Stats)
+Stats::Stats(QWidget *parent) : QWidget(parent),
+                                ui(new Ui::Stats)
 {
     ui->setupUi(this);
 
@@ -18,7 +17,6 @@ Stats::Stats(QWidget *parent) :
 
     Util util;
     QString totalTimePlayedString = util.secondsToTime(totalTimePlayed);
-
 
     ui->totalTimePlayedText->setText(totalTimePlayedString);
 }
@@ -40,7 +38,5 @@ void Stats::on_reloadBtn_clicked()
     Util util;
     QString totalTimePlayedString = util.secondsToTime(totalTimePlayed);
 
-
     ui->totalTimePlayedText->setText(totalTimePlayedString);
 }
-

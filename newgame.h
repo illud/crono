@@ -3,8 +3,9 @@
 
 #include <QDialog>
 
-namespace Ui {
-class NewGame;
+namespace Ui
+{
+    class NewGame;
 }
 
 class NewGame : public QDialog
@@ -16,7 +17,7 @@ public:
     ~NewGame();
 
 signals:
-    void gameAdded(const QString &gameName,const QString &gameExePath);
+    void gameAdded(const QString &gameName, const QString &gameExePath);
 
 private slots:
     void on_addBtn_clicked();

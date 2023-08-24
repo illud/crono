@@ -5,9 +5,8 @@
 #include <QFileDialog>
 #include <QFileInfo>
 
-NewGame::NewGame(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::NewGame)
+NewGame::NewGame(QWidget *parent) : QDialog(parent),
+                                    ui(new Ui::NewGame)
 {
     ui->setupUi(this);
     NewGame::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -29,19 +28,16 @@ void NewGame::on_addBtn_clicked()
     this->close();
 }
 
-
 void NewGame::on_searchGameExeBtn_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "Get Game EXE");
     QDir d = QFileInfo(filePath).absoluteDir();
     QString absolute = d.absoluteFilePath(filePath);
     gameExe = absolute;
-    //qDebug() <<  gameExe;
+    // qDebug() <<  gameExe;
 }
-
 
 void NewGame::on_closeBtn_clicked()
 {
     this->close();
 }
-

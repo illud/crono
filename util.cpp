@@ -7,14 +7,13 @@
 
 Util::Util()
 {
-
 }
 
 QVector<QString> Util::removeDupWord(std::string str)
 {
     QVector<QString> words;
     // Used to split string around spaces.
-    std::istringstream  ss(str);
+    std::istringstream ss(str);
 
     std::string word; // for storing each word
 
@@ -31,7 +30,8 @@ QVector<QString> Util::removeDupWord(std::string str)
 }
 
 // Converts secons to hours and minutes
-QString Util::secondsToTime(int time){
+QString Util::secondsToTime(int time)
+{
     int h = time / 3600;
     int m = time % 3600 / 60;
 
@@ -43,19 +43,22 @@ QString Util::secondsToTime(int time){
 }
 
 // Finds game exe name (game.exe)
-QString Util::findLastBackSlashWord(std::string path){
+QString Util::findLastBackSlashWord(std::string path)
+{
     auto const pos = path.find_last_of("\\");
     const auto leaf = path.substr(pos + 1);
 
     return leaf.c_str();
 }
 
-QString Util::removeDataFromLasBackSlash(QString filePath){
+QString Util::removeDataFromLasBackSlash(QString filePath)
+{
 
     // Find the index of the last backslash
     int lastIndex = filePath.lastIndexOf("\\");
 
-    if (lastIndex != -1) {
+    if (lastIndex != -1)
+    {
         // Extract the part of the string before the last backslash
         QString newPath = filePath.left(lastIndex + 1);
 
@@ -65,7 +68,8 @@ QString Util::removeDataFromLasBackSlash(QString filePath){
     return "Error";
 }
 
-bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe){
+bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe)
+{
     // Specify the file name/path
     QString fileName = "crono_runner.bat";
 
@@ -73,27 +77,32 @@ bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe){
     QFile file(fileName);
 
     // Open the file in write mode
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
         // Create a QTextStream to write to the file
         QTextStream out(&file);
 
         // Write text to the file
-        out << "start /d ""\"" << gameExePath << "\" " << gameExe << Qt::endl;
+        out << "start /d "
+               "\""
+            << gameExePath << "\" " << gameExe << Qt::endl;
 
         // Close the file
         file.close();
 
         return true;
-    } else {
+    }
+    else
+    {
         // Handle error if the file couldn't be opened
         qDebug() << "Failed to open the file for writing.";
         return false;
     }
 }
 
-
 // Check if game is running
-bool Util::isProcessRunning(const QString &processName) {
+bool Util::isProcessRunning(const QString &processName)
+{
     QProcess process;
 #ifdef Q_OS_WIN
     process.start("tasklist");
@@ -107,4 +116,3 @@ bool Util::isProcessRunning(const QString &processName) {
 
     return outputStr.contains(processName, Qt::CaseInsensitive);
 }
-

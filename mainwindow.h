@@ -4,7 +4,10 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -18,9 +21,9 @@ public:
 private slots:
     void on_addGameBtn_clicked();
     QString getGameImage(QString gameName);
-    void addedGame(const QString &gameName,const QString &gameExePath);
+    void addedGame(const QString &gameName, const QString &gameExePath);
     void getGame();
-    void on_btnPlay_clicked(QString gameName,int gameId, QString gameExePath, QString gameExe);
+    void on_btnPlay_clicked(QString gameName, int gameId, QString gameExePath, QString gameExe);
     void checkRunningGame(int gameId, QString gameName);
 
     void on_btnClose_clicked();
@@ -29,12 +32,14 @@ private slots:
 
     void on_maxBtn_clicked();
 
-
     void on_btnGames_clicked();
 
     void on_statsBtn_clicked();
 
     void on_btnBack_clicked();
+    void GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe);
+
+    void on_btnStartGame_clicked();
 
 protected:
     void mousePressEvent(QMouseEvent *event);
@@ -42,8 +47,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
-    QTimer* timer;
+    QTimer *timer;
     QPoint startPos;
-
 };
 #endif // MAINWINDOW_H

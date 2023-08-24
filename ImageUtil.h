@@ -10,15 +10,14 @@ class ImageUtil : public QObject
 {
     Q_OBJECT
 public:
-    ImageUtil(QObject* parent = nullptr) :
-        QObject(parent),
-        m_Manager(new QNetworkAccessManager(this))
+    ImageUtil(QObject *parent = nullptr) : QObject(parent),
+                                           m_Manager(new QNetworkAccessManager(this))
     {
         connect(m_Manager, &QNetworkAccessManager::finished, this, &ImageUtil::onFinished);
     }
 
-    const QImage& image() const { return m_Image; }
-    Q_INVOKABLE void loadFromUrl(const QUrl& url)
+    const QImage &image() const { return m_Image; }
+    Q_INVOKABLE void loadFromUrl(const QUrl &url)
     {
         QNetworkRequest request(url);
         m_Manager->get(request);
@@ -28,7 +27,7 @@ signals:
     void loaded();
 
 protected slots:
-    void onFinished(QNetworkReply* reply)
+    void onFinished(QNetworkReply *reply)
     {
         QByteArray data = reply->readAll();
         m_Image.loadFromData(data);
@@ -37,8 +36,7 @@ protected slots:
 
 protected:
     QImage m_Image;
-    QNetworkAccessManager* m_Manager;
-
+    QNetworkAccessManager *m_Manager;
 };
 
 #endif // IMAGEUTIL_H

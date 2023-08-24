@@ -23,7 +23,8 @@ public:
     ~DbManager();
     QString tableNamesSettings = "tblGames";
 
-    typedef struct {
+    typedef struct
+    {
         int id;
         QString gameImage;
         QString gameName;
@@ -31,24 +32,25 @@ public:
         bool running;
         int timePlayed;
         QString createdAt;
-    } table_games ;
+        QString updatedAt;
+    } table_games;
 
     /**
      * @brief Bir üst alanda oluşturulan struct yapılarının toplanıp aynı yerden çağürıldığı yerdir.
      */
-    struct tablesAndColumns{
+    struct tablesAndColumns
+    {
 
         table_games _tableGames;
-
     };
-
 
     const tablesAndColumns *allTables;
 
-    bool insertGame(const QString gameImage,const QString &gameName, const QString &gameExePath, const QString &gameExe);
+    bool insertGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe);
 
-    //Games struct
-    struct Games{
+    // Games struct
+    struct Games
+    {
         int id;
         QString gameImage;
         QString gameName;
@@ -57,6 +59,7 @@ public:
         bool running;
         int timePlayed;
         QString createdAt;
+        QString updatedAt;
     };
 
     QVector<Games> getGames();
@@ -70,6 +73,7 @@ public:
 
     int totalTimePlayed();
 
+    int totalPlayTime(int gameId);
 };
 
 #endif // DBMANAGER_H

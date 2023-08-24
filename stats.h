@@ -3,8 +3,9 @@
 
 #include <QWidget>
 
-namespace Ui {
-class Stats;
+namespace Ui
+{
+    class Stats;
 }
 
 class Stats : public QWidget
