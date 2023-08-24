@@ -17,7 +17,7 @@
    <double>1.000000000000000</double>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(33, 33, 33); </string>
+   <string notr="true">background-color: rgb(22, 22, 22);</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -341,7 +341,8 @@ QPushButton::focus:pressed{
            </rect>
           </property>
           <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);
+           <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);
 font: 900 12pt &quot;Arial Black&quot;;</string>
           </property>
           <property name="text">
@@ -424,7 +425,8 @@ QPushButton::focus:pressed{
             </rect>
            </property>
            <property name="styleSheet">
-            <string notr="true">color: rgb(255, 255, 255);
+            <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);
 font: 900 12pt &quot;Arial Black&quot;;</string>
            </property>
            <property name="text">
@@ -447,7 +449,8 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
             </rect>
            </property>
            <property name="styleSheet">
-            <string notr="true">color: rgb(255, 255, 255);
+            <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);
 font: 900 10pt &quot;Arial Black&quot;;</string>
            </property>
            <property name="text">
@@ -513,7 +516,8 @@ font: 900 10pt &quot;Arial Black&quot;;</string>
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton#minimizeBtn { 
-	background-color: rgb(58, 88, 255);
+background-color: transparent;
+	/*background-color: rgb(58, 88, 255);*/
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
@@ -563,7 +567,9 @@ QPushButton#minimizeBtn::focus:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton#maxBtn { 
-	background-color: rgb(251, 192, 45);
+background-color: transparent;
+	/*background-color: rgb(251, 192, 45);*/
+	
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
@@ -605,7 +611,9 @@ QPushButton#maxBtn::focus:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">QPushButton#btnClose { 
-	background-color: rgb(255, 92, 92);
+background-color: transparent;
+	/*	background-color: rgb(255, 92, 92);*/
+
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
@@ -630,7 +638,7 @@ QPushButton#btnClose::focus:pressed{
 </string>
         </property>
         <property name="text">
-         <string>X</string>
+         <string>x</string>
         </property>
        </widget>
       </item>
@@ -651,7 +659,7 @@ QPushButton#btnClose::focus:pressed{
         </property>
         <property name="styleSheet">
          <string notr="true">border-right-color: rgb(255, 255, 255);
-background-color: rgba(44, 44, 44, 100);</string>
+background-color: rgba(33, 33, 33, 60);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>

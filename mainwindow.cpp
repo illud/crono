@@ -284,7 +284,7 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
     //qDebug() <<  gameName  <<  gameExePath;
 */
 }
-
+  int numCols = 4;
 void MainWindow::getGame(){
     static const QString path = "crono.db";
 
@@ -303,7 +303,7 @@ void MainWindow::getGame(){
     ui->tableWidget->setIconSize(QSize(300, 300));
 
 
-    int numCols = 4;
+
 
     ui->tableWidget->setColumnCount(numCols);
 
@@ -714,8 +714,12 @@ void MainWindow::on_maxBtn_clicked()
 {
     if (this->isMaximized()) {
         this->showNormal(); // Restore the window to its normal size
+        numCols = 4; // Sets row to 4 when minimized
+        getGame();  // Refresh data
     } else {
         this->showMaximized(); // Maximize the window
+        numCols = 8; // Sets row to 8 when Maximize
+        getGame(); // Refresh data
     }
 }
 

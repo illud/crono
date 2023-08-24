@@ -79,6 +79,9 @@ font: 900 14pt &quot;Arial Black&quot;;</string>
      <height>24</height>
     </rect>
    </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton#reloadBtn { 
     background-color:  transparent;
