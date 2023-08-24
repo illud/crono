@@ -20,6 +20,12 @@
 #include <QFile>
 #include <QTextStream>
 
+#include <QWidget>
+#include <QFrame>
+#include <QGridLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -175,18 +181,21 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
     db->insertGame(imageUrl, gameName, util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()));
     QVector<DbManager::Games> gamesResult = db->getGames();
 
+    // Get games and start of the app
+    getGame();
+
     //qDebug() <<  gamesResult[0].gameName;
 
     //qDebug() <<  games.count();
      //Sets tableWidget row count
-    int currentRow = 0;
+   // int currentRow = 0;
     //Sets tableWidget row count
-    ui->tableWidget->setRowCount(gamesResult.count());
+   // ui->tableWidget->setRowCount(gamesResult.count());
 
     // Sets icon size
-    ui->tableWidget->setIconSize(QSize(300, 300));
+    //ui->tableWidget->setIconSize(QSize(300, 300));
 
-    for (int gamesList = 0; gamesList < gamesResult.count(); gamesList++ ) {
+    /*for (int gamesList = 0; gamesList < gamesResult.count(); gamesList++ ) {
          //qDebug()<< gamesList;
 
         // Set the row height for a specific row
@@ -266,13 +275,14 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath){
 
         //c++ 11 Lambda to call  on_btnPlay_clicked() function with gameExePath parameter to identify tableWidget row
         connect(button, &QPushButton::clicked, [this, button, gamesList, gamesResult](){
-            on_btnPlay_clicked(gamesResult[gamesList].id , button->property("gameExePath").toString(), gamesResult[gamesList].gameExe);
+            on_btnPlay_clicked(gamesResult[gamesList].gameName, gamesResult[gamesList].id , button->property("gameExePath").toString(), gamesResult[gamesList].gameExe);
         });
 
         //Increases currentRow
         currentRow = currentRow + 1;
     }
     //qDebug() <<  gameName  <<  gameExePath;
+*/
 }
 
 void MainWindow::getGame(){
@@ -283,17 +293,58 @@ void MainWindow::getGame(){
 
     QVector<DbManager::Games> gamesResult = db->getGames();
 
-    // If theres games renders tableWidget
-    if(gamesResult.count() != 0){
+
     //Sets tableWidget row count
-    int currentRow = 0;
+   // int currentRow = 0;
     //Sets tableWidget row count
     ui->tableWidget->setRowCount(gamesResult.count());
 
     // Sets icon size
     ui->tableWidget->setIconSize(QSize(300, 300));
 
-    for (int gamesList = 0; gamesList < gamesResult.count(); gamesList++ ) {
+
+    int numCols = 4;
+
+    ui->tableWidget->setColumnCount(numCols);
+
+    for (int row = 0; row < 1; ++row) {
+        for (int col = 0; col < gamesResult.count(); ++col) {
+            // Set the row height for a specific row
+            ui->tableWidget->setRowHeight(col, 300);
+            ui->tableWidget->viewport()->setCursor(Qt::PointingHandCursor);
+            // Download image from url and set image as icon
+            ImageUtil* imageUtil = new ImageUtil();
+            imageUtil->loadFromUrl(QUrl(gamesResult[col].gameImage));
+            imageUtil->connect(imageUtil, &ImageUtil::loaded,
+                               [=]() {
+                                   QImage image = imageUtil->image(); // Get the image from ImageUtil
+
+                                   // Convert QImage to QPixmap for display
+                                   QPixmap pixmap = QPixmap::fromImage(image);
+
+                                   // Create a QTableWidgetItem and set the image as its icon
+                                   QTableWidgetItem *imageItem = new QTableWidgetItem();
+
+                                   // Sets icon
+                                   imageItem->setIcon(QIcon(pixmap));
+
+                                   // Set the item in the table widget
+                                   ui->tableWidget->setItem(row, col, imageItem);
+
+                               });
+
+          }
+    }
+
+    // Connect the cellClicked signal of the table widget outside the loop
+    connect(ui->tableWidget, &QTableWidget::cellClicked, [=](int row, int col) {
+        // Load the image and do other operations (same code as before)
+
+        // Call your custom function
+        on_btnPlay_clicked(gamesResult[col].gameName, gamesResult[col].id, gamesResult[col].gameExePath, gamesResult[col].gameExe);
+    });
+
+    /*for (int gamesList = 0; gamesList < gamesResult.count(); gamesList++ ) {
         //qDebug()<< gamesList;
 
         // Set the row height for a specific row
@@ -412,14 +463,56 @@ void MainWindow::getGame(){
 
         //Increases currentRow
         currentRow = currentRow + 1;
-    }
+    }*/
     //qDebug() <<  gameName  <<  gameExePath;
-    }
+
 }
 
-void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath , QString gameExe){
+void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameExePath , QString gameExe){
+    // Update running
+    static const QString path = "crono.db";
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    ui->btnPlay->setText("RUNNING");
+    ui->btnPlay->setStyleSheet("QPushButton {"
+                               "    background-color: rgb(46, 125, 50);"
+                               "    font: 900 9pt 'Arial Black';"
+                               "    color: rgb(255, 255, 255);"
+                               "    border: 0px;"
+                               "    border-radius: 10px;"
+                               "    border-style: outset;"
+                               "    width: 100px;"    // Adjust the width value as needed
+                               "    height: 20px;"    // Adjust the height value as needed
+                               "}"
+                               "QPushButton::hover {"
+                               "    background-color: rgb(33, 78, 203);"
+                               "    font: 900 9pt 'Arial Black';"
+                               "    color: rgb(255, 255, 255);"
+                               "    border: 0px;"
+                               "}"
+                               "QPushButton::focus:pressed {"
+                               "    background-color: rgb(38, 72, 184);"
+                               "    font: 900 9pt 'Arial Black';"
+                               "    color: rgb(255, 255, 255);"
+                               "    border: 0px;"
+                               "}");
+
     // Create or update crono_runner.bat
     Util util;
+
+    QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
+    //qDebug() << gamesResult[0].gameName;
+
+    // Set total time played
+    ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
+
+     ui->stackedWidget->setCurrentIndex(2);
+
+    ui->gameNameText->sizeIncrement();
+    ui->gameNameText->setText(gameName);
+
+
     bool fileCration = util.createCronoRunnerBatFile(gameExePath, gameExe);
 
     if(fileCration){
@@ -428,10 +521,7 @@ void MainWindow::on_btnPlay_clicked(int gameId, QString gameExePath , QString ga
         //qDebug() <<  gameExePath;
     }
 
-    // Update running
-    static const QString path = "crono.db";
-    // Instance db conn
-    DbManager *db = new DbManager(path);
+
 
     bool updateRunning = db->updateGameRunning(gameId, true);
 
@@ -491,13 +581,44 @@ void MainWindow::checkRunningGame(int gameId, QString gameName){
         QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
         //qDebug() << gamesResult[0].gameName;
 
+        // Set total time played
+        ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
+
         // Adds 30 seconds to timePlayed
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
 
-        if(updateTime){
+    if(updateTime){
             qDebug() << "Process" << processNameToCheck << "is running. " << gameId;
             // Update running
             bool updateRunning = db->updateGameRunning(gameId, true);
+
+            if(gamesResult[0].running){
+                ui->btnPlay->setText("RUNNING");
+                ui->btnPlay->setStyleSheet("QPushButton {"
+                                           "    background-color: rgb(46, 125, 50);"
+                                           "    font: 900 9pt 'Arial Black';"
+                                           "    color: rgb(255, 255, 255);"
+                                           "    border: 0px;"
+                                           "    border-radius: 10px;"
+                                           "    border-style: outset;"
+                                           "    width: 100px;"    // Adjust the width value as needed
+                                           "    height: 20px;"    // Adjust the height value as needed
+                                           "}"
+                                           "QPushButton::hover {"
+                                           "    background-color: rgb(33, 78, 203);"
+                                           "    font: 900 9pt 'Arial Black';"
+                                           "    color: rgb(255, 255, 255);"
+                                           "    border: 0px;"
+                                           "}"
+                                           "QPushButton::focus:pressed {"
+                                           "    background-color: rgb(38, 72, 184);"
+                                           "    font: 900 9pt 'Arial Black';"
+                                           "    color: rgb(255, 255, 255);"
+                                           "    border: 0px;"
+                                           "}");
+
+
+
 
             if(updateRunning){
                 qDebug() <<  "is running updated to true. " << gameId;
@@ -520,9 +641,62 @@ void MainWindow::checkRunningGame(int gameId, QString gameName){
 
         // Gets games to update running
         getGame();
-    }
-}
 
+        ui->btnPlay->setCursor(Qt::PointingHandCursor);
+        ui->btnPlay->setText("PLAY");
+        ui->btnPlay->setStyleSheet("QPushButton {"
+                                   "    background-color: rgb(41, 98, 255);"
+                                   "    font: 900 9pt 'Arial Black';"
+                                   "    color: rgb(255, 255, 255);"
+                                   "    border: 0px;"
+                                   "    border-radius: 10px;"
+                                   "    border-style: outset;"
+                                   "    width: 100px;"    // Adjust the width value as needed
+                                   "    height: 20px;"    // Adjust the height value as needed
+                                   "}"
+                                   "QPushButton::hover {"
+                                   "    background-color: rgb(33, 78, 203);"
+                                   "    font: 900 9pt 'Arial Black';"
+                                   "    color: rgb(255, 255, 255);"
+                                   "    border: 0px;"
+                                   "    cursor: pointer;"
+                                   "}"
+                                   "QPushButton::focus:pressed {"
+                                   "    background-color: rgb(38, 72, 184);"
+                                   "    font: 900 9pt 'Arial Black';"
+                                   "    color: rgb(255, 255, 255);"
+                                   "    border: 0px;"
+                                   "}");
+    }
+    }else{
+    ui->btnPlay->setCursor(Qt::PointingHandCursor);
+    ui->btnPlay->setText("SLEEPING");
+    ui->btnPlay->setStyleSheet("QPushButton {"
+                               "    background-color: rgb(41, 98, 255);"
+                               "    font: 900 9pt 'Arial Black';"
+                               "    color: rgb(255, 255, 255);"
+                               "    border: 0px;"
+                               "    border-radius: 10px;"
+                               "    border-style: outset;"
+                               "    width: 100px;"    // Adjust the width value as needed
+                               "    height: 20px;"    // Adjust the height value as needed
+                               "}"
+                               "QPushButton::hover {"
+                               "    background-color: rgb(33, 78, 203);"
+                               "    font: 900 9pt 'Arial Black';"
+                               "    color: rgb(255, 255, 255);"
+                               "    border: 0px;"
+                               "    cursor: pointer;"
+                               "}"
+                               "QPushButton::focus:pressed {"
+                               "    background-color: rgb(38, 72, 184);"
+                               "    font: 900 9pt 'Arial Black';"
+                               "    color: rgb(255, 255, 255);"
+                               "    border: 0px;"
+                               "}");
+    }
+
+}
 
 void MainWindow::on_btnClose_clicked()
 {
@@ -570,5 +744,11 @@ void MainWindow::on_btnGames_clicked()
 void MainWindow::on_statsBtn_clicked()
 {
     ui->stackedWidget->setCurrentIndex(1);
+}
+
+
+void MainWindow::on_btnBack_clicked()
+{
+     ui->stackedWidget->setCurrentIndex(0);
 }
 

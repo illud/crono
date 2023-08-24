@@ -20,7 +20,7 @@ private slots:
     QString getGameImage(QString gameName);
     void addedGame(const QString &gameName,const QString &gameExePath);
     void getGame();
-    void on_btnPlay_clicked(int gameId, QString gameExePath, QString gameExe);
+    void on_btnPlay_clicked(QString gameName,int gameId, QString gameExePath, QString gameExe);
     void checkRunningGame(int gameId, QString gameName);
 
     void on_btnClose_clicked();
@@ -33,6 +33,8 @@ private slots:
     void on_btnGames_clicked();
 
     void on_statsBtn_clicked();
+
+    void on_btnBack_clicked();
 
 protected:
     void mousePressEvent(QMouseEvent *event);
