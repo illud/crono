@@ -114,5 +114,6 @@ bool Util::isProcessRunning(const QString &processName)
     QByteArray output = process.readAllStandardOutput();
     QString outputStr = QString::fromLocal8Bit(output);
 
+    process.deleteLater();
     return outputStr.contains(processName, Qt::CaseInsensitive);
 }

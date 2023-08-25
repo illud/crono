@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Sets all running column to false at start of the app
     db->updateAllGameRunning();
+    delete db;
 
     // Get games and start of the app
     getGame();
@@ -181,6 +182,8 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
 
     db->insertGame(imageUrl, gameName, util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()));
 
+    delete db;
+
     // Get games and start of the app
     getGame();
 }
@@ -193,6 +196,8 @@ void MainWindow::getGame()
     DbManager *db = new DbManager(path);
 
     QVector<DbManager::Games> gamesResult = db->getGames();
+
+    delete db;
 
     // Sets tableWidget row count
     ui->tableWidget->setRowCount(gamesResult.count());
@@ -228,9 +233,11 @@ void MainWindow::getGame()
 
                                // Set the item in the table widget
                                ui->tableWidget->setItem(0, col, imageItem);
+
+                               // Free memory if else couses memory leak
+                               imageUtil->deleteLater();
                            });
     }
-
 
     // Connect the cellClicked signal of the table widget outside the loop
     connect(ui->tableWidget, &QTableWidget::cellClicked, [=](int row, int col)
@@ -277,6 +284,8 @@ void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QSt
     // Set total time played today for specific game
     ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
+    delete db;
+
     ui->stackedWidget->setCurrentIndex(2);
 }
 
@@ -292,6 +301,8 @@ void MainWindow::on_btnStartGame_clicked()
     {
         db->insertGameHistorical(gameIdValue);
     }
+
+    delete db;
 
     on_btnPlay_clicked(gameNameValue, gameIdValue, gameExePathValue, gameExeValue);
 }
@@ -359,6 +370,8 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
     {
         qDebug() << "is running updated to true. " << gameId;
     }
+
+    delete db;
 
     // Gets games to update running
     getGame();
@@ -551,6 +564,8 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                                         "    border: 0px;"
                                         "}");
     }
+
+    delete db;
 }
 
 void MainWindow::on_btnClose_clicked()
