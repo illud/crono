@@ -22,6 +22,7 @@ public:
      */
     ~DbManager();
     QString tableNamesSettings = "tblGames";
+    QString tblGameHistoricalSettings = "tblGameHistorical";
 
     typedef struct
     {
@@ -35,13 +36,23 @@ public:
         QString updatedAt;
     } table_games;
 
+    typedef struct
+    {
+        int id;
+        int gameId;
+        int timePlayed;
+        QString createdAt;
+        QString updatedAt;
+    } table_game_historical;
+
     /**
-     * @brief Bir üst alanda oluşturulan struct yapılarının toplanıp aynı yerden çağürıldığı yerdir.
+     * @brief It is the place where struct structures created in a parent field are collected and called from the same place.
      */
     struct tablesAndColumns
     {
 
         table_games _tableGames;
+        table_game_historical _tblGameHistorical;
     };
 
     const tablesAndColumns *allTables;
@@ -62,18 +73,29 @@ public:
         QString updatedAt;
     };
 
+    // Game Historical struct
+    struct GameHistorical
+    {
+        int id;
+        int gameId;
+        int timePlayed;
+        QString createdAt;
+        QString updatedAt;
+    };
+
     QVector<Games> getGames();
     QVector<Games> getGameById(int gameId);
 
     bool updateTimePlayed(int gameId, int timePlayed);
-
     bool updateGameRunning(int gameId, bool running);
-
     void updateAllGameRunning();
-
     int totalTimePlayed();
-
     int totalPlayTime(int gameId);
+    GameHistorical getGameHistoricalToday(int gameId);
+    int totalPlayTimeToday(int gameId);
+    bool insertGameHistorical(const int gameId);
+    int getTodayGameHistorical(const int gameId);
+    void updateGameHistoricalTimePlayed(int gameHistoricalId, int timePlayed);
 };
 
 #endif // DBMANAGER_H

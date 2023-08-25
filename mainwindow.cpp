@@ -180,7 +180,6 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
     Util util;
 
     db->insertGame(imageUrl, gameName, util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()));
-    QVector<DbManager::Games> gamesResult = db->getGames();
 
     // Get games and start of the app
     getGame();
@@ -270,12 +269,26 @@ void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QSt
     // Gets time played filter by game id
     int timePlayedResult = db->totalPlayTime(gameId);
     ui->timePlayedText->setText(util.secondsToTime(timePlayedResult));
-    qDebug() << "--------------" << timePlayedResult;
+
+    // Set total time played today for specific game
+    ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+
     ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::on_btnStartGame_clicked()
 {
+    // Add new game_historical
+    static const QString path = "crono.db";
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    // If record dosn't exists for today creates new record
+    if (db->getTodayGameHistorical(gameIdValue) == 0)
+    {
+        db->insertGameHistorical(gameIdValue);
+    }
+
     on_btnPlay_clicked(gameNameValue, gameIdValue, gameExePathValue, gameExeValue);
 }
 
@@ -317,6 +330,9 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
 
     // Set total time played
     ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
+
+    // Set total time played today for specific game
+    ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
     ui->stackedWidget->setCurrentIndex(2);
 
@@ -398,6 +414,9 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
         // Set total time played
         ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
 
+        // Set total time played today for specific game
+        ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+
         // Adds 30 seconds to timePlayed
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
 
@@ -409,6 +428,11 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
 
             if (gamesResult[0].running)
             {
+                // Get game_historical timePlayed
+                DbManager::GameHistorical playedTime = db->getGameHistoricalToday(gamesResult[0].id);
+                // Update game_historical timePlayed
+                db->updateGameHistoricalTimePlayed(playedTime.id, playedTime.timePlayed + 30);
+
                 ui->btnStartGame->setDisabled(true); // Disable click butoon when game running to prevent open game again
                 ui->btnStartGame->setText("RUNNING");
                 ui->btnStartGame->setStyleSheet("QPushButton {"

@@ -24,8 +24,16 @@ DbManager::DbManager(const QString &path)
 
         if (!query.exec())
         {
-            qDebug() << "Table already created.";
+            qDebug() << "Table already games created.";
             success = false;
+        }
+
+        QSqlQuery queryGameHistorical;
+        queryGameHistorical.prepare("CREATE TABLE game_historical(id INTEGER PRIMARY KEY AUTOINCREMENT,gameId INTEGER, timePlayed INTEGER, createdAt TEXT, updatedAt TEXT);");
+
+        if (!queryGameHistorical.exec())
+        {
+            qDebug() << "Table already game_historical created.";
         }
     }
 }
@@ -271,6 +279,164 @@ int DbManager::totalPlayTime(int gameId)
 
     QSqlQuery query;
     query.prepare("SELECT timePlayed FROM games WHERE id = :gameId");
+    query.bindValue(":gameId", gameId);
+
+    if (query.exec())
+    {
+        int totalTimePlayedIndex = query.record().indexOf("timePlayed");
+
+        while (query.next())
+        {
+            int totalTimePlayed = query.value(totalTimePlayedIndex).toInt();
+
+            totalTimePlayedResult = totalTimePlayed;
+        }
+    }
+    else
+    {
+        qDebug() << "Error executing query:" << query.lastError().text();
+    }
+
+    return totalTimePlayedResult;
+}
+
+bool DbManager::insertGameHistorical(const int gameId)
+{
+    QDate currentDate = QDate::currentDate();
+    int year = currentDate.year();
+    int month = currentDate.month();
+    int day = currentDate.day();
+    QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+    bool success = false;
+
+    if (gameId != 0)
+    {
+        QSqlQuery queryAdd;
+        queryAdd.prepare("INSERT INTO game_historical (gameId,timePlayed,createdAt,updatedAt) VALUES (:gameId,:timePlayed,:createdAt,:updatedAt)");
+        queryAdd.bindValue(":gameId", gameId);
+        queryAdd.bindValue(":timePlayed", 0);
+        queryAdd.bindValue(":createdAt", formattedDate);
+        queryAdd.bindValue(":updatedAt", formattedDate);
+
+        if (queryAdd.exec())
+        {
+            success = true;
+        }
+        else
+        {
+            qDebug() << "Could not insert into game_historical: " << queryAdd.lastError();
+        }
+    }
+    else
+    {
+        qDebug() << "Data is required to add.";
+    }
+
+    return success;
+}
+
+DbManager::GameHistorical DbManager::getGameHistoricalToday(int gameId)
+{
+    QDate currentDate = QDate::currentDate();
+    int year = currentDate.year();
+    int month = currentDate.month();
+    int day = currentDate.day();
+    QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+    DbManager::GameHistorical gameH;
+
+    QSqlQuery query;
+    query.prepare("SELECT id, timePlayed FROM game_historical WHERE gameId = :gameId AND createdAt = :createdAt");
+    query.bindValue(":gameId", gameId);
+    query.bindValue(":createdAt", formattedDate);
+
+    if (query.exec())
+    {
+        int id = query.record().indexOf("id");
+        int result = query.record().indexOf("timePlayed");
+
+        while (query.next())
+        {
+            int idResult = query.value(id).toInt();
+            int totalResult = query.value(result).toInt();
+
+            gameH = {idResult, gameId, totalResult, "", ""};
+        }
+    }
+    else
+    {
+        qDebug() << "Error executing query:" << query.lastError().text();
+    }
+
+    return gameH;
+}
+
+int DbManager::getTodayGameHistorical(int gameId)
+{
+    QDate currentDate = QDate::currentDate();
+    int year = currentDate.year();
+    int month = currentDate.month();
+    int day = currentDate.day();
+    QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+    int total = 0;
+
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(id) AS total FROM game_historical WHERE gameId = :gameId AND createdAt = :createdAt");
+    query.bindValue(":gameId", gameId);
+    query.bindValue(":createdAt", formattedDate);
+
+    if (query.exec())
+    {
+        int result = query.record().indexOf("total");
+
+        while (query.next())
+        {
+            int totalResult = query.value(result).toInt();
+
+            total = totalResult;
+        }
+    }
+    else
+    {
+        qDebug() << "Error executing query:" << query.lastError().text();
+    }
+
+    return total;
+}
+
+void DbManager::updateGameHistoricalTimePlayed(int gameHistoricalId, int timePlayed)
+{
+    QSqlQuery queryAdd;
+    queryAdd.prepare("UPDATE game_historical SET timePlayed = :timePlayed WHERE id = :gameHistoricalId");
+    queryAdd.bindValue(":timePlayed", timePlayed);
+    queryAdd.bindValue(":gameHistoricalId", gameHistoricalId);
+
+    if (queryAdd.exec())
+    {
+        qDebug() << "Success";
+    }
+    else
+    {
+        qDebug() << "Error: " << queryAdd.lastError();
+    }
+}
+
+// Gets total play time for today
+int DbManager::totalPlayTimeToday(int gameId)
+{
+    QDate currentDate = QDate::currentDate();
+    int year = currentDate.year();
+    int month = currentDate.month();
+    int day = currentDate.day();
+    QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+    int totalTimePlayedResult = 0;
+
+    QSqlQuery query;
+    query.prepare("SELECT SUM(timePlayed) AS timePlayed FROM game_historical WHERE createdAt = :createdAt AND gameId = :gameId");
+    query.bindValue(":createdAt", formattedDate);
     query.bindValue(":gameId", gameId);
 
     if (query.exec())

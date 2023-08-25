@@ -452,7 +452,7 @@ background-color: rgba(255, 255, 255,0);</string>
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -935,7 +935,7 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QLabel" name="timePlayedText_2">
+          <widget class="QLabel" name="timePlayedTodayText">
            <property name="geometry">
             <rect>
              <x>50</x>
