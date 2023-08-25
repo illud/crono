@@ -43,3 +43,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     vcpkg.json
+
+RESOURCES += \
+    Resources.qrc
+
+RC_ICONS = crono_icon.ico

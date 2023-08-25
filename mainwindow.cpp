@@ -185,7 +185,6 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
     getGame();
 }
 
-int numCols = 4;
 void MainWindow::getGame()
 {
     static const QString path = "crono.db";
@@ -203,11 +202,13 @@ void MainWindow::getGame()
 
     ui->tableWidget->setColumnCount(numCols);
 
+    ui->tableWidget->viewport()->setCursor(Qt::PointingHandCursor);
+
     for (int col = 0; col < gamesResult.count(); ++col)
     {
         // Set the row height for a specific row
         ui->tableWidget->setRowHeight(col, 300);
-        ui->tableWidget->viewport()->setCursor(Qt::PointingHandCursor);
+
         // Download image from url and set image as icon
         ImageUtil *imageUtil = new ImageUtil();
         imageUtil->loadFromUrl(QUrl(gamesResult[col].gameImage));
@@ -230,6 +231,7 @@ void MainWindow::getGame()
                            });
     }
 
+
     // Connect the cellClicked signal of the table widget outside the loop
     connect(ui->tableWidget, &QTableWidget::cellClicked, [=](int row, int col)
             {
@@ -240,11 +242,6 @@ void MainWindow::getGame()
 
         GoToGame(gamesResult[col].gameName, gamesResult[col].id, gamesResult[col].gameExePath, gamesResult[col].gameExe); });
 }
-
-QString gameNameValue;
-int gameIdValue;
-QString gameExePathValue;
-QString gameExeValue;
 
 void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe)
 {
@@ -269,6 +266,13 @@ void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QSt
     // Gets time played filter by game id
     int timePlayedResult = db->totalPlayTime(gameId);
     ui->timePlayedText->setText(util.secondsToTime(timePlayedResult));
+
+    // Gets time played this week filter by game id
+    int timePlayedWekkResult = db->totalPlayTimeThisWeek(gameId);
+    ui->timePlayedThisWeek->setText(util.secondsToTime(timePlayedWekkResult));
+
+    // Set lst time played for specific game
+    ui->lastTimePlayedText->setText(gamesResult[0].updatedAt);
 
     // Set total time played today for specific game
     ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
@@ -417,6 +421,9 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
         // Set total time played today for specific game
         ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
+        // Gets time played this week filter by game id
+        ui->timePlayedThisWeek->setText(util.secondsToTime(db->totalPlayTimeThisWeek(gamesResult[0].id)));
+
         // Adds 30 seconds to timePlayed
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
 
@@ -498,14 +505,14 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                                             "    height: 20px;" // Adjust the height value as needed
                                             "}"
                                             "QPushButton::hover {"
-                                            "    background-color: rgb(33, 78, 203);"
+                                            "    background-color: rgb(252, 196, 25);"
                                             "    font: 900 9pt 'Arial Black';"
                                             "    color: rgb(255, 255, 255);"
                                             "    border: 0px;"
                                             "    cursor: pointer;"
                                             "}"
                                             "QPushButton::focus:pressed {"
-                                            "    background-color: rgb(38, 72, 184);"
+                                            "    background-color: rgb(252, 72, 25);"
                                             "    font: 900 9pt 'Arial Black';"
                                             "    color: rgb(255, 255, 255);"
                                             "    border: 0px;"
@@ -531,14 +538,14 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                                         "    height: 20px;" // Adjust the height value as needed
                                         "}"
                                         "QPushButton::hover {"
-                                        "    background-color: rgb(33, 78, 203);"
+                                        "    background-color: rgb(252, 196, 25);"
                                         "    font: 900 9pt 'Arial Black';"
                                         "    color: rgb(255, 255, 255);"
                                         "    border: 0px;"
                                         "    cursor: pointer;"
                                         "}"
                                         "QPushButton::focus:pressed {"
-                                        "    background-color: rgb(38, 72, 184);"
+                                        "    background-color: rgb(252, 72, 25);"
                                         "    font: 900 9pt 'Arial Black';"
                                         "    color: rgb(255, 255, 255);"
                                         "    border: 0px;"
@@ -591,7 +598,7 @@ void MainWindow::on_btnGames_clicked()
 {
     ui->btnGames->setStyleSheet("QPushButton {"
                                 "border-left-color: rgb(255, 255, 255);"
-                                "border-left: 2px rgb(33, 78, 203);"
+                                "border-left: 2px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
                                 "font: 900 9pt 'Arial Black';"
                                 "color: rgb(255, 255, 255);"
@@ -611,7 +618,7 @@ void MainWindow::on_btnGames_clicked()
 
     ui->statsBtn->setStyleSheet("QPushButton {"
                                 "border-left-color: rgb(255, 255, 255);"
-                                "border-left: 0px rgb(33, 78, 203);"
+                                "border-left: 0px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
                                 "font: 900 9pt 'Arial Black';"
                                 "color: rgb(255, 255, 255);"
@@ -636,7 +643,7 @@ void MainWindow::on_statsBtn_clicked()
 {
     ui->btnGames->setStyleSheet("QPushButton {"
                                 "border-left-color: rgb(255, 255, 255);"
-                                "border-left: 0px rgb(33, 78, 203);"
+                                "border-left: 0px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
                                 "font: 900 9pt 'Arial Black';"
                                 "color: rgb(255, 255, 255);"
@@ -656,7 +663,7 @@ void MainWindow::on_statsBtn_clicked()
 
     ui->statsBtn->setStyleSheet("QPushButton {"
                                 "border-left-color: rgb(255, 255, 255);"
-                                "border-left: 2px rgb(33, 78, 203);"
+                                "border-left: 2px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
                                 "font: 900 9pt 'Arial Black';"
                                 "color: rgb(255, 255, 255);"

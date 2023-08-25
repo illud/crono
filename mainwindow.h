@@ -17,6 +17,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    int numCols = 4;
+    QString gameNameValue;
+    int gameIdValue;
+    QString gameExePathValue;
+    QString gameExeValue;
 
 private slots:
     void on_addGameBtn_clicked();

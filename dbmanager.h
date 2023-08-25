@@ -93,6 +93,7 @@ public:
     int totalPlayTime(int gameId);
     GameHistorical getGameHistoricalToday(int gameId);
     int totalPlayTimeToday(int gameId);
+    int totalPlayTimeThisWeek(int gameId);
     bool insertGameHistorical(const int gameId);
     int getTodayGameHistorical(const int gameId);
     void updateGameHistoricalTimePlayed(int gameHistoricalId, int timePlayed);

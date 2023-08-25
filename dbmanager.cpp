@@ -457,3 +457,48 @@ int DbManager::totalPlayTimeToday(int gameId)
 
     return totalTimePlayedResult;
 }
+
+// Gets total play time for this week
+int DbManager::totalPlayTimeThisWeek(int gameId)
+{
+
+    QDate currentDate = QDate::currentDate();
+
+    QDate lastWeekDate = currentDate.addDays(-7);
+    int lastWeekYear = lastWeekDate.year();
+    int lastWeekMonth = lastWeekDate.month();
+    int lastWeekDay = lastWeekDate.day();
+    QString lastWeek = QString("%1-%2-%3").arg(lastWeekYear).arg(lastWeekMonth, 2, 10, QChar('0')).arg(lastWeekDay, 2, 10, QChar('0'));
+
+    QDate tomorrowDate = currentDate.addDays(1);
+    int year = tomorrowDate.year();
+    int month = tomorrowDate.month();
+    int day = tomorrowDate.day();
+    QString today = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+    int totalTimePlayedResult = 0;
+
+    QSqlQuery query;
+    query.prepare("SELECT SUM(timePlayed) AS total FROM game_historical WHERE gameId = :gameId AND createdAt > :lastWeek AND createdAt < :today");
+    query.bindValue(":lastWeek", lastWeek);
+    query.bindValue(":today", today);
+    query.bindValue(":gameId", gameId);
+
+    if (query.exec())
+    {
+        int totalTimePlayedIndex = query.record().indexOf("total");
+
+        while (query.next())
+        {
+            int totalTimePlayed = query.value(totalTimePlayedIndex).toInt();
+
+            totalTimePlayedResult = totalTimePlayed;
+        }
+    }
+    else
+    {
+        qDebug() << "Error executing query:" << query.lastError().text();
+    }
+
+    return totalTimePlayedResult;
+}

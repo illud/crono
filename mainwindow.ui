@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1104</width>
-    <height>660</height>
+    <width>1166</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -80,6 +80,14 @@
           <width>20</width>
           <height>2</height>
          </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Arial Black</family>
+          <pointsize>9</pointsize>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
         </property>
         <property name="cursor">
          <cursorShape>PointingHandCursor</cursorShape>
@@ -270,7 +278,7 @@ background-color: rgba(255, 255, 255,0);</string>
             </size>
            </property>
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(33, 78, 203);</string>
+            <string notr="true">background-color:rgb(252, 196, 25);</string>
            </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
@@ -310,7 +318,7 @@ background-color: rgba(255, 255, 255,0);</string>
            <property name="styleSheet">
             <string notr="true">QPushButton#btnGames { 
                                 border-left-color: rgb(255, 255, 255);
-                                border-left: 2px rgb(33, 78, 203);
+                                border-left: 2px rgb(252, 196, 25);
                                 background-color:  transparent;
                                 font: 900 9pt 'Arial Black';
                                 color: rgb(255, 255, 255);
@@ -478,20 +486,20 @@ background-color: rgba(255, 255, 255,0);</string>
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 1px;
-	border-color: rgb(255,255,255);
+	border-color: rgb(255, 255, 255);
 	border-style: outset;
 border-radius: 10px;
 }
 
 QPushButton#addGameBtn:hover{ 
-    background-color: rgb(33, 78, 203);
+    background-color: rgb(252, 196, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
 }
 
 QPushButton#addGameBtn::focus:pressed{ 
-	background-color: rgb(38, 72, 184);
+	background-color: rgb(252, 72, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
@@ -652,6 +660,9 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 {
 }</string>
             </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
             <property name="verticalScrollBarPolicy">
              <enum>Qt::ScrollBarAsNeeded</enum>
             </property>
@@ -670,32 +681,28 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
             <property name="horizontalScrollMode">
              <enum>QAbstractItemView::ScrollPerPixel</enum>
             </property>
+            <property name="showGrid">
+             <bool>true</bool>
+            </property>
             <property name="gridStyle">
              <enum>Qt::NoPen</enum>
+            </property>
+            <property name="sortingEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="cornerButtonEnabled">
+             <bool>true</bool>
+            </property>
+            <property name="rowCount">
+             <number>0</number>
             </property>
             <attribute name="horizontalHeaderDefaultSectionSize">
              <number>220</number>
             </attribute>
-            <column>
-             <property name="text">
-              <string>IMAGE</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>TITLE</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>PLAYED</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>PLAY</string>
-             </property>
-            </column>
+            <column/>
+            <column/>
+            <column/>
+            <column/>
            </widget>
           </item>
          </layout>
@@ -706,8 +713,8 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>841</width>
-            <height>631</height>
+            <width>901</width>
+            <height>661</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -724,7 +731,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
             <x>10</x>
             <y>10</y>
             <width>80</width>
-            <height>24</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="cursor">
@@ -742,14 +749,14 @@ border-radius: 10px;
 }
 
 QPushButton:hover{ 
-    background-color: rgb(33, 78, 203);
+    background-color: rgb(252, 196, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
 }
 
 QPushButton::focus:pressed{ 
-	background-color: rgb(38, 72, 184);
+	background-color: rgb(252, 72, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
@@ -763,8 +770,8 @@ QPushButton::focus:pressed{
          <widget class="QLabel" name="gameNameText">
           <property name="geometry">
            <rect>
-            <x>250</x>
-            <y>110</y>
+            <x>270</x>
+            <y>130</y>
             <width>361</width>
             <height>21</height>
            </rect>
@@ -787,10 +794,10 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
          <widget class="QPushButton" name="btnStartGame">
           <property name="geometry">
            <rect>
-            <x>390</x>
-            <y>150</y>
+            <x>410</x>
+            <y>170</y>
             <width>80</width>
-            <height>24</height>
+            <height>25</height>
            </rect>
           </property>
           <property name="cursor">
@@ -808,14 +815,14 @@ border-radius: 10px;
 }
 
 QPushButton:hover{ 
-    background-color: rgb(33, 78, 203);
+    background-color: rgb(252, 196, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
 }
 
 QPushButton::focus:pressed{ 
-	background-color: rgb(38, 72, 184);
+	background-color: rgb(252, 72, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
@@ -829,8 +836,8 @@ QPushButton::focus:pressed{
          <widget class="QFrame" name="frame_2">
           <property name="geometry">
            <rect>
-            <x>60</x>
-            <y>220</y>
+            <x>80</x>
+            <y>240</y>
             <width>331</width>
             <height>80</height>
            </rect>
@@ -880,7 +887,7 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
            <property name="styleSheet">
             <string notr="true">background-color: transparent;
 color: rgb(255, 255, 255);
-font: 900 10pt &quot;Arial Black&quot;;</string>
+font: 900 13pt &quot;Arial Black&quot;;</string>
            </property>
            <property name="text">
             <string>0</string>
@@ -896,8 +903,8 @@ font: 900 10pt &quot;Arial Black&quot;;</string>
          <widget class="QFrame" name="frame_4">
           <property name="geometry">
            <rect>
-            <x>470</x>
-            <y>220</y>
+            <x>490</x>
+            <y>240</y>
             <width>331</width>
             <height>80</height>
            </rect>
@@ -947,7 +954,141 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
            <property name="styleSheet">
             <string notr="true">background-color: transparent;
 color: rgb(255, 255, 255);
-font: 900 10pt &quot;Arial Black&quot;;</string>
+font: 900 13pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frame_5">
+          <property name="geometry">
+           <rect>
+            <x>80</x>
+            <y>390</y>
+            <width>331</width>
+            <height>80</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgba(33, 31, 29, 100);</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="gameNameText_4">
+           <property name="geometry">
+            <rect>
+             <x>50</x>
+             <y>10</y>
+             <width>241</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);
+font: 900 12pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>PLAYED THIS WEEK</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="timePlayedThisWeek">
+           <property name="geometry">
+            <rect>
+             <x>50</x>
+             <y>50</y>
+             <width>241</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);
+font: 900 13pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QFrame" name="frame_6">
+          <property name="geometry">
+           <rect>
+            <x>490</x>
+            <y>390</y>
+            <width>331</width>
+            <height>80</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgba(33, 31, 29, 100);</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <widget class="QLabel" name="gameNameText_5">
+           <property name="geometry">
+            <rect>
+             <x>50</x>
+             <y>10</y>
+             <width>241</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);
+font: 900 12pt &quot;Arial Black&quot;;</string>
+           </property>
+           <property name="text">
+            <string>LAST TIME PLAYED</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="lastTimePlayedText">
+           <property name="geometry">
+            <rect>
+             <x>50</x>
+             <y>50</y>
+             <width>241</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: transparent;
+color: rgb(255, 255, 255);
+font: 900 13pt &quot;Arial Black&quot;;</string>
            </property>
            <property name="text">
             <string>0</string>
