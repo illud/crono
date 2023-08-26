@@ -236,6 +236,7 @@ void MainWindow::getGame()
 
                                // Free memory if else couses memory leak
                                imageUtil->deleteLater();
+
                            });
     }
 

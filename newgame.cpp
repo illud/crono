@@ -1,6 +1,5 @@
 #include "newgame.h"
 #include "ui_newgame.h"
-#include "util.h"
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -26,6 +25,8 @@ void NewGame::on_addBtn_clicked()
 
     emit gameAdded(ui->gameName->text(), gameExe);
     this->close();
+
+    this->deleteLater();
 }
 
 void NewGame::on_searchGameExeBtn_clicked()
@@ -40,4 +41,5 @@ void NewGame::on_searchGameExeBtn_clicked()
 void NewGame::on_closeBtn_clicked()
 {
     this->close();
+    this->deleteLater();
 }
