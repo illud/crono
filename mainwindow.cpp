@@ -199,8 +199,17 @@ void MainWindow::getGame()
 
     delete db;
 
+    // size of columns
+    int chunkSize = numCols; // Size of each chunk
+
+    // Calculate the number of chunks needed for calculate row
+    int tableWidgetRows = (gamesResult.count() + chunkSize - 1) / chunkSize;
+
     // Sets tableWidget row count
-    ui->tableWidget->setRowCount(gamesResult.count());
+    ui->tableWidget->setRowCount(tableWidgetRows);
+
+    // Sets tableWidget row count
+    // ui->tableWidget->setRowCount(gamesResult.count());
 
     // Sets icon size
     ui->tableWidget->setIconSize(QSize(300, 300));
@@ -234,21 +243,36 @@ void MainWindow::getGame()
                                // Set the item in the table widget
                                ui->tableWidget->setItem(0, col, imageItem);
 
+                               // Create a QVariant to hold the game data for the current column
+                               QVariant gameDataVariant;
+
+                               // Set the value of the QVariant to the game data from the gamesResult list
+                               gameDataVariant.setValue(gamesResult[col]);
+
+                               // Set the QVariant containing game data as user data for the QTableWidgetItem
+                               // This is done using the Qt::UserRole constant, which is a role for custom data
+                               imageItem->setData(Qt::UserRole, gameDataVariant);
+
                                // Free memory if else couses memory leak
                                imageUtil->deleteLater();
-
                            });
     }
 
-    // Connect the cellClicked signal of the table widget outside the loop
+    // Connect the cellClicked signal of the table widget
     connect(ui->tableWidget, &QTableWidget::cellClicked, [=](int row, int col)
             {
-        // Load the image and do other operations (same code as before)
 
-        // Call your custom function
-        //on_btnPlay_clicked(gamesResult[col].gameName, gamesResult[col].id, gamesResult[col].gameExePath, gamesResult[col].gameExe);
+        // Retrieve the QVariant containing game data from the user role of the clicked cell
+        QVariant gameDataVariant = ui->tableWidget->item(row, col)->data(Qt::UserRole);
 
-        GoToGame(gamesResult[col].gameName, gamesResult[col].id, gamesResult[col].gameExePath, gamesResult[col].gameExe); });
+        // Check if the retrieved QVariant is valid
+        if (gameDataVariant.isValid()) {
+            // Retrieve the stored game data from the QVariant
+            DbManager::Games gameData = gameDataVariant.value<DbManager::Games>();
+
+            // Perform the custom action using the retrieved game data
+            GoToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
+        } });
 }
 
 void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe)
