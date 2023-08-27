@@ -105,6 +105,9 @@ public:
     void updateGameHistoricalTimePlayed(int gameHistoricalId, int timePlayed);
     MostPlayGame mostPlayedGame();
     int totalTimePlayedToday();
+    bool DeleteGame(int gameId);
+    bool DeleteGameHistorical(int gameId);
+    int TimePlayedFilter(int days);
 };
 
 #endif // DBMANAGER_H

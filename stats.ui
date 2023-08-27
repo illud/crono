@@ -402,7 +402,7 @@ font: 900 9pt &quot;Arial Black&quot;;</string>
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="timePlayedThForeLastYear">
+   <widget class="QLabel" name="timePlayedThForTheLastYear">
     <property name="geometry">
      <rect>
       <x>30</x>

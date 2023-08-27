@@ -315,24 +315,27 @@ background-color: rgba(255, 255, 255,0);</string>
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
            <property name="styleSheet">
             <string notr="true">QPushButton#btnGames { 
                                 border-left-color: rgb(255, 255, 255);
                                 border-left: 2px rgb(252, 196, 25);
                                 background-color:  transparent;
-                                font: 900 9pt 'Arial Black';
+                                font: 900 11pt 'Arial Black';
                                 color: rgb(255, 255, 255);
                                 border-style: outset;
 }
 
 QPushButton#btnGames:hover{ 
-	font: 900 9pt &quot;Arial Black&quot;;
+	font: 900 11pt 'Arial Black';
 	color: rgb(163, 163, 163);
     border: 0px;
 }
 
 QPushButton#btnGames::focus:pressed{ 
-	font: 900 9pt &quot;Arial Black&quot;;
+font: 900 11pt 'Arial Black';
 	color: rgb(163, 163, 163);
     border: 0px;
 }
@@ -340,6 +343,9 @@ QPushButton#btnGames::focus:pressed{
            </property>
            <property name="text">
             <string>Games</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -373,7 +379,7 @@ QPushButton#btnGames::focus:pressed{
            <property name="styleSheet">
             <string notr="true">QPushButton#statsBtn { 
     background-color:  transparent;
-	font: 900 9pt &quot;Arial Black&quot;;
+	font: 900 11pt 'Arial Black';
 	color: rgb(255, 255, 255);
     border: 0px;
 	border-color: rgb(255,255,255);
@@ -381,13 +387,13 @@ QPushButton#btnGames::focus:pressed{
 }
 
 QPushButton#statsBtn:hover{ 
-	font: 900 9pt &quot;Arial Black&quot;;
+font: 900 11pt 'Arial Black';
 	color: rgb(163, 163, 163);
     border: 0px;
 }
 
 QPushButton#statsBtn::focus:pressed{ 
-	font: 900 9pt &quot;Arial Black&quot;;
+	font: 900 11pt 'Arial Black';
 	color: rgb(163, 163, 163);
     border: 0px;
 }
@@ -1109,6 +1115,64 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
             <bool>false</bool>
            </property>
           </widget>
+         </widget>
+         <widget class="QToolButton" name="toolButton">
+          <property name="geometry">
+           <rect>
+            <x>500</x>
+            <y>171</y>
+            <width>25</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton { 
+	background-image: url(:/config.png);
+background-color: transparent;
+	/*	background-color: rgb(255, 92, 92);*/
+
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 0px;
+	border-radius: 10px;
+	border-style: outset;
+	height: 20px;
+}
+
+QToolButton:hover{ 
+    background-color: rgb(255, 20, 92);
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 0px;
+}
+
+QToolButton::focus:pressed{ 
+	background-color: rgb(255, 20, 92);
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 0px;
+}
+
+QToolButton::menu-indicator{width:0px;}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="popupMode">
+           <enum>QToolButton::DelayedPopup</enum>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonTextOnly</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>false</bool>
+          </property>
+          <property name="arrowType">
+           <enum>Qt::NoArrow</enum>
+          </property>
          </widget>
         </widget>
        </widget>

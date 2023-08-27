@@ -23,6 +23,8 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QMenu>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -56,6 +58,21 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setShowGrid(false);
 
     ui->tableWidget->setVerticalScrollMode(QTableWidget::ScrollPerPixel);
+
+    QMenu *menu = new QMenu();
+
+    menu->setStyleSheet("QMenu{background-color: rgba(33, 31, 29, 100); color: white;}");
+    QAction *actionEdit = new QAction("Edit", this);
+    menu->addAction(actionEdit);
+
+    QAction *actionDelete = new QAction("Delete", this);
+    menu->addAction(actionDelete);
+
+    connect(actionDelete, &QAction::triggered, [=]()
+            { MainWindow::DeleteGame(gameIdValue, gameNameValue); });
+
+    ui->toolButton->setMenu(menu);
+    ui->toolButton->setPopupMode(QToolButton::InstantPopup);
 }
 
 MainWindow::~MainWindow()
@@ -727,4 +744,104 @@ void MainWindow::on_statsBtn_clicked()
 void MainWindow::on_btnBack_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::DeleteGame(int gameId, QString gameName)
+{
+    qDebug() << gameId;
+
+    QMessageBox msgBox;
+    msgBox.setWindowFlags(Qt::FramelessWindowHint);
+
+    msgBox.setStyleSheet("QMessageBox{background-color: rgba(33, 31, 29, 90);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
+    msgBox.setText("¿Are you shure you want to delete " + gameName + "? ");
+
+    // Add custom buttons
+    QPushButton *cancelButton = msgBox.addButton(" Cancel ", QMessageBox::ActionRole);
+    QPushButton *yesButton = msgBox.addButton(" Yes ", QMessageBox::ActionRole);
+
+    yesButton->setStyleSheet("QPushButton {"
+                             "background-color: transparent;"
+                             "font: 900 10pt 'Arial Black';"
+                             "color: rgb(255, 255, 255);"
+                             "border: 1px;"
+                             "border-color: rgb(255, 255, 255);"
+                             "border-style: outset;"
+                             "border-radius: 10px;"
+                             "}"
+
+                             "QPushButton::hover{ "
+                             "  background-color: rgb(252, 196, 25);"
+                             "font: 900 10pt 'Arial Black';"
+                             "color: rgb(255, 255, 255);"
+                             " border: 0px;"
+
+                             "}"
+
+                             "QPushButton::focus:pressed{ "
+                             "background-color: rgb(252, 72, 25);"
+                             "font: 900 10pt 'Arial Black';"
+                             "color: rgb(255, 255, 255);"
+                             "border: 0px;"
+                             "}");
+
+    cancelButton->setStyleSheet("QPushButton {"
+                                "background-color: transparent;"
+                                "font: 900 10pt 'Arial Black';"
+                                "color: rgb(255, 255, 255);"
+                                "border: 1px;"
+                                "border-color: rgb(255, 255, 255);"
+                                "border-style: outset;"
+                                "border-radius: 10px;"
+                                "}"
+
+                                "QPushButton::hover{ "
+                                "  background-color: rgb(252, 196, 25);"
+                                "font: 900 10pt 'Arial Black';"
+                                "color: rgb(255, 255, 255);"
+                                " border: 0px;"
+                                "}"
+
+                                "QPushButton::focus:pressed{ "
+                                "background-color: rgb(252, 72, 25);"
+                                "font: 900 10pt 'Arial Black';"
+                                "color: rgb(255, 255, 255);"
+                                "border: 0px;"
+                                "}");
+
+    msgBox.exec();
+
+    if (msgBox.clickedButton() == yesButton)
+    {
+        // qDebug() << "YES";
+        static const QString path = "crono.db";
+
+        // Instance db conn
+        DbManager *db = new DbManager(path);
+
+        bool deleteGameResult = db->DeleteGame(gameId);
+
+        if (!deleteGameResult)
+        {
+            qDebug() << "Error deleting game";
+        }
+
+        bool deleteGameHistoricalResult = db->DeleteGameHistorical(gameId);
+
+        if (!deleteGameHistoricalResult)
+        {
+            qDebug() << "Error deleting game historical";
+        }
+
+        delete db;
+
+        // Get games
+        GetGame();
+
+        ui->stackedWidget->setCurrentIndex(0);
+    }
+    else if (msgBox.clickedButton() == cancelButton)
+    {
+        qDebug() << "NO";
+    }
 }

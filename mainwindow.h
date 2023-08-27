@@ -38,6 +38,7 @@ private slots:
     void on_btnBack_clicked();
     void GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe);
     void on_btnStartGame_clicked();
+    void DeleteGame(int gameId, QString gameName);
 
 protected:
     void mousePressEvent(QMouseEvent *event);

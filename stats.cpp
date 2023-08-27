@@ -23,10 +23,19 @@ Stats::Stats(QWidget *parent) : QWidget(parent),
     DbManager::MostPlayGame mostPlayedGameResult = db->mostPlayedGame();
 
     ui->mostPlayedGameText->setText(util.SecondsToTime(mostPlayedGameResult.timePlayed));
-    ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( "+mostPlayedGameResult.gameName+" )");
+    ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( " + mostPlayedGameResult.gameName + " )");
 
     int timePlayedToday = db->totalTimePlayedToday();
     ui->timePlayedTodayText->setText(util.SecondsToTime(timePlayedToday));
+
+    int timePlayedForTheLastWeek = db->TimePlayedFilter(7);
+    ui->timePlayedThisWeek->setText(util.SecondsToTime(timePlayedForTheLastWeek));
+
+    int timePlayedForTheLastMonth = db->TimePlayedFilter(30);
+    ui->timePlayedThisMonth->setText(util.SecondsToTime(timePlayedForTheLastMonth));
+
+    int timePlayedForTheLastYear = db->TimePlayedFilter(365);
+    ui->timePlayedThForTheLastYear->setText(util.SecondsToTime(timePlayedForTheLastYear));
 }
 
 Stats::~Stats()
@@ -51,8 +60,17 @@ void Stats::on_reloadBtn_clicked()
     DbManager::MostPlayGame mostPlayedGameResult = db->mostPlayedGame();
 
     ui->mostPlayedGameText->setText(util.SecondsToTime(mostPlayedGameResult.timePlayed));
-    ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( "+mostPlayedGameResult.gameName+" )");
+    ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( " + mostPlayedGameResult.gameName + " )");
 
     int timePlayedToday = db->totalTimePlayedToday();
     ui->timePlayedTodayText->setText(util.SecondsToTime(timePlayedToday));
+
+    int timePlayedForTheLastWeek = db->TimePlayedFilter(7);
+    ui->timePlayedThisWeek->setText(util.SecondsToTime(timePlayedForTheLastWeek));
+
+    int timePlayedForTheLastMonth = db->TimePlayedFilter(30);
+    ui->timePlayedThisMonth->setText(util.SecondsToTime(timePlayedForTheLastMonth));
+
+    int timePlayedForTheLastYear = db->TimePlayedFilter(365);
+    ui->timePlayedThForTheLastYear->setText(util.SecondsToTime(timePlayedForTheLastYear));
 }

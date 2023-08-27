@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>crono_icon.ico</file>
+        <file>config.png</file>
     </qresource>
 </RCC>
