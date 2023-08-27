@@ -8,12 +8,12 @@ class Util
 
 public:
     Util();
-    QVector<QString> removeDupWord(std::string str);
-    QString secondsToTime(int time);
-    QString findLastBackSlashWord(std::string path);
-    bool isProcessRunning(const QString &processName);
-    QString removeDataFromLasBackSlash(QString filePath);
-    bool createCronoRunnerBatFile(QString gameExePath, QString gameExe);
+    QVector<QString> RemoveDupWord(std::string str);
+    QString SecondsToTime(int time);
+    QString FindLastBackSlashWord(std::string path);
+    bool IsProcessRunning(const QString &processName);
+    QString RemoveDataFromLasBackSlash(QString filePath);
+    bool CreateCronoRunnerBatFile(QString gameExePath, QString gameExe);
 };
 
 #endif // UTIL_H

@@ -16,9 +16,17 @@ Stats::Stats(QWidget *parent) : QWidget(parent),
     int totalTimePlayed = db->totalTimePlayed();
 
     Util util;
-    QString totalTimePlayedString = util.secondsToTime(totalTimePlayed);
+    QString totalTimePlayedString = util.SecondsToTime(totalTimePlayed);
 
     ui->totalTimePlayedText->setText(totalTimePlayedString);
+
+    DbManager::MostPlayGame mostPlayedGameResult = db->mostPlayedGame();
+
+    ui->mostPlayedGameText->setText(util.SecondsToTime(mostPlayedGameResult.timePlayed));
+    ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( "+mostPlayedGameResult.gameName+" )");
+
+    int timePlayedToday = db->totalTimePlayedToday();
+    ui->timePlayedTodayText->setText(util.SecondsToTime(timePlayedToday));
 }
 
 Stats::~Stats()
@@ -36,7 +44,15 @@ void Stats::on_reloadBtn_clicked()
     int totalTimePlayed = db->totalTimePlayed();
 
     Util util;
-    QString totalTimePlayedString = util.secondsToTime(totalTimePlayed);
+    QString totalTimePlayedString = util.SecondsToTime(totalTimePlayed);
 
     ui->totalTimePlayedText->setText(totalTimePlayedString);
+
+    DbManager::MostPlayGame mostPlayedGameResult = db->mostPlayedGame();
+
+    ui->mostPlayedGameText->setText(util.SecondsToTime(mostPlayedGameResult.timePlayed));
+    ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( "+mostPlayedGameResult.gameName+" )");
+
+    int timePlayedToday = db->totalTimePlayedToday();
+    ui->timePlayedTodayText->setText(util.SecondsToTime(timePlayedToday));
 }

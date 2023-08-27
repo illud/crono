@@ -9,7 +9,7 @@ Util::Util()
 {
 }
 
-QVector<QString> Util::removeDupWord(std::string str)
+QVector<QString> Util::RemoveDupWord(std::string str)
 {
     QVector<QString> words;
     // Used to split string around spaces.
@@ -30,7 +30,7 @@ QVector<QString> Util::removeDupWord(std::string str)
 }
 
 // Converts secons to hours and minutes
-QString Util::secondsToTime(int time)
+QString Util::SecondsToTime(int time)
 {
     int h = time / 3600;
     int m = time % 3600 / 60;
@@ -43,7 +43,7 @@ QString Util::secondsToTime(int time)
 }
 
 // Finds game exe name (game.exe)
-QString Util::findLastBackSlashWord(std::string path)
+QString Util::FindLastBackSlashWord(std::string path)
 {
     auto const pos = path.find_last_of("\\");
     const auto leaf = path.substr(pos + 1);
@@ -51,7 +51,7 @@ QString Util::findLastBackSlashWord(std::string path)
     return leaf.c_str();
 }
 
-QString Util::removeDataFromLasBackSlash(QString filePath)
+QString Util::RemoveDataFromLasBackSlash(QString filePath)
 {
 
     // Find the index of the last backslash
@@ -68,7 +68,7 @@ QString Util::removeDataFromLasBackSlash(QString filePath)
     return "Error";
 }
 
-bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe)
+bool Util::CreateCronoRunnerBatFile(QString gameExePath, QString gameExe)
 {
     // Specify the file name/path
     QString fileName = "crono_runner.bat";
@@ -101,7 +101,7 @@ bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe)
 }
 
 // Check if game is running
-bool Util::isProcessRunning(const QString &processName)
+bool Util::IsProcessRunning(const QString &processName)
 {
     QProcess process;
 #ifdef Q_OS_WIN

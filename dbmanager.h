@@ -57,8 +57,6 @@ public:
 
     const tablesAndColumns *allTables;
 
-    bool insertGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe);
-
     // Games struct
     struct Games
     {
@@ -83,9 +81,17 @@ public:
         QString updatedAt;
     };
 
+    // MostPlayGame Struct
+    struct MostPlayGame
+    {
+        QString gameName;
+        int timePlayed;
+    };
+
     QVector<Games> getGames();
     QVector<Games> getGameById(int gameId);
 
+    bool insertGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe);
     bool updateTimePlayed(int gameId, int timePlayed);
     bool updateGameRunning(int gameId, bool running);
     void updateAllGameRunning();
@@ -97,6 +103,8 @@ public:
     bool insertGameHistorical(const int gameId);
     int getTodayGameHistorical(const int gameId);
     void updateGameHistoricalTimePlayed(int gameHistoricalId, int timePlayed);
+    MostPlayGame mostPlayedGame();
+    int totalTimePlayedToday();
 };
 
 #endif // DBMANAGER_H

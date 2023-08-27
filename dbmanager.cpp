@@ -502,3 +502,64 @@ int DbManager::totalPlayTimeThisWeek(int gameId)
 
     return totalTimePlayedResult;
 }
+
+DbManager::MostPlayGame DbManager::mostPlayedGame()
+{
+
+    DbManager::MostPlayGame gameResult;
+
+    QSqlQuery query;
+    query.prepare("SELECT gameName, MAX(timePlayed) AS total FROM games");
+
+    if (query.exec())
+    {
+        int gameName = query.record().indexOf("gameName");
+        int total = query.record().indexOf("total");
+
+        while (query.next())
+        {
+            QString gameNameResult = query.value(gameName).toString();
+            int totalResult = query.value(total).toInt();
+
+            gameResult = {gameNameResult, totalResult};
+        }
+    }
+    else
+    {
+        qDebug() << "Error executing query int mostPlayedGame func:" << query.lastError().text();
+    }
+
+    return gameResult;
+}
+
+int DbManager::totalTimePlayedToday(){
+    int totalResponse = 0;
+
+    QDate currentDate = QDate::currentDate();
+    int year = currentDate.year();
+    int month = currentDate.month();
+    int day = currentDate.day();
+    QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+    QSqlQuery query;
+    query.prepare("SELECT SUM(timePlayed) AS total FROM game_historical WHERE createdAt = :createdAt");
+    query.bindValue(":createdAt", formattedDate);
+
+    if (query.exec())
+    {
+        int total = query.record().indexOf("total");
+
+        while (query.next())
+        {
+            int totalResult = query.value(total).toInt();
+
+            totalResponse = totalResult;
+        }
+    }
+    else
+    {
+        qDebug() << "Error executing query int mostPlayedGame func:" << query.lastError().text();
+    }
+
+    return totalResponse;
+}
