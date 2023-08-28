@@ -14,6 +14,7 @@ public:
     bool IsProcessRunning(const QString &processName);
     QString RemoveDataFromLasBackSlash(QString filePath);
     bool CreateCronoRunnerBatFile(QString gameExePath, QString gameExe);
+    size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp);
 };
 
 #endif // UTIL_H

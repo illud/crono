@@ -320,6 +320,8 @@ background-color: rgba(255, 255, 255,0);</string>
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton#btnGames { 
+	text-align: left;
+	padding-left: 50px;
                                 border-left-color: rgb(255, 255, 255);
                                 border-left: 2px rgb(252, 196, 25);
                                 background-color:  transparent;
@@ -378,6 +380,8 @@ font: 900 11pt 'Arial Black';
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton#statsBtn { 
+	text-align: left;
+	padding-left: 50px;
     background-color:  transparent;
 	font: 900 11pt 'Arial Black';
 	color: rgb(255, 255, 255);
@@ -401,6 +405,61 @@ QPushButton#statsBtn::focus:pressed{
            </property>
            <property name="text">
             <string>Stats</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnHltb">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">
+QPushButton#btnHltb { 
+	text-align: left;
+	padding-left: 50px;
+    background-color:  transparent;
+	font: 900 11pt 'Arial Black';
+	color: rgb(255, 255, 255);
+    border: 0px;
+	border-color: rgb(255,255,255);
+	border-style: outset;
+}
+
+QPushButton#btnHltb:hover{ 
+font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+
+QPushButton#btnHltb::focus:pressed{ 
+	font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>HowLongToBeat</string>
            </property>
           </widget>
          </item>
@@ -1175,6 +1234,17 @@ QToolButton::menu-indicator{width:0px;}</string>
           </property>
          </widget>
         </widget>
+        <widget class="QWidget" name="page_4">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="HowLongTobeat" name="widget_2" native="true"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -1187,6 +1257,12 @@ QToolButton::menu-indicator{width:0px;}</string>
    <class>Stats</class>
    <extends>QWidget</extends>
    <header location="global">stats.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>HowLongTobeat</class>
+   <extends>QWidget</extends>
+   <header location="global">howlongtobeat.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

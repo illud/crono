@@ -31,7 +31,7 @@ font: 900 9pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);
 border-bottom-width: 1px;
 border-color: none none gray none;
-border-radius: 10px;</string>
+border-radius:0px;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="searchGameExeBtn">

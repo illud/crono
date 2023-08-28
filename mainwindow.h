@@ -40,6 +40,8 @@ private slots:
     void on_btnStartGame_clicked();
     void DeleteGame(int gameId, QString gameName);
 
+    void on_btnHltb_clicked();
+
 protected:
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

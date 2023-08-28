@@ -117,3 +117,9 @@ bool Util::IsProcessRunning(const QString &processName)
     process.deleteLater();
     return outputStr.contains(processName, Qt::CaseInsensitive);
 }
+
+size_t Util::WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
+{
+    ((std::string *)userp)->append((char *)contents, size * nmemb);
+    return size * nmemb;
+}

@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     dbmanager.cpp \
+    howlongtobeat.cpp \
     main.cpp \
     mainwindow.cpp \
     newgame.cpp \
@@ -26,12 +27,14 @@ INCLUDEPATH += C:\Qt\6.5.1\mingw_64\include
 HEADERS += \
     ImageUtil.h \
     dbmanager.h \
+    howlongtobeat.h \
     mainwindow.h \
     newgame.h \
     stats.h \
     util.h
 
 FORMS += \
+    howlongtobeat.ui \
     mainwindow.ui \
     newgame.ui \
     stats.ui
