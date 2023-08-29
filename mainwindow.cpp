@@ -25,6 +25,7 @@
 #include <QPushButton>
 #include <QMenu>
 #include <QMessageBox>
+#include "stats.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -724,6 +725,12 @@ void MainWindow::on_btnGames_clicked()
 
 void MainWindow::on_statsBtn_clicked()
 {
+    Stats receiver;
+
+    connect(this, &MainWindow::RefreshStats, &receiver, &Stats::RefreshStats);
+
+    emit RefreshStats();
+
     ui->btnGames->setStyleSheet("QPushButton {"
                                 " text-align: left;"
                                 " padding-left: 50px;"

@@ -34,13 +34,17 @@ private slots:
     void on_minimizeBtn_clicked();
     void on_maxBtn_clicked();
     void on_btnGames_clicked();
-    void on_statsBtn_clicked();
     void on_btnBack_clicked();
     void GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe);
     void on_btnStartGame_clicked();
     void DeleteGame(int gameId, QString gameName);
-
     void on_btnHltb_clicked();
+
+public slots:
+    void on_statsBtn_clicked();
+
+signals:
+    void RefreshStats();
 
 protected:
     void mousePressEvent(QMouseEvent *event);

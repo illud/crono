@@ -36,6 +36,9 @@ Stats::Stats(QWidget *parent) : QWidget(parent),
 
     int timePlayedForTheLastYear = db->TimePlayedFilter(365);
     ui->timePlayedThForTheLastYear->setText(util.SecondsToTime(timePlayedForTheLastYear));
+
+
+    delete db;
 }
 
 Stats::~Stats()
@@ -43,17 +46,16 @@ Stats::~Stats()
     delete ui;
 }
 
-void Stats::on_reloadBtn_clicked()
+void Stats::RefreshStats()
 {
     static const QString path = "crono.db";
 
     // Instance db conn
     DbManager *db = new DbManager(path);
 
-    int totalTimePlayed = db->totalTimePlayed();
-
     Util util;
-    QString totalTimePlayedString = util.SecondsToTime(totalTimePlayed);
+
+    QString totalTimePlayedString = util.SecondsToTime(db->totalTimePlayed());
 
     ui->totalTimePlayedText->setText(totalTimePlayedString);
 
@@ -73,4 +75,13 @@ void Stats::on_reloadBtn_clicked()
 
     int timePlayedForTheLastYear = db->TimePlayedFilter(365);
     ui->timePlayedThForTheLastYear->setText(util.SecondsToTime(timePlayedForTheLastYear));
+
+    qDebug() << util.SecondsToTime(db->totalTimePlayed());
+
+    delete db;
+}
+
+void Stats::on_btnReload_clicked()
+{
+    Stats::RefreshStats();
 }

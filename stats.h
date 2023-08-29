@@ -17,7 +17,11 @@ public:
     ~Stats();
 
 private slots:
-    void on_reloadBtn_clicked();
+
+    void on_btnReload_clicked();
+
+public slots:
+    void RefreshStats();
 
 private:
     Ui::Stats *ui;
