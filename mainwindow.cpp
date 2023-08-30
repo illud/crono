@@ -173,7 +173,7 @@ QString MainWindow::GetGameImage(QString gameName)
     // Parse JSON object
     QJsonDocument jsonResponse = QJsonDocument::fromJson(readBuffer.c_str());
 
-    QString imageUrl = "https://howlongtobeat.com/img/hltb_brand2.png";
+    QString imageUrl = "";
 
     QJsonArray jsonArray = jsonResponse["data"].toArray();
 
@@ -232,6 +232,7 @@ void MainWindow::GetGame()
     // Sets icon size
     ui->tableWidget->setIconSize(QSize(300, 300));
 
+
     ui->tableWidget->setColumnCount(numCols);
 
     ui->tableWidget->viewport()->setCursor(Qt::PointingHandCursor);
@@ -241,39 +242,77 @@ void MainWindow::GetGame()
         // Set the row height for a specific row
         ui->tableWidget->setRowHeight(col, 300);
 
-        // Download image from url and set image as icon
-        ImageUtil *imageUtil = new ImageUtil();
-        imageUtil->loadFromUrl(QUrl(gamesResult[col].gameImage));
-        imageUtil->connect(imageUtil, &ImageUtil::loaded,
-                           [=]()
-                           {
-                               QImage image = imageUtil->image(); // Get the image from ImageUtil
+        if(gamesResult[col].gameImage == ""){
+               // Create a QTableWidgetItem and set the image as its icon
+            QTableWidgetItem *item = new QTableWidgetItem(gamesResult[col].gameName.toUpper());
 
-                               // Convert QImage to QPixmap for display
-                               QPixmap pixmap = QPixmap::fromImage(image);
+            // Convert QImage to QPixmap for display
+            //QPixmap pixmap(":/item.png");
 
-                               // Create a QTableWidgetItem and set the image as its icon
-                               QTableWidgetItem *imageItem = new QTableWidgetItem();
+            // Sets icon
+            //item->setIcon(QIcon(pixmap));
 
-                               // Sets icon
-                               imageItem->setIcon(QIcon(pixmap));
+           //ui->tableWidget->cellWidget(0, col)->setStyleSheet("QTableWidget::item { border: 1px solid %3; }");
 
-                               // Set the item in the table widget
-                               ui->tableWidget->setItem(0, col, imageItem);
+           // Set the background color for the item
+           QColor backgroundColor(22, 22, 22); // Replace with your desired color
+           item->setBackground(QBrush(backgroundColor));
 
-                               // Create a QVariant to hold the game data for the current column
-                               QVariant gameDataVariant;
+           // Set the text color for the item
+           item->setTextAlignment(Qt::AlignCenter);
 
-                               // Set the value of the QVariant to the game data from the gamesResult list
-                               gameDataVariant.setValue(gamesResult[col]);
+           // Set the font for the item
+           QFont font("Arial", 9, QFont::Bold); // Replace with your desired font details
+           item->setFont(font);
 
-                               // Set the QVariant containing game data as user data for the QTableWidgetItem
-                               // This is done using the Qt::UserRole constant, which is a role for custom data
-                               imageItem->setData(Qt::UserRole, gameDataVariant);
+           // Create a QVariant to hold the game data for the current column
+           QVariant gameDataVariant;
 
-                               // Free memory if else couses memory leak
-                               imageUtil->deleteLater();
-                           });
+           // Set the value of the QVariant to the game data from the gamesResult list
+           gameDataVariant.setValue(gamesResult[col]);
+
+           // Set the QVariant containing game data as user data for the QTableWidgetItem
+           // This is done using the Qt::UserRole constant, which is a role for custom data
+           item->setData(Qt::UserRole, gameDataVariant);
+
+           // Set the item in the table widget
+           ui->tableWidget->setItem(0, col, item);
+
+        }else{
+            // Download image from url and set image as icon
+            ImageUtil *imageUtil = new ImageUtil();
+            imageUtil->loadFromUrl(QUrl(gamesResult[col].gameImage));
+            imageUtil->connect(imageUtil, &ImageUtil::loaded,
+                               [=]()
+                               {
+                                   QImage image = imageUtil->image(); // Get the image from ImageUtil
+
+                                   // Convert QImage to QPixmap for display
+                                   QPixmap pixmap = QPixmap::fromImage(image);
+
+                                   // Create a QTableWidgetItem and set the image as its icon
+                                   QTableWidgetItem *imageItem = new QTableWidgetItem();
+
+                                   // Sets icon
+                                   imageItem->setIcon(QIcon(pixmap));
+
+                                   // Set the item in the table widget
+                                   ui->tableWidget->setItem(0, col, imageItem);
+
+                                   // Create a QVariant to hold the game data for the current column
+                                   QVariant gameDataVariant;
+
+                                   // Set the value of the QVariant to the game data from the gamesResult list
+                                   gameDataVariant.setValue(gamesResult[col]);
+
+                                   // Set the QVariant containing game data as user data for the QTableWidgetItem
+                                   // This is done using the Qt::UserRole constant, which is a role for custom data
+                                   imageItem->setData(Qt::UserRole, gameDataVariant);
+
+                                   // Free memory if else couses memory leak
+                                   imageUtil->deleteLater();
+                               });
+        }
     }
 
     // Connect the cellClicked signal of the table widget

@@ -1,9 +1,11 @@
 #include "util.h"
 #include "qdebug.h"
+#include "qtcpsocket.h"
 #include <sstream>
 #include <QProcess>
 #include <QFile>
 #include <QTextStream>
+#include <QTcpSocket>
 
 Util::Util()
 {
@@ -51,9 +53,9 @@ QString Util::FindLastBackSlashWord(std::string path)
     return leaf.c_str();
 }
 
+// Removes last back slash
 QString Util::RemoveDataFromLasBackSlash(QString filePath)
 {
-
     // Find the index of the last backslash
     int lastIndex = filePath.lastIndexOf("\\");
 
@@ -68,6 +70,7 @@ QString Util::RemoveDataFromLasBackSlash(QString filePath)
     return "Error";
 }
 
+// Creates .bat file containing game exe location
 bool Util::CreateCronoRunnerBatFile(QString gameExePath, QString gameExe)
 {
     // Specify the file name/path
@@ -122,4 +125,20 @@ size_t Util::WriteCallback(char *contents, size_t size, size_t nmemb, void *user
 {
     ((std::string *)userp)->append((char *)contents, size * nmemb);
     return size * nmemb;
+}
+
+// Checks internet connection making a ping to google.com
+bool Util::CheckInternetConn()
+{
+    QTcpSocket* sock = new QTcpSocket();
+    sock->connectToHost("www.google.com", 80);
+    bool connected = sock->waitForConnected(30000);//ms
+
+    if (!connected)
+    {
+        sock->abort();
+        return false;
+    }
+    sock->close();
+    return true;
 }
