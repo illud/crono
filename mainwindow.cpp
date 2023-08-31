@@ -482,9 +482,6 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                     qDebug() << "is running updated to true. " << gameId;
                 }
             }
-
-            // Gets games when timePlayed is updated
-            GetGame();
         }
         else
         {
