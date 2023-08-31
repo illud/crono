@@ -375,9 +375,6 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
 
     delete db;
 
-    // Gets games to update running
-    GetGame();
-
     // Waits 1 minute so it can let the game start
     // This is becouse some games takes up to 30-60 secons to start
     QTimer timerDelay;
