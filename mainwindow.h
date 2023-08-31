@@ -25,7 +25,6 @@ public:
 
 private slots:
     void on_addGameBtn_clicked();
-    QString GetGameImage(QString gameName);
     void AddedGame(const QString &gameName, const QString &gameExePath);
     void GetGame();
     void on_btnPlay_clicked(QString gameName, int gameId, QString gameExePath, QString gameExe);
@@ -39,6 +38,7 @@ private slots:
     void on_btnStartGame_clicked();
     void DeleteGame(int gameId, QString gameName);
     void on_btnHltb_clicked();
+    void UpdateGame(int gameId, QString gameName, QString gameExeLocation);
 
 public slots:
     void on_statsBtn_clicked();

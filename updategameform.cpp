@@ -1,27 +1,32 @@
-#include "newgame.h"
+#include "updategameform.h"
 #include "qmessagebox.h"
-#include "ui_newgame.h"
+#include "ui_updategameform.h"
 #include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
+#include "dbmanager.h"
+#include "util.h"
 
-NewGame::NewGame(QWidget *parent) : QDialog(parent),
-                                    ui(new Ui::NewGame)
+UpdateGameForm::UpdateGameForm(int _gameId, QString _gameName, QString _gameExeLocation, QWidget *parent) : QWidget(parent),
+                                                                                                            ui(new Ui::UpdateGameForm)
 {
     ui->setupUi(this);
-    NewGame::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+
+    UpdateGameForm::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+
+    ui->gameName->setText(_gameName);
+    gameExePath = _gameExeLocation;
+    gameId = _gameId;
 }
 
-QString gameExe;
-
-NewGame::~NewGame()
+UpdateGameForm::~UpdateGameForm()
 {
     delete ui;
 }
 
-void NewGame::on_addBtn_clicked()
+void UpdateGameForm::on_updateBtn_clicked()
 {
-    if (ui->gameName->text() == "" || gameExe == "")
+    if (ui->gameName->text() == "" || gameExePath == "")
     {
         QMessageBox msgBox;
         msgBox.setWindowFlags(Qt::FramelessWindowHint);
@@ -65,25 +70,39 @@ void NewGame::on_addBtn_clicked()
     else
     {
         // Replace forward slashes with backslashes
-        gameExe.replace("/", "\\");
+        gameExePath.replace("/", "\\");
 
-        emit gameAdded(ui->gameName->text(), gameExe);
+        Util util;
+
+        static const QString path = "crono.db";
+
+        // Get image url
+        QString imageUrl = util.GetGameImage(ui->gameName->text());
+
+        // Instance db conn
+        DbManager *db = new DbManager(path);
+
+        // Inser into games table
+        db->UpdateGame(imageUrl, ui->gameName->text(), util.RemoveDataFromLasBackSlash(gameExePath), util.FindLastBackSlashWord(gameExePath.toStdString()), gameId);
+
+        delete db;
+
+        emit GameUpdated();
+
         this->close();
-
         this->deleteLater();
     }
 }
 
-void NewGame::on_searchGameExeBtn_clicked()
+void UpdateGameForm::on_searchGameExeBtn_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "Get Game EXE");
     QDir d = QFileInfo(filePath).absoluteDir();
     QString absolute = d.absoluteFilePath(filePath);
-    gameExe = absolute;
-    // qDebug() <<  gameExe;
+    gameExePath = absolute;
 }
 
-void NewGame::on_closeBtn_clicked()
+void UpdateGameForm::on_closeBtn_clicked()
 {
     this->close();
     this->deleteLater();

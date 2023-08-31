@@ -15,6 +15,7 @@ SOURCES += \
     mainwindow.cpp \
     newgame.cpp \
     stats.cpp \
+    updategameform.cpp \
     util.cpp
 
 # Add libcurl lib
@@ -31,13 +32,15 @@ HEADERS += \
     mainwindow.h \
     newgame.h \
     stats.h \
+    updategameform.h \
     util.h
 
 FORMS += \
     howlongtobeat.ui \
     mainwindow.ui \
     newgame.ui \
-    stats.ui
+    stats.ui \
+    updategameform.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

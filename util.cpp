@@ -6,6 +6,11 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTcpSocket>
+#include <curl/curl.h>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QVector>
 
 Util::Util()
 {
@@ -127,12 +132,18 @@ size_t Util::WriteCallback(char *contents, size_t size, size_t nmemb, void *user
     return size * nmemb;
 }
 
+size_t WriteCall(char *contents, size_t size, size_t nmemb, void *userp)
+{
+    ((std::string *)userp)->append((char *)contents, size * nmemb);
+    return size * nmemb;
+}
+
 // Checks internet connection making a ping to google.com
 bool Util::CheckInternetConn()
 {
-    QTcpSocket* sock = new QTcpSocket();
+    QTcpSocket *sock = new QTcpSocket();
     sock->connectToHost("www.google.com", 80);
-    bool connected = sock->waitForConnected(30000);//ms
+    bool connected = sock->waitForConnected(30000); // ms
 
     if (!connected)
     {
@@ -141,4 +152,91 @@ bool Util::CheckInternetConn()
     }
     sock->close();
     return true;
+}
+
+QString Util::GetGameImage(QString gameName)
+{
+    QVector<QString> splitWords = Util::RemoveDupWord(gameName.toStdString());
+
+    // build a string by sequentially adding data to it.
+    std::stringstream ss;
+
+    for (int i = 0; i < splitWords.size(); ++i)
+    {
+        if (i > 0)
+        {
+            ss << ", ";
+        }
+        ss << "\"" << splitWords[i].toStdString() << "\""; // Include the " symbols around each element
+    }
+
+    std::string searchTerms = ss.str();
+
+    // qDebug() << splitWords.data()->toStdString();
+    // ui->lineEdit->text().toStdString()
+    CURL *curl;
+    CURLcode res;
+    struct curl_slist *header;
+    std::string readBuffer;
+    std::string jsonstr = "{\"searchType\": \"games\",\"searchTerms\": [" + searchTerms + "],\"searchPage\": 1,\"size\": 20,\"searchOptions\": { \"games\": {\"userId\": 0,\"platform\": \"\",\"sortCategory\": \"popular\",\"rangeCategory\": \"main\",\"rangeTime\": { \"min\": 0, \"max\": 0},\"gameplay\": { \"perspective\": \"\", \"flow\": \"\", \"genre\": \"\"},\"modifier\": \"\" }, \"users\": {\"sortCategory\": \"postcount\" }, \"filter\": \"\", \"sort\": 0, \"randomizer\": 0} }";
+    // qDebug() << jsonstr;
+
+    /* In windows, this will init the winsock stuff */
+    curl_global_init(CURL_GLOBAL_ALL);
+
+    /* get a curl handle */
+    curl = curl_easy_init();
+    if (curl)
+    {
+
+        header = NULL;
+        header = curl_slist_append(header, "Content-Type: application/json");
+        header = curl_slist_append(header, "Accept: */*");
+        header = curl_slist_append(header, "Origin: https://howlongtobeat.com");
+        header = curl_slist_append(header, "Referer: https://howlongtobeat.com");
+        header = curl_slist_append(header, "User-Agent: Mozilla/4.0 (Windows 7 6.1) Java/1.7.0_51");
+
+        /* First set the URL that is about to receive our POST. This URL can
+       just as well be an https:// URL if that is what should receive the
+       data. */
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_easy_setopt(curl, CURLOPT_URL, "https://www.howlongtobeat.com/api/search");
+
+        /* Now specify the POST data */
+        // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
+
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonstr.c_str());
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, jsonstr.length());
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCall);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+        /* Perform the request, res will get the return code */
+        res = curl_easy_perform(curl);
+        /* Check for errors */
+        if (res == CURLE_OK)
+            qDebug() << "Good";
+        else
+            qDebug() << curl_easy_strerror((CURLcode)res);
+
+        /* always cleanup */
+        curl_easy_cleanup(curl);
+    }
+    curl_global_cleanup();
+
+    // Parse JSON object
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(readBuffer.c_str());
+
+    QString imageUrl = "";
+
+    QJsonArray jsonArray = jsonResponse["data"].toArray();
+
+    // Check if theres data
+    if (jsonResponse["data"].toArray().count() > 0)
+    {
+        imageUrl = "https://howlongtobeat.com/games/" + jsonArray[0].toObject()["game_image"].toString();
+    }
+    return imageUrl;
 }

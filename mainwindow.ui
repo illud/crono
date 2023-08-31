@@ -846,7 +846,7 @@ QPushButton::focus:pressed{
          <widget class="QLabel" name="gameNameText">
           <property name="geometry">
            <rect>
-            <x>190</x>
+            <x>193</x>
             <y>130</y>
             <width>511</width>
             <height>21</height>

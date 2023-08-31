@@ -92,6 +92,7 @@ public:
     QVector<Games> getGameById(int gameId);
 
     bool insertGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe);
+    bool UpdateGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe, const int &gameId);
     bool updateTimePlayed(int gameId, int timePlayed);
     bool updateGameRunning(int gameId, bool running);
     void updateAllGameRunning();

@@ -87,6 +87,45 @@ bool DbManager::insertGame(const QString gameImage, const QString &gameName, con
     return success;
 }
 
+bool DbManager::UpdateGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe, const int &gameId)
+{
+    bool success = false;
+
+    if (!gameName.isEmpty())
+    {
+        QSqlQuery queryAdd;
+        queryAdd.prepare("UPDATE games SET gameImage = :gameImage, gameName = :gameName, gameExePath = :gameExePath, gameExe = :gameExe, updatedAt = :updatedAt WHERE id = :gameId");
+        queryAdd.bindValue(":gameImage", gameImage);
+        queryAdd.bindValue(":gameName", gameName);
+        queryAdd.bindValue(":gameExePath", gameExePath);
+        queryAdd.bindValue(":gameExe", gameExe);
+
+        QDate currentDate = QDate::currentDate();
+        int year = currentDate.year();
+        int month = currentDate.month();
+        int day = currentDate.day();
+        QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+        queryAdd.bindValue(":updatedAt", formattedDate);
+        queryAdd.bindValue(":gameId", gameId);
+
+        if (queryAdd.exec())
+        {
+            success = true;
+        }
+        else
+        {
+            qDebug() << "Could update game: " << queryAdd.lastError();
+        }
+    }
+    else
+    {
+        qDebug() << "Data is required to update.";
+    }
+
+    return success;
+}
+
 // Games struct
 struct Games
 {
