@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     delete db;
 
     // Get games and start of the app
-    GetGame();
+    GetGame(true);
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // Disable the vertical header (row index counter)
@@ -119,10 +119,10 @@ void MainWindow::AddedGame(const QString &gameName, const QString &gameExePath)
     delete db;
 
     // Get games and start of the app
-    GetGame();
+    GetGame(true);
 }
 
-void MainWindow::GetGame()
+void MainWindow::GetGame(bool goToGamesPage)
 {
     static const QString path = "crono.db";
 
@@ -248,8 +248,11 @@ void MainWindow::GetGame()
             GoToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
         } });
 
-    // Return to games view
-    ui->stackedWidget->setCurrentIndex(0);
+    if (goToGamesPage)
+    {
+        // Return to games view
+        ui->stackedWidget->setCurrentIndex(0);
+    }
 }
 
 void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe)
@@ -496,9 +499,6 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                 qDebug() << "is running updated to false." << gameId;
             }
 
-            // Gets games to update running
-            GetGame();
-
             ui->btnStartGame->setCursor(Qt::PointingHandCursor);
             ui->btnStartGame->setDisabled(false); // Anables PLAY button
             ui->btnStartGame->setText("PLAY");
@@ -580,13 +580,13 @@ void MainWindow::on_maxBtn_clicked()
     {
         this->showNormal(); // Restore the window to its normal size
         numCols = 4;        // Sets row to 4 when minimized
-        GetGame();          // Refresh data
+        GetGame(false);     // Refresh data
     }
     else
     {
         this->showMaximized(); // Maximize the window
         numCols = 8;           // Sets row to 8 when Maximize
-        GetGame();             // Refresh data
+        GetGame(false);        // Refresh data
     }
 }
 
@@ -919,9 +919,7 @@ void MainWindow::DeleteGame(int gameId, QString gameName)
         delete db;
 
         // Get games
-        GetGame();
-
-        ui->stackedWidget->setCurrentIndex(0);
+        GetGame(true);
     }
     else if (msgBox.clickedButton() == cancelButton)
     {
@@ -933,7 +931,8 @@ void MainWindow::UpdateGame(int gameId, QString gameName, QString gameExePath)
 {
     UpdateGameForm *updateForm = new UpdateGameForm(gameId, gameName, gameExePath);
 
-    connect(updateForm, &UpdateGameForm::GameUpdated, this, &MainWindow::GetGame);
+    connect(updateForm, &UpdateGameForm::GameUpdated, this, [this]()
+            { MainWindow::GetGame(true); });
 
     updateForm->show();
     // ui->stackedWidget->setCurrentIndex(0);
