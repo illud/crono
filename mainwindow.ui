@@ -525,7 +525,7 @@ background-color: rgba(255, 255, 255,0);</string>
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -1034,6 +1034,32 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
            </property>
            <property name="wordWrap">
             <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="radioBtnTimeIndicator">
+           <property name="geometry">
+            <rect>
+             <x>120</x>
+             <y>30</y>
+             <width>111</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="toolTip">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;This sets current play time of today in front of the game window.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QRadioButton {
+
+    font-size: 11px; /* Adjust font size as needed */
+	color: white;
+}</string>
+           </property>
+           <property name="text">
+            <string>TIME OVERLAY</string>
            </property>
           </widget>
          </widget>

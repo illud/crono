@@ -22,6 +22,8 @@ public:
     int gameIdValue;
     QString gameExePathValue;
     QString gameExeValue;
+    Qt::WindowFlags initialFlags;
+    QPoint initialPosition;
 
 private slots:
     void on_addGameBtn_clicked();
@@ -39,6 +41,8 @@ private slots:
     void DeleteGame(int gameId, QString gameName);
     void on_btnHltb_clicked();
     void UpdateGame(int gameId, QString gameName, QString gameExeLocation);
+
+    void on_radioBtnTimeIndicator_clicked();
 
 public slots:
     void on_statsBtn_clicked();

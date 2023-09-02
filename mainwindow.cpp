@@ -78,6 +78,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->toolButton->setMenu(menu);
     ui->toolButton->setPopupMode(QToolButton::InstantPopup);
+
+    initialFlags = ui->timePlayedTodayText->windowFlags();
+    initialPosition = ui->timePlayedTodayText->pos();
 }
 
 MainWindow::~MainWindow()
@@ -936,4 +939,37 @@ void MainWindow::UpdateGame(int gameId, QString gameName, QString gameExePath)
 
     updateForm->show();
     // ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_radioBtnTimeIndicator_clicked()
+{
+    if (ui->radioBtnTimeIndicator->isChecked())
+    {
+        QLabel *timeIndicator = ui->timePlayedTodayText;
+
+        timeIndicator->setAttribute(Qt::WA_TranslucentBackground);
+        timeIndicator->setStyleSheet("QLabel { color: yellow; background: transparent; }");
+        timeIndicator->setFont(QFont("Arial", 15));
+
+        // Set QLabel properties
+        int x = 0; // X-coordinate
+        int y = 0; // Y-coordinate
+        timeIndicator->move(x, y);
+
+        // Set the QLabel to always stay on top
+        timeIndicator->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+
+        // Show the QLabel
+        timeIndicator->show();
+    }
+    else
+    {
+        QLabel *timeIndicator = ui->timePlayedTodayText;
+        timeIndicator->setStyleSheet("QLabel { background-color: transparent; color: rgb(255, 255, 255); font: 900 13pt 'Arial Black';}");
+        timeIndicator->setWindowFlags(initialFlags);
+        timeIndicator->move(initialPosition);
+
+        // Show the QLabel
+        timeIndicator->show();
+    }
 }
