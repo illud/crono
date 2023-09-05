@@ -16,7 +16,7 @@ Util::Util()
 {
 }
 
-QVector<QString> Util::RemoveDupWord(std::string str)
+QVector<QString> Util::removeDupWord(std::string str)
 {
     QVector<QString> words;
     // Used to split string around spaces.
@@ -37,7 +37,7 @@ QVector<QString> Util::RemoveDupWord(std::string str)
 }
 
 // Converts secons to hours and minutes
-QString Util::SecondsToTime(int time)
+QString Util::secondsToTime(int time)
 {
     int h = time / 3600;
     int m = time % 3600 / 60;
@@ -50,7 +50,7 @@ QString Util::SecondsToTime(int time)
 }
 
 // Finds game exe name (game.exe)
-QString Util::FindLastBackSlashWord(std::string path)
+QString Util::findLastBackSlashWord(std::string path)
 {
     auto const pos = path.find_last_of("\\");
     const auto leaf = path.substr(pos + 1);
@@ -59,7 +59,7 @@ QString Util::FindLastBackSlashWord(std::string path)
 }
 
 // Removes last back slash
-QString Util::RemoveDataFromLasBackSlash(QString filePath)
+QString Util::removeDataFromLasBackSlash(QString filePath)
 {
     // Find the index of the last backslash
     int lastIndex = filePath.lastIndexOf("\\");
@@ -76,7 +76,7 @@ QString Util::RemoveDataFromLasBackSlash(QString filePath)
 }
 
 // Creates .bat file containing game exe location
-bool Util::CreateCronoRunnerBatFile(QString gameExePath, QString gameExe)
+bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe)
 {
     // Specify the file name/path
     QString fileName = "crono_runner.bat";
@@ -109,7 +109,7 @@ bool Util::CreateCronoRunnerBatFile(QString gameExePath, QString gameExe)
 }
 
 // Check if game is running
-bool Util::IsProcessRunning(const QString &processName)
+bool Util::isProcessRunning(const QString &processName)
 {
     QProcess process;
 #ifdef Q_OS_WIN
@@ -126,7 +126,7 @@ bool Util::IsProcessRunning(const QString &processName)
     return outputStr.contains(processName, Qt::CaseInsensitive);
 }
 
-size_t Util::WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
+size_t Util::writeCallback(char *contents, size_t size, size_t nmemb, void *userp)
 {
     ((std::string *)userp)->append((char *)contents, size * nmemb);
     return size * nmemb;
@@ -139,7 +139,7 @@ size_t WriteCall(char *contents, size_t size, size_t nmemb, void *userp)
 }
 
 // Checks internet connection making a ping to google.com
-bool Util::CheckInternetConn()
+bool Util::checkInternetConn()
 {
     QTcpSocket *sock = new QTcpSocket();
     sock->connectToHost("www.google.com", 80);
@@ -154,9 +154,9 @@ bool Util::CheckInternetConn()
     return true;
 }
 
-QString Util::GetGameImage(QString gameName)
+QString Util::getGameImage(QString gameName)
 {
-    QVector<QString> splitWords = Util::RemoveDupWord(gameName.toStdString());
+    QVector<QString> splitWords = Util::removeDupWord(gameName.toStdString());
 
     // build a string by sequentially adding data to it.
     std::stringstream ss;

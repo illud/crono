@@ -53,7 +53,7 @@ void HowLongTobeat::on_btnSearch_clicked()
 {
     Util util;
 
-    QVector<QString> splitWords = util.RemoveDupWord(ui->searchBox->text().toStdString());
+    QVector<QString> splitWords = util.removeDupWord(ui->searchBox->text().toStdString());
 
     // build a string by sequentially adding data to it.
     std::stringstream ss;
@@ -168,13 +168,13 @@ void HowLongTobeat::on_btnSearch_clicked()
         // ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(jsonArray[var].toObject()["game_name"].toString()));
         // ui->tableWidget->item(currentRow, 1)->setTextAlignment(Qt::AlignCenter);
 
-        ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(util.SecondsToTime(jsonArray[var].toObject()["comp_main"].toInt())));
+        ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(util.secondsToTime(jsonArray[var].toObject()["comp_main"].toInt())));
         ui->tableWidget->item(currentRow, 1)->setTextAlignment(Qt::AlignCenter);
 
-        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(util.SecondsToTime(jsonArray[var].toObject()["comp_plus"].toInt())));
+        ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(util.secondsToTime(jsonArray[var].toObject()["comp_plus"].toInt())));
         ui->tableWidget->item(currentRow, 2)->setTextAlignment(Qt::AlignCenter);
 
-        ui->tableWidget->setItem(currentRow, 3, new QTableWidgetItem(util.SecondsToTime(jsonArray[var].toObject()["comp_100"].toInt())));
+        ui->tableWidget->setItem(currentRow, 3, new QTableWidgetItem(util.secondsToTime(jsonArray[var].toObject()["comp_100"].toInt())));
         ui->tableWidget->item(currentRow, 3)->setTextAlignment(Qt::AlignCenter);
 
         currentRow = currentRow + 1;

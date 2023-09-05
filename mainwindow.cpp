@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     delete db;
 
     // Get games and start of the app
-    GetGame(true);
+    getGame(true);
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // Disable the vertical header (row index counter)
@@ -68,13 +68,13 @@ MainWindow::MainWindow(QWidget *parent)
     menu->addAction(actionEdit);
 
     connect(actionEdit, &QAction::triggered, [=]()
-            { MainWindow::UpdateGame(gameIdValue, gameNameValue, gameExePathValue); });
+            { MainWindow::updateGame(gameIdValue, gameNameValue, gameExePathValue); });
 
     QAction *actionDelete = new QAction("Delete", this);
     menu->addAction(actionDelete);
 
     connect(actionDelete, &QAction::triggered, [=]()
-            { MainWindow::DeleteGame(gameIdValue, gameNameValue); });
+            { MainWindow::deleteGame(gameIdValue, gameNameValue); });
 
     ui->toolButton->setMenu(menu);
     ui->toolButton->setPopupMode(QToolButton::InstantPopup);
@@ -93,7 +93,7 @@ void MainWindow::on_addGameBtn_clicked()
 {
     NewGame *newGame = new NewGame(this);
 
-    connect(newGame, &NewGame::gameAdded, this, &MainWindow::AddedGame);
+    connect(newGame, &NewGame::gameAdded, this, &MainWindow::addedGame);
 
     newGame->show();
 }
@@ -104,28 +104,28 @@ size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
     return size * nmemb;
 }
 
-void MainWindow::AddedGame(const QString &gameName, const QString &gameExePath)
+void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
 {
     Util util;
 
     static const QString path = "crono.db";
 
     // Get image url
-    QString imageUrl = util.GetGameImage(gameName);
+    QString imageUrl = util.getGameImage(gameName);
 
     // Instance db conn
     DbManager *db = new DbManager(path);
 
     // Inser into games table
-    db->insertGame(imageUrl, gameName, util.RemoveDataFromLasBackSlash(gameExePath), util.FindLastBackSlashWord(gameExePath.toStdString()));
+    db->insertGame(imageUrl, gameName, util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()));
 
     delete db;
 
     // Get games and start of the app
-    GetGame(true);
+    getGame(true);
 }
 
-void MainWindow::GetGame(bool goToGamesPage)
+void MainWindow::getGame(bool goToGamesPage)
 {
     static const QString path = "crono.db";
 
@@ -248,7 +248,7 @@ void MainWindow::GetGame(bool goToGamesPage)
             DbManager::Games gameData = gameDataVariant.value<DbManager::Games>();
 
             // Perform the custom action using the retrieved game data
-            GoToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
+            goToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
         } });
 
     if (goToGamesPage)
@@ -258,7 +258,7 @@ void MainWindow::GetGame(bool goToGamesPage)
     }
 }
 
-void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe)
+void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QString gameExe)
 {
     gameNameValue = gameName;
     gameIdValue = gameId;
@@ -274,23 +274,23 @@ void MainWindow::GoToGame(QString gameName, int gameId, QString gameExePath, QSt
 
     Util util;
     // Set total time played
-    ui->timePlayedText->setText(util.SecondsToTime(gamesResult[0].timePlayed));
+    ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
 
     ui->gameNameText->setText(gameName.toUpper());
 
     // Gets time played filter by game id
     int timePlayedResult = db->totalPlayTime(gameId);
-    ui->timePlayedText->setText(util.SecondsToTime(timePlayedResult));
+    ui->timePlayedText->setText(util.secondsToTime(timePlayedResult));
 
     // Gets time played this week filter by game id
     int timePlayedWekkResult = db->totalPlayTimeThisWeek(gameId);
-    ui->timePlayedThisWeek->setText(util.SecondsToTime(timePlayedWekkResult));
+    ui->timePlayedThisWeek->setText(util.secondsToTime(timePlayedWekkResult));
 
     // Set lst time played for specific game
     ui->lastTimePlayedText->setText(gamesResult[0].updatedAt);
 
     // Set total time played today for specific game
-    ui->timePlayedTodayText->setText(util.SecondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+    ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
     delete db;
 
@@ -352,10 +352,10 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
     QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
 
     // Set total time played
-    ui->timePlayedText->setText(util.SecondsToTime(gamesResult[0].timePlayed));
+    ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
 
     // Set total time played today for specific game
-    ui->timePlayedTodayText->setText(util.SecondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+    ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
     ui->stackedWidget->setCurrentIndex(2);
 
@@ -363,7 +363,7 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
     ui->gameNameText->setText(gameName.toUpper());
 
     // Create or update crono_runner.bat
-    bool fileCration = util.CreateCronoRunnerBatFile(gameExePath, gameExe);
+    bool fileCration = util.createCronoRunnerBatFile(gameExePath, gameExe);
 
     if (fileCration)
     {
@@ -428,19 +428,19 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
     DbManager *db = new DbManager(path);
 
     Util util;
-    if (util.IsProcessRunning(processNameToCheck))
+    if (util.isProcessRunning(processNameToCheck))
     {
         QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
         // qDebug() << gamesResult[0].gameName;
 
         // Set total time played
-        ui->timePlayedText->setText(util.SecondsToTime(gamesResult[0].timePlayed));
+        ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
 
         // Set total time played today for specific game
-        ui->timePlayedTodayText->setText(util.SecondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+        ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
         // Gets time played this week filter by game id
-        ui->timePlayedThisWeek->setText(util.SecondsToTime(db->totalPlayTimeThisWeek(gamesResult[0].id)));
+        ui->timePlayedThisWeek->setText(util.secondsToTime(db->totalPlayTimeThisWeek(gamesResult[0].id)));
 
         // Adds 30 seconds to timePlayed
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
@@ -583,13 +583,13 @@ void MainWindow::on_maxBtn_clicked()
     {
         this->showNormal(); // Restore the window to its normal size
         numCols = 4;        // Sets row to 4 when minimized
-        GetGame(false);     // Refresh data
+        getGame(false);     // Refresh data
     }
     else
     {
         this->showMaximized(); // Maximize the window
         numCols = 8;           // Sets row to 8 when Maximize
-        GetGame(false);        // Refresh data
+        getGame(false);        // Refresh data
     }
 }
 
@@ -683,9 +683,9 @@ void MainWindow::on_statsBtn_clicked()
 {
     Stats receiver;
 
-    connect(this, &MainWindow::RefreshStats, &receiver, &Stats::RefreshStats);
+    connect(this, &MainWindow::refreshStats, &receiver, &Stats::refreshStats);
 
-    emit RefreshStats();
+    emit refreshStats();
 
     ui->btnGames->setStyleSheet("QPushButton {"
                                 " text-align: left;"
@@ -832,7 +832,7 @@ void MainWindow::on_btnBack_clicked()
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-void MainWindow::DeleteGame(int gameId, QString gameName)
+void MainWindow::deleteGame(int gameId, QString gameName)
 {
     qDebug() << gameId;
 
@@ -905,14 +905,14 @@ void MainWindow::DeleteGame(int gameId, QString gameName)
         // Instance db conn
         DbManager *db = new DbManager(path);
 
-        bool deleteGameResult = db->DeleteGame(gameId);
+        bool deleteGameResult = db->deleteGame(gameId);
 
         if (!deleteGameResult)
         {
             qDebug() << "Error deleting game";
         }
 
-        bool deleteGameHistoricalResult = db->DeleteGameHistorical(gameId);
+        bool deleteGameHistoricalResult = db->deleteGameHistorical(gameId);
 
         if (!deleteGameHistoricalResult)
         {
@@ -922,7 +922,7 @@ void MainWindow::DeleteGame(int gameId, QString gameName)
         delete db;
 
         // Get games
-        GetGame(true);
+        getGame(true);
     }
     else if (msgBox.clickedButton() == cancelButton)
     {
@@ -930,12 +930,12 @@ void MainWindow::DeleteGame(int gameId, QString gameName)
     }
 }
 
-void MainWindow::UpdateGame(int gameId, QString gameName, QString gameExePath)
+void MainWindow::updateGame(int gameId, QString gameName, QString gameExePath)
 {
     UpdateGameForm *updateForm = new UpdateGameForm(gameId, gameName, gameExePath);
 
-    connect(updateForm, &UpdateGameForm::GameUpdated, this, [this]()
-            { MainWindow::GetGame(true); });
+    connect(updateForm, &UpdateGameForm::gameUpdated, this, [this]()
+            { MainWindow::getGame(true); });
 
     updateForm->show();
     // ui->stackedWidget->setCurrentIndex(0);

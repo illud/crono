@@ -16,27 +16,26 @@ Stats::Stats(QWidget *parent) : QWidget(parent),
     int totalTimePlayed = db->totalTimePlayed();
 
     Util util;
-    QString totalTimePlayedString = util.SecondsToTime(totalTimePlayed);
+    QString totalTimePlayedString = util.secondsToTime(totalTimePlayed);
 
     ui->totalTimePlayedText->setText(totalTimePlayedString);
 
     DbManager::MostPlayGame mostPlayedGameResult = db->mostPlayedGame();
 
-    ui->mostPlayedGameText->setText(util.SecondsToTime(mostPlayedGameResult.timePlayed));
+    ui->mostPlayedGameText->setText(util.secondsToTime(mostPlayedGameResult.timePlayed));
     ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( " + mostPlayedGameResult.gameName + " )");
 
     int timePlayedToday = db->totalTimePlayedToday();
-    ui->timePlayedTodayText->setText(util.SecondsToTime(timePlayedToday));
+    ui->timePlayedTodayText->setText(util.secondsToTime(timePlayedToday));
 
-    int timePlayedForTheLastWeek = db->TimePlayedFilter(7);
-    ui->timePlayedThisWeek->setText(util.SecondsToTime(timePlayedForTheLastWeek));
+    int timePlayedForTheLastWeek = db->timePlayedFilter(7);
+    ui->timePlayedThisWeek->setText(util.secondsToTime(timePlayedForTheLastWeek));
 
-    int timePlayedForTheLastMonth = db->TimePlayedFilter(30);
-    ui->timePlayedThisMonth->setText(util.SecondsToTime(timePlayedForTheLastMonth));
+    int timePlayedForTheLastMonth = db->timePlayedFilter(30);
+    ui->timePlayedThisMonth->setText(util.secondsToTime(timePlayedForTheLastMonth));
 
-    int timePlayedForTheLastYear = db->TimePlayedFilter(365);
-    ui->timePlayedThForTheLastYear->setText(util.SecondsToTime(timePlayedForTheLastYear));
-
+    int timePlayedForTheLastYear = db->timePlayedFilter(365);
+    ui->timePlayedThForTheLastYear->setText(util.secondsToTime(timePlayedForTheLastYear));
 
     delete db;
 }
@@ -46,7 +45,7 @@ Stats::~Stats()
     delete ui;
 }
 
-void Stats::RefreshStats()
+void Stats::refreshStats()
 {
     static const QString path = "crono.db";
 
@@ -55,33 +54,33 @@ void Stats::RefreshStats()
 
     Util util;
 
-    QString totalTimePlayedString = util.SecondsToTime(db->totalTimePlayed());
+    QString totalTimePlayedString = util.secondsToTime(db->totalTimePlayed());
 
     ui->totalTimePlayedText->setText(totalTimePlayedString);
 
     DbManager::MostPlayGame mostPlayedGameResult = db->mostPlayedGame();
 
-    ui->mostPlayedGameText->setText(util.SecondsToTime(mostPlayedGameResult.timePlayed));
+    ui->mostPlayedGameText->setText(util.secondsToTime(mostPlayedGameResult.timePlayed));
     ui->mostPlayedGameTitle->setText("MOST PLAYED GAME( " + mostPlayedGameResult.gameName + " )");
 
     int timePlayedToday = db->totalTimePlayedToday();
-    ui->timePlayedTodayText->setText(util.SecondsToTime(timePlayedToday));
+    ui->timePlayedTodayText->setText(util.secondsToTime(timePlayedToday));
 
-    int timePlayedForTheLastWeek = db->TimePlayedFilter(7);
-    ui->timePlayedThisWeek->setText(util.SecondsToTime(timePlayedForTheLastWeek));
+    int timePlayedForTheLastWeek = db->timePlayedFilter(7);
+    ui->timePlayedThisWeek->setText(util.secondsToTime(timePlayedForTheLastWeek));
 
-    int timePlayedForTheLastMonth = db->TimePlayedFilter(30);
-    ui->timePlayedThisMonth->setText(util.SecondsToTime(timePlayedForTheLastMonth));
+    int timePlayedForTheLastMonth = db->timePlayedFilter(30);
+    ui->timePlayedThisMonth->setText(util.secondsToTime(timePlayedForTheLastMonth));
 
-    int timePlayedForTheLastYear = db->TimePlayedFilter(365);
-    ui->timePlayedThForTheLastYear->setText(util.SecondsToTime(timePlayedForTheLastYear));
+    int timePlayedForTheLastYear = db->timePlayedFilter(365);
+    ui->timePlayedThForTheLastYear->setText(util.secondsToTime(timePlayedForTheLastYear));
 
-    qDebug() << util.SecondsToTime(db->totalTimePlayed());
+    qDebug() << util.secondsToTime(db->totalTimePlayed());
 
     delete db;
 }
 
 void Stats::on_btnReload_clicked()
 {
-    Stats::RefreshStats();
+    Stats::refreshStats();
 }

@@ -92,7 +92,7 @@ public:
     QVector<Games> getGameById(int gameId);
 
     bool insertGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe);
-    bool UpdateGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe, const int &gameId);
+    bool updateGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe, const int &gameId);
     bool updateTimePlayed(int gameId, int timePlayed);
     bool updateGameRunning(int gameId, bool running);
     void updateAllGameRunning();
@@ -106,9 +106,9 @@ public:
     void updateGameHistoricalTimePlayed(int gameHistoricalId, int timePlayed);
     MostPlayGame mostPlayedGame();
     int totalTimePlayedToday();
-    bool DeleteGame(int gameId);
-    bool DeleteGameHistorical(int gameId);
-    int TimePlayedFilter(int days);
+    bool deleteGame(int gameId);
+    bool deleteGameHistorical(int gameId);
+    int timePlayedFilter(int days);
 };
 
 #endif // DBMANAGER_H

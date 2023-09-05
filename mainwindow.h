@@ -27,8 +27,8 @@ public:
 
 private slots:
     void on_addGameBtn_clicked();
-    void AddedGame(const QString &gameName, const QString &gameExePath);
-    void GetGame(bool goToGamesPage);
+    void addedGame(const QString &gameName, const QString &gameExePath);
+    void getGame(bool goToGamesPage);
     void on_btnPlay_clicked(QString gameName, int gameId, QString gameExePath, QString gameExe);
     void checkRunningGame(int gameId, QString gameName);
     void on_btnClose_clicked();
@@ -36,11 +36,11 @@ private slots:
     void on_maxBtn_clicked();
     void on_btnGames_clicked();
     void on_btnBack_clicked();
-    void GoToGame(QString gameName, int gameId, QString gameExePath, QString gameExe);
+    void goToGame(QString gameName, int gameId, QString gameExePath, QString gameExe);
     void on_btnStartGame_clicked();
-    void DeleteGame(int gameId, QString gameName);
+    void deleteGame(int gameId, QString gameName);
     void on_btnHltb_clicked();
-    void UpdateGame(int gameId, QString gameName, QString gameExeLocation);
+    void updateGame(int gameId, QString gameName, QString gameExeLocation);
 
     void on_radioBtnTimeIndicator_clicked();
 
@@ -48,7 +48,7 @@ public slots:
     void on_statsBtn_clicked();
 
 signals:
-    void RefreshStats();
+    void refreshStats();
 
 protected:
     void mousePressEvent(QMouseEvent *event);

@@ -26,7 +26,7 @@ private slots:
     void on_closeBtn_clicked();
 
 signals:
-    void GameUpdated();
+    void gameUpdated();
 
 private:
     Ui::UpdateGameForm *ui;

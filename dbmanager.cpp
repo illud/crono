@@ -87,7 +87,7 @@ bool DbManager::insertGame(const QString gameImage, const QString &gameName, con
     return success;
 }
 
-bool DbManager::UpdateGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe, const int &gameId)
+bool DbManager::updateGame(const QString gameImage, const QString &gameName, const QString &gameExePath, const QString &gameExe, const int &gameId)
 {
     bool success = false;
 
@@ -605,7 +605,7 @@ int DbManager::totalTimePlayedToday()
 }
 
 // Gets total play time filter by days
-int DbManager::TimePlayedFilter(int days)
+int DbManager::timePlayedFilter(int days)
 {
 
     QDate currentDate = QDate::currentDate();
@@ -648,7 +648,7 @@ int DbManager::TimePlayedFilter(int days)
     return totalTimePlayedResult;
 }
 
-bool DbManager::DeleteGame(int gameId)
+bool DbManager::deleteGame(int gameId)
 {
 
     QSqlQuery query;
@@ -671,7 +671,7 @@ bool DbManager::DeleteGame(int gameId)
     return false;
 }
 
-bool DbManager::DeleteGameHistorical(int gameId)
+bool DbManager::deleteGameHistorical(int gameId)
 {
 
     QSqlQuery query;

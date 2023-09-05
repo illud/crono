@@ -77,17 +77,17 @@ void UpdateGameForm::on_updateBtn_clicked()
         static const QString path = "crono.db";
 
         // Get image url
-        QString imageUrl = util.GetGameImage(ui->gameName->text());
+        QString imageUrl = util.getGameImage(ui->gameName->text());
 
         // Instance db conn
         DbManager *db = new DbManager(path);
 
         // Inser into games table
-        db->UpdateGame(imageUrl, ui->gameName->text(), util.RemoveDataFromLasBackSlash(gameExePath), util.FindLastBackSlashWord(gameExePath.toStdString()), gameId);
+        db->updateGame(imageUrl, ui->gameName->text(), util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()), gameId);
 
         delete db;
 
-        emit GameUpdated();
+        emit gameUpdated();
 
         this->close();
         this->deleteLater();
