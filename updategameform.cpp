@@ -72,18 +72,18 @@ void UpdateGameForm::on_updateBtn_clicked()
         // Replace forward slashes with backslashes
         gameExePath.replace("/", "\\");
 
-        Util util;
+        Util *util = new Util();
 
         static const QString path = "crono.db";
 
         // Get image url
-        QString imageUrl = util.getGameImage(ui->gameName->text());
+        QString imageUrl = util->getGameImage(ui->gameName->text());
 
         // Instance db conn
         DbManager *db = new DbManager(path);
 
         // Inser into games table
-        db->updateGame(imageUrl, ui->gameName->text(), util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()), gameId);
+        db->updateGame(imageUrl, ui->gameName->text(), util->removeDataFromLasBackSlash(gameExePath), util->findLastBackSlashWord(gameExePath.toStdString()), gameId);
 
         delete db;
 

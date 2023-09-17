@@ -1,5 +1,7 @@
 #include "util.h"
 #include "qdebug.h"
+#include "qeventloop.h"
+#include "qnetworkreply.h"
 #include "qtcpsocket.h"
 #include <sstream>
 #include <QProcess>
@@ -11,6 +13,11 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QVector>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QHttpMultiPart>
+#include <QObject>
 
 Util::Util()
 {
@@ -158,6 +165,83 @@ QString Util::getGameImage(QString gameName)
 {
     QVector<QString> splitWords = Util::removeDupWord(gameName.toStdString());
 
+    // Build a JSON array of search terms
+    QJsonArray searchTermsArray;
+    for (const QString &word : splitWords)
+    {
+        searchTermsArray.append(word);
+    }
+    QJsonObject searchObject;
+    searchObject["searchType"] = "games";
+    searchObject["searchTerms"] = searchTermsArray;
+    searchObject["searchPage"] = 1;
+    searchObject["size"] = 20;
+    QJsonObject searchOptionsObject;
+    QJsonObject gamesObject;
+    gamesObject["userId"] = 0;
+    gamesObject["platform"] = "";
+    gamesObject["sortCategory"] = "popular";
+    gamesObject["rangeCategory"] = "main";
+    QJsonObject rangeTimeObject;
+    rangeTimeObject["min"] = 0;
+    rangeTimeObject["max"] = 0;
+    gamesObject["rangeTime"] = rangeTimeObject;
+    QJsonObject gameplayObject;
+    gameplayObject["perspective"] = "";
+    gameplayObject["flow"] = "";
+    gameplayObject["genre"] = "";
+    gamesObject["gameplay"] = gameplayObject;
+    gamesObject["modifier"] = "";
+    searchOptionsObject["games"] = gamesObject;
+    QJsonObject usersObject;
+    usersObject["sortCategory"] = "postcount";
+    searchOptionsObject["users"] = usersObject;
+    searchObject["searchOptions"] = searchOptionsObject;
+    searchObject["filter"] = "";
+    searchObject["sort"] = 0;
+    searchObject["randomizer"] = 0;
+    QJsonDocument jsonDocument(searchObject);
+    QString jsonstr = QString(jsonDocument.toJson(QJsonDocument::Compact));
+
+    QNetworkAccessManager manager;
+    QNetworkRequest request(QUrl("https://www.howlongtobeat.com/api/search"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Accept", "*/*");
+    request.setRawHeader("Origin", "https://howlongtobeat.com");
+    request.setRawHeader("Referer", "https://howlongtobeat.com");
+    request.setRawHeader("User-Agent", "Mozilla/4.0 (Windows 7 6.1) Java/1.7.0_51");
+
+    QByteArray postData = jsonstr.toUtf8();
+    QNetworkReply *reply = manager.post(request, postData);
+    QEventLoop loop;
+    connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    QString imageUrl = "";
+
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray responseData = reply->readAll();
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
+        QJsonArray jsonArray = jsonResponse["data"].toArray();
+        if (jsonArray.count() > 0)
+        {
+            imageUrl = "https://howlongtobeat.com/games/" + jsonArray[0].toObject()["game_image"].toString();
+        }
+    }
+    else
+    {
+        qDebug() << "Error: " << reply->errorString();
+    }
+
+    reply->deleteLater();
+    return imageUrl;
+}
+
+/*QString Util::getGameImage(QString gameName)
+{
+    QVector<QString> splitWords = Util::removeDupWord(gameName.toStdString());
+
     // build a string by sequentially adding data to it.
     std::stringstream ss;
 
@@ -181,29 +265,29 @@ QString Util::getGameImage(QString gameName)
     std::string jsonstr = "{\"searchType\": \"games\",\"searchTerms\": [" + searchTerms + "],\"searchPage\": 1,\"size\": 20,\"searchOptions\": { \"games\": {\"userId\": 0,\"platform\": \"\",\"sortCategory\": \"popular\",\"rangeCategory\": \"main\",\"rangeTime\": { \"min\": 0, \"max\": 0},\"gameplay\": { \"perspective\": \"\", \"flow\": \"\", \"genre\": \"\"},\"modifier\": \"\" }, \"users\": {\"sortCategory\": \"postcount\" }, \"filter\": \"\", \"sort\": 0, \"randomizer\": 0} }";
     // qDebug() << jsonstr;
 
-    /* In windows, this will init the winsock stuff */
+    // In windows, this will init the winsock stuff
     curl_global_init(CURL_GLOBAL_ALL);
 
-    /* get a curl handle */
+    // get a curl handle
     curl = curl_easy_init();
     if (curl)
     {
 
         header = NULL;
         header = curl_slist_append(header, "Content-Type: application/json");
-        header = curl_slist_append(header, "Accept: */*");
+        header = curl_slist_append(header, "Accept: **");
         header = curl_slist_append(header, "Origin: https://howlongtobeat.com");
         header = curl_slist_append(header, "Referer: https://howlongtobeat.com");
         header = curl_slist_append(header, "User-Agent: Mozilla/4.0 (Windows 7 6.1) Java/1.7.0_51");
 
-        /* First set the URL that is about to receive our POST. This URL can
-       just as well be an https:// URL if that is what should receive the
-       data. */
+        // First set the URL that is about to receive our POST. This URL can
+       //just as well be an https:// URL if that is what should receive the
+      // data.
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_easy_setopt(curl, CURLOPT_URL, "https://www.howlongtobeat.com/api/search");
 
-        /* Now specify the POST data */
+        // Now specify the POST data
         // curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);
 
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonstr.c_str());
@@ -213,15 +297,15 @@ QString Util::getGameImage(QString gameName)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCall);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
 
-        /* Perform the request, res will get the return code */
+        // Perform the request, res will get the return code
         res = curl_easy_perform(curl);
-        /* Check for errors */
+        // Check for errors
         if (res == CURLE_OK)
             qDebug() << "Good";
         else
             qDebug() << curl_easy_strerror((CURLcode)res);
 
-        /* always cleanup */
+        // always cleanup
         curl_easy_cleanup(curl);
     }
     curl_global_cleanup();
@@ -238,5 +322,5 @@ QString Util::getGameImage(QString gameName)
     {
         imageUrl = "https://howlongtobeat.com/games/" + jsonArray[0].toObject()["game_image"].toString();
     }
-    return imageUrl;
-}
+     return imageUrl;
+}*/

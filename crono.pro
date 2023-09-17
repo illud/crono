@@ -19,11 +19,11 @@ SOURCES += \
     util.cpp
 
 # Add libcurl lib
-LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.a
-LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.dll.a
+# LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.a
+# LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.dll.a
 
 # Include libcurl include folder
-INCLUDEPATH += C:\Qt\6.5.1\mingw_64\include
+# INCLUDEPATH += C:\Qt\6.5.1\mingw_64\include
 
 HEADERS += \
     ImageUtil.h \

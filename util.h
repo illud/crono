@@ -3,8 +3,10 @@
 
 #include <QObject>
 
-class Util
+class Util : public QObject
 {
+
+    Q_OBJECT
 
 public:
     Util();

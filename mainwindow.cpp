@@ -106,18 +106,18 @@ size_t WriteCallback(char *contents, size_t size, size_t nmemb, void *userp)
 
 void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
 {
-    Util util;
+    Util *util = new Util();
 
     static const QString path = "crono.db";
 
     // Get image url
-    QString imageUrl = util.getGameImage(gameName);
+    QString imageUrl = util->getGameImage(gameName);
 
     // Instance db conn
     DbManager *db = new DbManager(path);
 
     // Inser into games table
-    db->insertGame(imageUrl, gameName, util.removeDataFromLasBackSlash(gameExePath), util.findLastBackSlashWord(gameExePath.toStdString()));
+    db->insertGame(imageUrl, gameName, util->removeDataFromLasBackSlash(gameExePath), util->findLastBackSlashWord(gameExePath.toStdString()));
 
     delete db;
 
@@ -272,25 +272,25 @@ void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QSt
 
     QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
 
-    Util util;
+    Util *util = new Util();
     // Set total time played
-    ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
+    ui->timePlayedText->setText(util->secondsToTime(gamesResult[0].timePlayed));
 
     ui->gameNameText->setText(gameName.toUpper());
 
     // Gets time played filter by game id
     int timePlayedResult = db->totalPlayTime(gameId);
-    ui->timePlayedText->setText(util.secondsToTime(timePlayedResult));
+    ui->timePlayedText->setText(util->secondsToTime(timePlayedResult));
 
     // Gets time played this week filter by game id
     int timePlayedWekkResult = db->totalPlayTimeThisWeek(gameId);
-    ui->timePlayedThisWeek->setText(util.secondsToTime(timePlayedWekkResult));
+    ui->timePlayedThisWeek->setText(util->secondsToTime(timePlayedWekkResult));
 
     // Set lst time played for specific game
     ui->lastTimePlayedText->setText(gamesResult[0].updatedAt);
 
     // Set total time played today for specific game
-    ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+    ui->timePlayedTodayText->setText(util->secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
     delete db;
 
@@ -347,15 +347,15 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
                                     "    border: 0px;"
                                     "}");
 
-    Util util;
+    Util *util = new Util();
 
     QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
 
     // Set total time played
-    ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
+    ui->timePlayedText->setText(util->secondsToTime(gamesResult[0].timePlayed));
 
     // Set total time played today for specific game
-    ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+    ui->timePlayedTodayText->setText(util->secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
     ui->stackedWidget->setCurrentIndex(2);
 
@@ -363,7 +363,7 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
     ui->gameNameText->setText(gameName.toUpper());
 
     // Create or update crono_runner.bat
-    bool fileCration = util.createCronoRunnerBatFile(gameExePath, gameExe);
+    bool fileCration = util->createCronoRunnerBatFile(gameExePath, gameExe);
 
     if (fileCration)
     {
@@ -427,20 +427,20 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
     // Instance db conn
     DbManager *db = new DbManager(path);
 
-    Util util;
-    if (util.isProcessRunning(processNameToCheck))
+    Util *util = new Util();
+    if (util->isProcessRunning(processNameToCheck))
     {
         QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
         // qDebug() << gamesResult[0].gameName;
 
         // Set total time played
-        ui->timePlayedText->setText(util.secondsToTime(gamesResult[0].timePlayed));
+        ui->timePlayedText->setText(util->secondsToTime(gamesResult[0].timePlayed));
 
         // Set total time played today for specific game
-        ui->timePlayedTodayText->setText(util.secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
+        ui->timePlayedTodayText->setText(util->secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
         // Gets time played this week filter by game id
-        ui->timePlayedThisWeek->setText(util.secondsToTime(db->totalPlayTimeThisWeek(gamesResult[0].id)));
+        ui->timePlayedThisWeek->setText(util->secondsToTime(db->totalPlayTimeThisWeek(gamesResult[0].id)));
 
         // Adds 30 seconds to timePlayed
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);

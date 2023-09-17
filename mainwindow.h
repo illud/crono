@@ -46,6 +46,11 @@ private slots:
 
 public slots:
     void on_statsBtn_clicked();
+    void handleImageUrl(const QString &imageUrl)
+    {
+        // Handle the imageUrl here
+        qDebug() << "Received imageUrl:" << imageUrl;
+    }
 
 signals:
     void refreshStats();
