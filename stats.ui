@@ -27,7 +27,7 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>100</width>
+       <width>25</width>
        <height>25</height>
       </size>
      </property>
@@ -36,32 +36,37 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#btnReload { 
+	border-image: url(:/reload.png) strecth ;
+    background-repeat: no-repeat;
+	background-size: 20px 20px;
     background-color:  transparent;
-	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 1px;
-	border-color: rgb(255, 255, 255);
-	border-style: outset;
-border-radius: 10px;
+ 	width: 30px;
+    height: 30px;
+
+	/*font: 900 9pt &quot;Arial Black&quot;;*/
+	/*color: rgb(255, 255, 255);*/
+    /*border: 1px;*/
+	/*border-color: rgb(255, 255, 255);*/
+	/*border-style: outset;*/
+	/*border-radius: 10px;*/
 }
 
 QPushButton#btnReload:hover{ 
-    background-color: rgb(252, 196, 25);
+   /* background-color: rgb(252, 196, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
-    border: 0px;
+    border: 0px;*/
 }
 
 QPushButton#btnReload::focus:pressed{ 
-	background-color: rgb(252, 72, 25);
+	 /*background-color: rgb(252, 72, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 0px;
+	color: rgb(255, 255, 255);*/
 }
 </string>
      </property>
      <property name="text">
-      <string>RELOAD</string>
+      <string/>
      </property>
     </widget>
    </item>
@@ -82,7 +87,7 @@ QPushButton#btnReload::focus:pressed{
     </spacer>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,50" columnminimumwidth="0,0">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0" columnminimumwidth="0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>

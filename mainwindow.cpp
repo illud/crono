@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableWidget->setShowGrid(false);
 
-    ui->tableWidget->setVerticalScrollMode(QTableWidget::ScrollPerPixel);
+    ui->tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     QMenu *menu = new QMenu();
 

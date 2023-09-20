@@ -3,5 +3,8 @@
         <file>crono_icon.ico</file>
         <file>config.png</file>
         <file>item.png</file>
+        <file>back.png</file>
+        <file>reload.png</file>
+        <file>add.png</file>
     </qresource>
 </RCC>

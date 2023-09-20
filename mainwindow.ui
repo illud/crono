@@ -538,7 +538,7 @@ background-color: rgba(255, 255, 255,0);</string>
               </property>
               <property name="minimumSize">
                <size>
-                <width>100</width>
+                <width>25</width>
                 <height>25</height>
                </size>
               </property>
@@ -547,32 +547,39 @@ background-color: rgba(255, 255, 255,0);</string>
               </property>
               <property name="styleSheet">
                <string notr="true">QPushButton#addGameBtn { 
+	border-image: url(:/add.png) strecth ;
+    background-repeat: no-repeat;
+	background-size: 25px 25px;
     background-color:  transparent;
+ 	width: 35px;
+    height: 35px;
+
+    /*background-color:  transparent;
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 1px;
 	border-color: rgb(255, 255, 255);
 	border-style: outset;
-border-radius: 10px;
+border-radius: 10px;*/
 }
 
 QPushButton#addGameBtn:hover{ 
-    background-color: rgb(252, 196, 25);
+   /* background-color: rgb(252, 196, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
-    border: 0px;
+    border: 0px;*/
 }
 
 QPushButton#addGameBtn::focus:pressed{ 
-	background-color: rgb(252, 72, 25);
+	/*background-color: rgb(252, 72, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
-    border: 0px;
+    border: 0px;*/
 }
 </string>
               </property>
               <property name="text">
-               <string>ADD</string>
+               <string/>
               </property>
               <property name="flat">
                <bool>true</bool>
@@ -635,6 +642,7 @@ border: none;
 
 }
 */
+QTableWidget::item { margin-bottom: 222; }
 QTableWidget::item:focus { border: none; }
 QTableWidget::item:hover { width: 24px; }
 /* VERTICAL SCROLLBAR */
@@ -751,6 +759,12 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
             <property name="autoScrollMargin">
              <number>16</number>
             </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectItems</enum>
+            </property>
+            <property name="textElideMode">
+             <enum>Qt::ElideMiddle</enum>
+            </property>
             <property name="verticalScrollMode">
              <enum>QAbstractItemView::ScrollPerPixel</enum>
             </property>
@@ -842,7 +856,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
             <property name="styleSheet">
              <string notr="true">QToolButton { 
 	background-image: url(:/config.png);
-background-color: transparent;
+    background-color: transparent;
 	/*	background-color: rgb(255, 92, 92);*/
 
 	font: 900 9pt &quot;Arial Black&quot;;
@@ -930,54 +944,6 @@ QToolButton::menu-indicator{width:0px;}</string>
              </size>
             </property>
            </spacer>
-          </item>
-          <item row="0" column="0" colspan="2">
-           <widget class="QPushButton" name="btnBack">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton { 
-	background-color: transparent;
-	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 1px;
-	border-color: rgb(255, 255, 255);
-	border-style: outset;
-border-radius: 10px;
-}
-
-QPushButton:hover{ 
-    background-color: rgb(252, 196, 25);
-	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 0px;
-}
-
-QPushButton::focus:pressed{ 
-	background-color: rgb(252, 72, 25);
-	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 0px;
-}
-</string>
-            </property>
-            <property name="text">
-             <string>Back</string>
-            </property>
-           </widget>
           </item>
           <item row="6" column="0" colspan="5">
            <layout class="QGridLayout" name="gridLayout_6" rowstretch="0,0,0">
@@ -1348,6 +1314,61 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
             </property>
             <property name="indent">
              <number>-1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QPushButton" name="btnBack">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton { 
+	border-image: url(:/back.png) strecth ;
+    background-repeat: no-repeat;
+	background-size: 25px 25px;
+    background-color:  transparent;
+ 	width: 35px;
+    height: 40px;
+
+	/*background-color: transparent;
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 1px;
+	border-color: rgb(255, 255, 255);
+	border-style: outset;
+border-radius: 10px;*/
+}
+
+QPushButton:hover{ 
+   /* background-color: rgb(252, 196, 25);
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 0px;*/
+}
+
+QPushButton::focus:pressed{ 
+	/*background-color: rgb(252, 72, 25);
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 0px;*/
+}
+</string>
+            </property>
+            <property name="text">
+             <string/>
             </property>
            </widget>
           </item>
