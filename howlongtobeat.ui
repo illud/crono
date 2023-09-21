@@ -16,20 +16,20 @@
   <property name="styleSheet">
    <string notr="true">background-color: rgb(33, 33, 33);</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QLabel" name="label_2">
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label">
      <property name="styleSheet">
-      <string notr="true">font: 900 7pt &quot;Arial Black&quot;;
+      <string notr="true">font: 900 8pt &quot;Arial Black&quot;;
 background-color: transparent;
 color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>GAME NAME</string>
+      <string>Hours data obtained from HowLongToBeat.</string>
      </property>
     </widget>
    </item>
-   <item>
+   <item row="1" column="0">
     <widget class="QLineEdit" name="searchBox">
      <property name="minimumSize">
       <size>
@@ -48,25 +48,36 @@ border-radius: 0px;</string>
      </property>
     </widget>
    </item>
-   <item>
-    <widget class="QLabel" name="label">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_2">
      <property name="styleSheet">
-      <string notr="true">font: 900 8pt &quot;Arial Black&quot;;
+      <string notr="true">font: 900 7pt &quot;Arial Black&quot;;
 background-color: transparent;
 color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
-      <string>Hours data obtained from HowLongToBeat.</string>
+      <string>GAME NAME</string>
      </property>
     </widget>
    </item>
-   <item>
+   <item row="1" column="1">
     <widget class="QPushButton" name="btnSearch">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
-       <width>0</width>
-       <height>30</height>
+       <width>35</width>
+       <height>35</height>
       </size>
+     </property>
+     <property name="font">
+      <font>
+       <stylestrategy>PreferDefault</stylestrategy>
+      </font>
      </property>
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
@@ -74,46 +85,81 @@ color: rgb(255, 255, 255);</string>
      <property name="styleSheet">
       <string notr="true">QPushButton#btnSearch { 
 	background-color: transparent;
+	/*border-image: url(:/search.png) stretch;
+    background-repeat: no-repeat;
+	background-size: 19px 19px;
+    background-color:  transparent;
+ 	width: 29px;
+    height: 29px;
+
+	background-color: transparent;
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 1px;
 	border-color: rgb(255, 255, 255);
 	border-style: outset;
-border-radius: 10px;
+border-radius: 10px;*/
 }
 
 QPushButton#btnSearch:hover{ 
-    background-color: rgb(252, 196, 25);
+   /* background-color: rgb(252, 196, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
-    border: 0px;
+    border: 0px;*/
 }
 
 QPushButton#btnSearch::focus:pressed{ 
-	background-color: rgb(252, 72, 25);
+	/*background-color: rgb(252, 72, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
-    border: 0px;
+    border: 0px;*/
 }
 </string>
      </property>
      <property name="text">
-      <string>SEARCH</string>
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normalon>:/search.png</normalon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
      </property>
      <property name="flat">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item>
-    <widget class="QTableWidget" name="tableWidget">
-     <property name="styleSheet">
-      <string notr="true"> QTableWidget {
+   <item row="1" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTableWidget" name="tableWidget">
+       <property name="styleSheet">
+        <string notr="true">QTableWidget {
+	background-color: transparent;
+    border: none;
+    color: #ffffff;
+}
 
-background-color: rgb(22, 22, 22);
-        color: #ffffff;
-        border-radius: 10px;
-    }
+QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
     background-color: rgb(39, 39, 39);
@@ -124,17 +170,21 @@ QHeaderView::section {
 
 QTableCornerButton::section {
 	background-color: rgb(66, 66, 66);
+	border: none;
 }
 
-QTableWidget::item {
-	font: 900 12pt &quot;Arial Black&quot;;
-	border: 0px; 
+/*QTableWidget::item {
+border: none;
 	padding: 5px; 
 	color: #ffffff;
     margin-top: 5px;          
-    border-radius: 9px;
+    border-radius: 0px;
     padding-left: 5px;
+
 }
+*/
+
+QTableWidget::item:focus { border: none; }
 
 /* VERTICAL SCROLLBAR */
  QScrollBar:vertical {
@@ -144,11 +194,11 @@ QTableWidget::item {
     margin: 15px 0 15px 2px;
 	border-radius: 0px;
     margin-right: 4px;
- }
+}
 
 /*  HANDLE BAR VERTICAL */
 QScrollBar::handle:vertical {	
-	background-color: rgb(158, 158, 158);
+	background-color: rgba(158, 158, 158, 90);
 	min-height: 30px;
 	border-radius: 1px;
 }
@@ -203,7 +253,7 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 
 
 
-/* HORIZONTAL SCROLLBAR - HOMEWORK */
+/* HORIZONTAL SCROLLBAR  */
 QScrollBar:horizontal {
    	border: none;
 	background-color: transparent;
@@ -231,40 +281,75 @@ QScrollBar::up-arrow:horizontal, QScrollBar::down-arrow:horizontal
 QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 {
 }</string>
-     </property>
-     <attribute name="horizontalHeaderMinimumSectionSize">
-      <number>35</number>
-     </attribute>
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>210</number>
-     </attribute>
-     <attribute name="verticalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="verticalHeaderDefaultSectionSize">
-      <number>30</number>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>IMAGE</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>MAIN</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>EXTRA</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>COMPLETIONIST</string>
-      </property>
-     </column>
-    </widget>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+       <property name="lineWidth">
+        <number>0</number>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="autoScroll">
+        <bool>true</bool>
+       </property>
+       <property name="autoScrollMargin">
+        <number>16</number>
+       </property>
+       <property name="tabKeyNavigation">
+        <bool>true</bool>
+       </property>
+       <property name="showDropIndicator" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <property name="textElideMode">
+        <enum>Qt::ElideMiddle</enum>
+       </property>
+       <property name="verticalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="horizontalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <attribute name="horizontalHeaderMinimumSectionSize">
+        <number>35</number>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>210</number>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderDefaultSectionSize">
+        <number>30</number>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>IMAGE</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>MAIN</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>EXTRA</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>COMPLETIONIST</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

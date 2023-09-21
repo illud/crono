@@ -27,6 +27,8 @@
 #include <QMessageBox>
 #include "stats.h"
 #include "updategameform.h"
+#include <QPainter>
+#include <QPainterPath>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -149,7 +151,7 @@ void MainWindow::getGame(bool goToGamesPage)
     // ui->tableWidget->setRowCount(gamesResult.count());
 
     // Sets icon size
-    ui->tableWidget->setIconSize(QSize(300, 300));
+    ui->tableWidget->setIconSize(QSize(200, 280));
 
     ui->tableWidget->setColumnCount(numCols);
 
@@ -210,11 +212,35 @@ void MainWindow::getGame(bool goToGamesPage)
                                    // Convert QImage to QPixmap for display
                                    QPixmap pixmap = QPixmap::fromImage(image);
 
-                                   // Create a QTableWidgetItem and set the image as its icon
+                                   // Create a rounded QPixmap
+                                   QPixmap roundedPixmap(pixmap.size());  // Create a QPixmap with the same size as the original pixmap
+                                   roundedPixmap.fill(Qt::transparent);     // Fill the QPixmap with a transparent background
+
+                                   // Create a QPainter to draw on the roundedPixmap
+                                   QPainter painter(&roundedPixmap);
+
+                                   // Enable anti-aliasing for smoother edges
+                                   painter.setRenderHint(QPainter::Antialiasing, true);
+
+                                   // Create a QPainterPath for defining the rounded rectangle shape
+                                   QPainterPath path;
+
+                                   // Add a rounded rectangle to the path
+                                   // The parameters are (x, y, width, height, x-radius, y-radius)
+                                   path.addRoundedRect(0, 0, pixmap.width(), pixmap.height(), 15, 15);
+                                   // Adjust the corner radius (10, 10) as needed to control the roundness of corners
+
+                                   // Set the clipping path for the QPainter to the rounded rectangle shape
+                                   painter.setClipPath(path);
+
+                                   // Draw the original pixmap onto the roundedPixmap, respecting the clipping path
+                                   painter.drawPixmap(0, 0, pixmap);
+
+                                   // Create a QTableWidgetItem and set the rounded image as its icon
                                    QTableWidgetItem *imageItem = new QTableWidgetItem();
 
-                                   // Sets icon
-                                   imageItem->setIcon(QIcon(pixmap));
+                                   // Set the icon of the QTableWidgetItem to the rounded QPixmap
+                                   imageItem->setIcon(QIcon(roundedPixmap));
 
                                    // Set the item in the table widget
                                    ui->tableWidget->setItem(0, col, imageItem);
@@ -249,7 +275,8 @@ void MainWindow::getGame(bool goToGamesPage)
 
             // Perform the custom action using the retrieved game data
             goToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
-        } });
+        }
+    });
 
     if (goToGamesPage)
     {

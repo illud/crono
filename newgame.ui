@@ -166,7 +166,7 @@ color: rgb(255, 255, 255);</string>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton#closeBtn { 
-	background-color: rgb(255, 92, 92);
+	/*background-color: rgb(255, 92, 92);*/
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;

@@ -11,6 +11,7 @@
 #include <QJsonArray>
 #include <QVector>
 #include <sstream>
+#include <QDesktopServices>
 #include "ImageUtil.h"
 #include "util.h"
 
@@ -35,7 +36,8 @@ HowLongTobeat::HowLongTobeat(QWidget *parent) : QWidget(parent),
     ui->tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableWidget->setShowGrid(false);
-    ui->tableWidget->setVerticalScrollMode(QTableWidget::ScrollPerPixel);
+    ui->tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
 }
 
 HowLongTobeat::~HowLongTobeat()
@@ -119,7 +121,7 @@ void HowLongTobeat::on_btnSearch_clicked()
         ui->tableWidget->setRowCount(jsonArray.count());
 
         // Sets icon size
-        ui->tableWidget->setIconSize(QSize(350, 350));
+        ui->tableWidget->setIconSize(QSize(200, 280));
 
         int currentRow = 0;
         for (int var = 0; var < jsonArray.count(); ++var)
@@ -173,3 +175,4 @@ void HowLongTobeat::on_btnSearch_clicked()
 
     reply->deleteLater();
 }
+

@@ -27,8 +27,8 @@
      </property>
      <property name="minimumSize">
       <size>
-       <width>25</width>
-       <height>25</height>
+       <width>35</width>
+       <height>35</height>
       </size>
      </property>
      <property name="cursor">
@@ -36,14 +36,15 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton#btnReload { 
-	border-image: url(:/reload.png) strecth ;
+background-color:transparent;
+	/*border-image: url(:/reload.png) strecth ;
     background-repeat: no-repeat;
 	background-size: 20px 20px;
     background-color:  transparent;
  	width: 30px;
     height: 30px;
 
-	/*font: 900 9pt &quot;Arial Black&quot;;*/
+	font: 900 9pt &quot;Arial Black&quot;;*/
 	/*color: rgb(255, 255, 255);*/
     /*border: 1px;*/
 	/*border-color: rgb(255, 255, 255);*/
@@ -67,6 +68,17 @@ QPushButton#btnReload::focus:pressed{
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normalon>:/reload.png</normalon>
+      </iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>33</width>
+       <height>33</height>
+      </size>
      </property>
     </widget>
    </item>
@@ -100,7 +112,8 @@ QPushButton#btnReload::focus:pressed{
      <item row="0" column="1">
       <widget class="QFrame" name="frame_2">
        <property name="styleSheet">
-        <string notr="true">background-color: rgba(44, 44, 44, 100);</string>
+        <string notr="true">background-color: rgba(44, 44, 44, 100);
+border: 1px; border-radius: 10px;</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -155,7 +168,8 @@ font: 900 14pt &quot;Arial Black&quot;;</string>
      <item row="0" column="0">
       <widget class="QFrame" name="frame">
        <property name="styleSheet">
-        <string notr="true">background-color: rgba(44, 44, 44, 100);</string>
+        <string notr="true">background-color: rgba(44, 44, 44, 100);
+border: 1px; border-radius: 10px;</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -200,7 +214,8 @@ font: 900 14pt &quot;Arial Black&quot;;</string>
      <item row="2" column="0">
       <widget class="QFrame" name="frame_3">
        <property name="styleSheet">
-        <string notr="true">background-color: rgba(44, 44, 44, 100);</string>
+        <string notr="true">background-color: rgba(44, 44, 44, 100);
+border: 1px; border-radius: 10px;</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -245,7 +260,8 @@ font: 900 14pt &quot;Arial Black&quot;;</string>
      <item row="3" column="0">
       <widget class="QFrame" name="frame_5">
        <property name="styleSheet">
-        <string notr="true">background-color: rgba(44, 44, 44, 100);</string>
+        <string notr="true">background-color: rgba(44, 44, 44, 100);
+border: 1px; border-radius: 10px;</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -306,7 +322,8 @@ font: 900 14pt &quot;Arial Black&quot;;</string>
      <item row="2" column="1">
       <widget class="QFrame" name="frame_4">
        <property name="styleSheet">
-        <string notr="true">background-color: rgba(44, 44, 44, 100);</string>
+        <string notr="true">background-color: rgba(44, 44, 44, 100);
+border: 1px; border-radius: 10px;</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -351,7 +368,8 @@ font: 900 14pt &quot;Arial Black&quot;;</string>
      <item row="3" column="1">
       <widget class="QFrame" name="frame_6">
        <property name="styleSheet">
-        <string notr="true">background-color: rgba(44, 44, 44, 100);</string>
+        <string notr="true">background-color: rgba(44, 44, 44, 100);
+border: 1px; border-radius: 10px;</string>
        </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>

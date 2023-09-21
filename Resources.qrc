@@ -6,5 +6,7 @@
         <file>back.png</file>
         <file>reload.png</file>
         <file>add.png</file>
+        <file>search.png</file>
+        <file>searchIcon.svg</file>
     </qresource>
 </RCC>
