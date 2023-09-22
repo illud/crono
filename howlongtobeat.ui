@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(33, 33, 33);</string>
+   <string notr="true">background-color: rgb(22, 22, 22);</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0">
@@ -152,9 +152,12 @@ QPushButton#btnSearch::focus:pressed{
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QTableWidget" name="tableWidget">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
         <string notr="true">QTableWidget {
-	background-color: transparent;
+	background-color: rgb(22, 22, 22);
     border: none;
     color: #ffffff;
 }
@@ -162,45 +165,33 @@ QPushButton#btnSearch::focus:pressed{
 QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
-    background-color: rgb(39, 39, 39);
+	border-radius: 0px;
+	background-color: rgb(33, 33, 33);
 	color: #ffffff;
     border: none;
     height: 28px;
 }
 
 QTableCornerButton::section {
-	background-color: rgb(66, 66, 66);
+	background-color: rgb(33, 33, 33);
 	border: none;
 }
-
-/*QTableWidget::item {
-border: none;
-	padding: 5px; 
-	color: #ffffff;
-    margin-top: 5px;          
-    border-radius: 0px;
-    padding-left: 5px;
-
-}
-*/
-
-QTableWidget::item:focus { border: none; }
 
 /* VERTICAL SCROLLBAR */
+
  QScrollBar:vertical {
-	border: none;
-    background: transparent;
     width: 12px;
     margin: 15px 0 15px 2px;
-	border-radius: 0px;
+    border-radius: 10px;
     margin-right: 4px;
+    background: transparent;
 }
 
 /*  HANDLE BAR VERTICAL */
 QScrollBar::handle:vertical {	
 	background-color: rgba(158, 158, 158, 90);
 	min-height: 30px;
-	border-radius: 1px;
+	border-radius: 10px;
 }
 QScrollBar::handle:vertical:hover{	
 	background-color: rgb(158, 158, 158);
@@ -211,7 +202,7 @@ QScrollBar::handle:vertical:pressed {
 
 /* BTN TOP - SCROLLBAR */
 QScrollBar::sub-line:vertical {
-	border: none;
+	border: 1px;
 	background-color: transparent;
 	height: 15px;
 	border-top-left-radius: 7px;

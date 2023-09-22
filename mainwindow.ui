@@ -632,7 +632,7 @@ QPushButton#addGameBtn::focus:pressed{
 QTableWidget::item:focus {border:none;}
 
 QHeaderView::section {
-	border-radius: 10px;
+	border-radius: 0px;
     background-color: rgb(39, 39, 39);
 	color: #ffffff;
     border: none;
