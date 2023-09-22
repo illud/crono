@@ -629,9 +629,10 @@ QPushButton#addGameBtn::focus:pressed{
     color: #ffffff;
 }
 
-QTableWidgetItem { border-radius: 10px; }
+QTableWidget::item:focus {border:none;}
 
 QHeaderView::section {
+	border-radius: 10px;
     background-color: rgb(39, 39, 39);
 	color: #ffffff;
     border: none;
@@ -654,7 +655,6 @@ border: none;
 }
 */
 
-QTableWidget::item:focus { border: none; }
 
 /* VERTICAL SCROLLBAR */
  QScrollBar:vertical {

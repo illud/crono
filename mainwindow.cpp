@@ -164,27 +164,35 @@ void MainWindow::getGame(bool goToGamesPage)
 
         if (gamesResult[col].gameImage == "")
         {
-            // Create a QTableWidgetItem and set the image as its icon
-            QTableWidgetItem *item = new QTableWidgetItem(gamesResult[col].gameName.toUpper());
+            // Create a QTableWidgetItem to hold the widget
+            QTableWidgetItem *item = new QTableWidgetItem();
+            ui->tableWidget->setItem(0, col, item);
 
-            // Convert QImage to QPixmap for display
-            // QPixmap pixmap(":/item.png");
+            // Create a QFrame to hold the QLabel (and potentially other widgets)
+            QFrame *frame = new QFrame();
+            frame->setFixedSize(188, 290);
 
-            // Sets icon
-            // item->setIcon(QIcon(pixmap));
+            // Create a QLabel to display text
+            QLabel *label = new QLabel(gamesResult[col].gameName.toUpper(), frame);
 
-            // ui->tableWidget->cellWidget(0, col)->setStyleSheet("QTableWidget::item { border: 1px solid %3; }");
+            // Enable word wrap for the label to allow text to wrap to new lines
+            label->setWordWrap(true);
 
-            // Set the background color for the item
-            QColor backgroundColor(22, 22, 22); // Replace with your desired color
-            item->setBackground(QBrush(backgroundColor));
+            // Set text color to white
+            label->setStyleSheet("font: 900 8pt 'Arial Black'; color: white;");
 
-            // Set the text color for the item
-            item->setTextAlignment(Qt::AlignCenter);
+            // Center-align the text
+            label->setAlignment(Qt::AlignCenter);
 
-            // Set the font for the item
-            QFont font("Arial", 9, QFont::Bold); // Replace with your desired font details
-            item->setFont(font);
+            // Create a layout for the frame
+            QVBoxLayout *layout = new QVBoxLayout(frame);
+            layout->addWidget(label);
+
+            // Set the background color using QSS (Qt Style Sheet)
+            frame->setStyleSheet("margin-top: 5px; background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #222222, stop: 1 #1E1E1E); border-radius: 10px;");
+
+            // Set the size policy for the QLabel to make it expand as needed
+            label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
             // Create a QVariant to hold the game data for the current column
             QVariant gameDataVariant;
@@ -193,11 +201,10 @@ void MainWindow::getGame(bool goToGamesPage)
             gameDataVariant.setValue(gamesResult[col]);
 
             // Set the QVariant containing game data as user data for the QTableWidgetItem
-            // This is done using the Qt::UserRole constant, which is a role for custom data
             item->setData(Qt::UserRole, gameDataVariant);
 
-            // Set the item in the table widget
-            ui->tableWidget->setItem(0, col, item);
+            // Set the widget in the QTableWidgetItem
+            ui->tableWidget->setCellWidget(0, col, frame);
         }
         else
         {
