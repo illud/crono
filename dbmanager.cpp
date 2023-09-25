@@ -17,7 +17,6 @@ DbManager::DbManager(const QString &path)
     else
     {
         qDebug() << "Database: connection ok";
-        bool success = true;
 
         QSqlQuery query;
         query.prepare("CREATE TABLE games(id INTEGER PRIMARY KEY AUTOINCREMENT,gameName TEXT, gameImage TEXT, gameExePath TEXT, gameExe TEXT, running BOOLEAN, timePlayed INTEGER, createdAt TEXT, updatedAt TEXT);");
@@ -25,7 +24,6 @@ DbManager::DbManager(const QString &path)
         if (!query.exec())
         {
             qDebug() << "Table already games created.";
-            success = false;
         }
 
         QSqlQuery queryGameHistorical;
@@ -144,7 +142,7 @@ QVector<DbManager::Games> DbManager::getGames()
 {
     QVector<Games> games;
 
-    QSqlQuery query("SELECT * FROM games ORDER BY id DESC");
+    QSqlQuery query("SELECT * FROM games ORDER BY updatedAt DESC");
     int idIndex = query.record().indexOf("id");
     int gameImageIndex = query.record().indexOf("gameImage");
     int gameNameIndex = query.record().indexOf("gameName");
@@ -254,9 +252,16 @@ bool DbManager::updateGameRunning(int gameId, bool running)
     if (gameId != 0)
     {
         QSqlQuery queryAdd;
-        queryAdd.prepare("UPDATE games SET running = :running WHERE id = :id");
+        queryAdd.prepare("UPDATE games SET running = :running, updatedAt = :updatedAt WHERE id = :id");
         queryAdd.bindValue(":running", running);
         queryAdd.bindValue(":id", gameId);
+
+        QDate currentDate = QDate::currentDate();
+        int year = currentDate.year();
+        int month = currentDate.month();
+        int day = currentDate.day();
+        QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+        queryAdd.bindValue(":updatedAt", formattedDate);
 
         if (queryAdd.exec())
         {

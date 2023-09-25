@@ -41,8 +41,9 @@ private slots:
     void deleteGame(int gameId, QString gameName);
     void on_btnHltb_clicked();
     void updateGame(int gameId, QString gameName, QString gameExeLocation);
-
     void on_radioBtnTimeIndicator_clicked();
+
+    void on_reloadBtn_clicked();
 
 public slots:
     void on_statsBtn_clicked();

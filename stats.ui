@@ -76,8 +76,8 @@ QPushButton#btnReload::focus:pressed{
      </property>
      <property name="iconSize">
       <size>
-       <width>33</width>
-       <height>33</height>
+       <width>32</width>
+       <height>32</height>
       </size>
      </property>
     </widget>

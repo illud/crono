@@ -98,9 +98,17 @@ bool Util::createCronoRunnerBatFile(QString gameExePath, QString gameExe)
         QTextStream out(&file);
 
         // Write text to the file
-        out << "start /d "
+        /*out << "start /d "
                "\""
-            << gameExePath << "\" " << gameExe << Qt::endl;
+            << gameExePath << "\" " << gameExe << Qt::endl;*/
+
+        out << "start "
+            << "\""
+               "\""
+            << " /d "
+               "\""
+            << gameExePath << "\" "
+            << "\"" << gameExe << "\"" << Qt::endl;
 
         // Close the file
         file.close();

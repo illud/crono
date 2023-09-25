@@ -29,6 +29,7 @@
 #include "updategameform.h"
 #include <QPainter>
 #include <QPainterPath>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -164,7 +165,41 @@ void MainWindow::getGame(bool goToGamesPage)
 
         if (gamesResult[col].gameImage == "")
         {
-            // Create a QTableWidgetItem to hold the widget
+
+            // Create a QTableWidgetItem and set the image as its icon
+            QTableWidgetItem *item = new QTableWidgetItem(gamesResult[col].gameName.toUpper());
+
+            // Convert QImage to QPixmap for display
+            // QPixmap pixmap(":/item.png");
+
+            // Sets icon
+            // item->setIcon(QIcon(pixmap));
+
+            // ui->tableWidget->cellWidget(0, col)->setStyleSheet("QTableWidget::item { border: 1px solid %3; }");
+
+            // Set the background color for the item
+            QColor backgroundColor(22, 22, 22); // Replace with your desired color
+            item->setBackground(QBrush(backgroundColor));
+
+            // Set the text color for the item
+            item->setTextAlignment(Qt::AlignCenter);
+
+            // Set the font for the item
+            QFont font("Arial", 9, QFont::Bold); // Replace with your desired font details
+            item->setFont(font);
+
+            // Create a QVariant to hold the game data for the current column
+            QVariant gameDataVariant;
+            gameDataVariant.setValue(gamesResult[col]);
+
+            // Set the QVariant containing game data as user data for the QTableWidgetItem
+            // This is done using the Qt::UserRole constant, which is a role for custom data
+            item->setData(Qt::UserRole, gameDataVariant);
+
+            // Set the item in the table widget
+            ui->tableWidget->setItem(0, col, item);
+
+            /* // Create a QTableWidgetItem to hold the widget
             QTableWidgetItem *item = new QTableWidgetItem();
             ui->tableWidget->setItem(0, col, item);
 
@@ -197,14 +232,13 @@ void MainWindow::getGame(bool goToGamesPage)
             // Create a QVariant to hold the game data for the current column
             QVariant gameDataVariant;
 
-            // Set the value of the QVariant to the game data from the gamesResult list
             gameDataVariant.setValue(gamesResult[col]);
 
             // Set the QVariant containing game data as user data for the QTableWidgetItem
             item->setData(Qt::UserRole, gameDataVariant);
 
             // Set the widget in the QTableWidgetItem
-            ui->tableWidget->setCellWidget(0, col, frame);
+            ui->tableWidget->setCellWidget(0, col, frame);*/
         }
         else
         {
@@ -220,8 +254,8 @@ void MainWindow::getGame(bool goToGamesPage)
                                    QPixmap pixmap = QPixmap::fromImage(image);
 
                                    // Create a rounded QPixmap
-                                   QPixmap roundedPixmap(pixmap.size());  // Create a QPixmap with the same size as the original pixmap
-                                   roundedPixmap.fill(Qt::transparent);     // Fill the QPixmap with a transparent background
+                                   QPixmap roundedPixmap(pixmap.size()); // Create a QPixmap with the same size as the original pixmap
+                                   roundedPixmap.fill(Qt::transparent);  // Fill the QPixmap with a transparent background
 
                                    // Create a QPainter to draw on the roundedPixmap
                                    QPainter painter(&roundedPixmap);
@@ -282,8 +316,7 @@ void MainWindow::getGame(bool goToGamesPage)
 
             // Perform the custom action using the retrieved game data
             goToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
-        }
-    });
+        } });
 
     if (goToGamesPage)
     {
@@ -1006,4 +1039,9 @@ void MainWindow::on_radioBtnTimeIndicator_clicked()
         // Show the QLabel
         timeIndicator->show();
     }
+}
+
+void MainWindow::on_reloadBtn_clicked()
+{
+    getGame(false);
 }

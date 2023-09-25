@@ -525,7 +525,7 @@ background-color: rgba(255, 255, 255,0);</string>
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -598,6 +598,69 @@ QPushButton#addGameBtn::focus:pressed{
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="reloadBtn">
+              <property name="minimumSize">
+               <size>
+                <width>35</width>
+                <height>35</height>
+               </size>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton#reloadBtn { 
+	/*border-image: url(:/add.png) strecth ;
+    background-repeat: no-repeat;
+	background-size: 25px 25px;
+    background-color:  transparent;
+ 	width: 35px;
+    height: 35px;
+
+    background-color:  transparent;
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 1px;
+	border-color: rgb(255, 255, 255);
+	border-style: outset;
+border-radius: 10px;*/
+}
+
+QPushButton#reloadBtn:hover{ 
+   /* background-color: rgb(252, 196, 25);
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 0px;*/
+}
+
+QPushButton#reloadBtn::focus:pressed{ 
+	/*background-color: rgb(252, 72, 25);
+	font: 900 9pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+    border: 0px;*/
+}
+</string>
+              </property>
+              <property name="text">
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normalon>:/reload.png</normalon>
+               </iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>32</width>
+                <height>32</height>
+               </size>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -625,9 +688,13 @@ QPushButton#addGameBtn::focus:pressed{
             </property>
             <property name="styleSheet">
              <string notr="true">QTableWidget {
-    border: none;
+    border:none;
     color: #ffffff;
 }
+QTableWidgetItem {
+border: 1px;
+                 border-radius: 15px;
+               }
 
 QTableWidget::item:focus {border:none;}
 
@@ -868,7 +935,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">margin-right: 7px;
+             <string notr="true">margin-right: 9px;
 background-color: transparent;
 color: rgb(255, 255, 255);
 font: 900 12pt &quot;Arial Black&quot;;</string>
