@@ -39,7 +39,364 @@
     <property name="bottomMargin">
      <number>1</number>
     </property>
-    <item row="0" column="1">
+    <item row="0" column="0" rowspan="3">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>70</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-right-color: rgb(255, 255, 255);
+background-color: rgba(60, 60, 60, 50);</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="font">
+              <font>
+               <family>Arial Black</family>
+               <pointsize>9</pointsize>
+               <italic>false</italic>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">color: rgb(255, 255, 255);
+font: 900 9pt &quot;Arial Black&quot;;
+background-color: rgba(255, 255, 255,0);</string>
+             </property>
+             <property name="text">
+              <string>CRONO</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>40</width>
+             <height>3</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color:rgb(252, 196, 25);</string>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Minimum</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>60</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnGames">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton#btnGames { 
+	text-align: left;
+	padding-left: 13px;
+                                border-left-color: rgb(255, 255, 255);
+                                border-left: 2px rgb(252, 196, 25);
+                                background-color:  transparent;
+                                font: 900 11pt 'Arial Black';
+                                color: rgb(255, 255, 255);
+                                border-style: outset;
+}
+
+QPushButton#btnGames:hover{ 
+	font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+
+QPushButton#btnGames::focus:pressed{ 
+font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/games_logo.png</normalon>
+            </iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="statsBtn">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton#statsBtn { 
+	text-align: left;
+	padding-left: 13px;
+    background-color:  transparent;
+	font: 900 11pt 'Arial Black';
+	color: rgb(255, 255, 255);
+    border: 0px;
+	border-color: rgb(255,255,255);
+	border-style: outset;
+}
+
+QPushButton#statsBtn:hover{ 
+font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+
+QPushButton#statsBtn::focus:pressed{ 
+	font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/stats_logo.png</normalon>
+            </iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btnHltb">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">
+QPushButton#btnHltb { 
+	text-align: left;
+	padding-left: 13px;
+    background-color:  transparent;
+	font: 900 11pt 'Arial Black';
+	color: rgb(255, 255, 255);
+    border: 0px;
+	border-color: rgb(255,255,255);
+	border-style: outset;
+}
+
+QPushButton#btnHltb:hover{ 
+font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+
+QPushButton#btnHltb::focus:pressed{ 
+	font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/h_logo.png</normalon>
+            </iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>25</width>
+             <height>25</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Expanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>60</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: rgb(255, 255, 255);
+font: 900 8pt &quot;Arial Black&quot;;
+background-color: rgba(255, 255, 255,0);</string>
+           </property>
+           <property name="text">
+            <string> v1.0.0</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Preferred</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>10</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2">
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
        <spacer name="horizontalSpacer_3">
@@ -47,7 +404,7 @@
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
+         <enum>QSizePolicy::Preferred</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -222,310 +579,25 @@ QPushButton#btnClose::focus:pressed{
       </item>
      </layout>
     </item>
-    <item row="0" column="0" rowspan="3">
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <property name="spacing">
-       <number>6</number>
+    <item row="0" column="1">
+     <spacer name="horizontalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <item>
-       <widget class="QFrame" name="frame">
-        <property name="minimumSize">
-         <size>
-          <width>245</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">border-right-color: rgb(255, 255, 255);
-background-color: rgba(33, 33, 33, 60);</string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="font">
-              <font>
-               <pointsize>12</pointsize>
-              </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">color: rgb(255, 255, 255);
-background-color: rgba(255, 255, 255,0);</string>
-             </property>
-             <property name="text">
-              <string>                      CRONO</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QFrame" name="frame_3">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>2</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color:rgb(252, 196, 25);</string>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Minimum</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>60</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnGames">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton#btnGames { 
-	text-align: left;
-	padding-left: 50px;
-                                border-left-color: rgb(255, 255, 255);
-                                border-left: 2px rgb(252, 196, 25);
-                                background-color:  transparent;
-                                font: 900 11pt 'Arial Black';
-                                color: rgb(255, 255, 255);
-                                border-style: outset;
-}
-
-QPushButton#btnGames:hover{ 
-	font: 900 11pt 'Arial Black';
-	color: rgb(163, 163, 163);
-    border: 0px;
-}
-
-QPushButton#btnGames::focus:pressed{ 
-font: 900 11pt 'Arial Black';
-	color: rgb(163, 163, 163);
-    border: 0px;
-}
-</string>
-           </property>
-           <property name="text">
-            <string>Games</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Preferred</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="statsBtn">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton#statsBtn { 
-	text-align: left;
-	padding-left: 50px;
-    background-color:  transparent;
-	font: 900 11pt 'Arial Black';
-	color: rgb(255, 255, 255);
-    border: 0px;
-	border-color: rgb(255,255,255);
-	border-style: outset;
-}
-
-QPushButton#statsBtn:hover{ 
-font: 900 11pt 'Arial Black';
-	color: rgb(163, 163, 163);
-    border: 0px;
-}
-
-QPushButton#statsBtn::focus:pressed{ 
-	font: 900 11pt 'Arial Black';
-	color: rgb(163, 163, 163);
-    border: 0px;
-}
-</string>
-           </property>
-           <property name="text">
-            <string>Stats</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_5">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Preferred</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnHltb">
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">
-QPushButton#btnHltb { 
-	text-align: left;
-	padding-left: 50px;
-    background-color:  transparent;
-	font: 900 11pt 'Arial Black';
-	color: rgb(255, 255, 255);
-    border: 0px;
-	border-color: rgb(255,255,255);
-	border-style: outset;
-}
-
-QPushButton#btnHltb:hover{ 
-font: 900 11pt 'Arial Black';
-	color: rgb(163, 163, 163);
-    border: 0px;
-}
-
-QPushButton#btnHltb::focus:pressed{ 
-	font: 900 11pt 'Arial Black';
-	color: rgb(163, 163, 163);
-    border: 0px;
-}
-</string>
-           </property>
-           <property name="text">
-            <string>HowLongToBeat</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Expanding</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>60</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="enabled">
-            <bool>true</bool>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">color: rgb(255, 255, 255);
-background-color: rgba(255, 255, 255,0);</string>
-           </property>
-           <property name="text">
-            <string>                                v1.0.0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Preferred</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>10</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>290</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
-    <item row="2" column="1">
+    <item row="2" column="1" colspan="2">
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -724,27 +796,65 @@ border: none;
 
 
 /* VERTICAL SCROLLBAR */
- QScrollBar:vertical {
-	border: none;
+/* SCROLLBAR VERTICAL */
+QScrollBar:vertical {
     background: transparent;
     width: 12px;
     margin: 15px 0 15px 2px;
-	border-radius: 0px;
+    border-radius: 0px;
     margin-right: 4px;
  }
 
-/*  HANDLE BAR VERTICAL */
-QScrollBar::handle:vertical {	
-	background-color: rgba(158, 158, 158, 90);
-	min-height: 30px;
-	border-radius: 1px;
+/* HANDLE BAR VERTICAL */
+QScrollBar::handle:vertical {    
+    background-color: rgba(158, 158, 158, 90);
+    min-height: 30px;
+    border-radius: 1px;
 }
-QScrollBar::handle:vertical:hover{	
-	background-color: rgb(158, 158, 158);
+
+QScrollBar::handle:vertical:hover {    
+    background-color: rgb(158, 158, 158);
 }
-QScrollBar::handle:vertical:pressed {	
-	background-color: rgb(66, 66, 66);
+
+QScrollBar::handle:vertical:pressed {    
+    background-color: rgb(66, 66, 66);
 }
+
+/* ADD-LINE pseudo-element for top and bottom bars */
+QScrollBar::add-line:vertical {
+    background: transparent;
+    height: 15px;
+    subcontrol-position: top;
+    subcontrol-origin: margin;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+}
+
+QScrollBar::add-line:vertical:hover {
+    background: transparent;
+}
+
+QScrollBar::add-line:vertical:pressed {
+    background: transparent;
+}
+
+QScrollBar::sub-line:vertical {
+    background: transparent;
+    height: 15px;
+    subcontrol-position: bottom;
+    subcontrol-origin: margin;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+QScrollBar::sub-line:vertical:hover {
+    background: transparent;
+}
+
+QScrollBar::sub-line:vertical:pressed {
+    background: transparent;
+}
+
 
 /* BTN TOP - SCROLLBAR */
 QScrollBar::sub-line:vertical {

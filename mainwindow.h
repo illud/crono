@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    int numCols = 4;
+    int numCols = 5;
     QString gameNameValue;
     int gameIdValue;
     QString gameExePathValue;

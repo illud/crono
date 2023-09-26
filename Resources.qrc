@@ -8,5 +8,8 @@
         <file>add.png</file>
         <file>search.png</file>
         <file>searchIcon.svg</file>
+        <file>games_logo.png</file>
+        <file>h_logo.png</file>
+        <file>stats_logo.png</file>
     </qresource>
 </RCC>

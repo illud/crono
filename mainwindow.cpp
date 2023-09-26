@@ -649,7 +649,7 @@ void MainWindow::on_maxBtn_clicked()
     if (this->isMaximized())
     {
         this->showNormal(); // Restore the window to its normal size
-        numCols = 4;        // Sets row to 4 when minimized
+        numCols = 5;        // Sets row to 4 when minimized
         getGame(false);     // Refresh data
     }
     else
@@ -679,7 +679,7 @@ void MainWindow::on_btnGames_clicked()
 {
     ui->btnGames->setStyleSheet("QPushButton {"
                                 " text-align: left;"
-                                " padding-left: 50px;"
+                                " padding-left: 13px;"
                                 "border-left-color: rgb(255, 255, 255);"
                                 "border-left: 2px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
@@ -701,7 +701,7 @@ void MainWindow::on_btnGames_clicked()
 
     ui->btnHltb->setStyleSheet("QPushButton {"
                                " text-align: left;"
-                               " padding-left: 50px;"
+                               " padding-left: 13px;"
                                "border-left-color: rgb(255, 255, 255);"
                                "border-left: 0px rgb(252, 196, 25);"
                                "background-color:  transparent;"
@@ -723,7 +723,7 @@ void MainWindow::on_btnGames_clicked()
 
     ui->statsBtn->setStyleSheet("QPushButton {"
                                 " text-align: left;"
-                                " padding-left: 50px;"
+                                " padding-left: 13px;"
                                 "border-left-color: rgb(255, 255, 255);"
                                 "border-left: 0px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
@@ -756,7 +756,7 @@ void MainWindow::on_statsBtn_clicked()
 
     ui->btnGames->setStyleSheet("QPushButton {"
                                 " text-align: left;"
-                                " padding-left: 50px;"
+                                " padding-left: 13px;"
                                 "border-left-color: rgb(255, 255, 255);"
                                 "border-left: 0px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
@@ -778,7 +778,7 @@ void MainWindow::on_statsBtn_clicked()
 
     ui->btnHltb->setStyleSheet("QPushButton {"
                                " text-align: left;"
-                               " padding-left: 50px;"
+                               " padding-left: 13px;"
                                "border-left-color: rgb(255, 255, 255);"
                                "border-left: 0px rgb(252, 196, 25);"
                                "background-color:  transparent;"
@@ -800,7 +800,7 @@ void MainWindow::on_statsBtn_clicked()
 
     ui->statsBtn->setStyleSheet("QPushButton {"
                                 " text-align: left;"
-                                " padding-left: 50px;"
+                                " padding-left: 13px;"
                                 "border-left-color: rgb(255, 255, 255);"
                                 "border-left: 2px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
@@ -827,7 +827,7 @@ void MainWindow::on_btnHltb_clicked()
 {
     ui->btnGames->setStyleSheet("QPushButton {"
                                 " text-align: left;"
-                                " padding-left: 50px;"
+                                " padding-left: 13px;"
                                 "border-left-color: rgb(255, 255, 255);"
                                 "border-left: 0px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
@@ -849,7 +849,7 @@ void MainWindow::on_btnHltb_clicked()
 
     ui->statsBtn->setStyleSheet("QPushButton {"
                                 " text-align: left;"
-                                " padding-left: 50px;"
+                                " padding-left: 13px;"
                                 "border-left-color: rgb(255, 255, 255);"
                                 "border-left: 0px rgb(252, 196, 25);"
                                 "background-color:  transparent;"
@@ -871,7 +871,7 @@ void MainWindow::on_btnHltb_clicked()
 
     ui->btnHltb->setStyleSheet("QPushButton {"
                                " text-align: left;"
-                               " padding-left: 50px;"
+                               " padding-left: 13px;"
                                "border-left-color: rgb(255, 255, 255);"
                                "border-left: 2px rgb(252, 196, 25);"
                                "background-color:  transparent;"
