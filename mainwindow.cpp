@@ -30,6 +30,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QLabel>
+#include <QStatusBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -51,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     delete db;
 
     // Get games and start of the app
-    getGame(true);
+    getGame(true, false);
 
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // Disable the vertical header (row index counter)
@@ -124,11 +125,25 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
 
     delete db;
 
+    // Set the status bar style
+    statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
+
+    statusBar()->show();
+
+    // Create a QTimer to hide the message after 3 seconds
+    QTimer::singleShot(3000, statusBar(), [this]() {
+        statusBar()->clearMessage(); // Clear the message after 3 seconds
+        statusBar()->hide(); // Hide the status bar
+    });
+
+    // Show the status message
+    statusBar()->showMessage(tr("Game added."));
+
     // Get games and start of the app
-    getGame(true);
+    getGame(true, false);
 }
 
-void MainWindow::getGame(bool goToGamesPage)
+void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
 {
     static const QString path = "crono.db";
 
@@ -317,6 +332,22 @@ void MainWindow::getGame(bool goToGamesPage)
             // Perform the custom action using the retrieved game data
             goToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
         } });
+
+    if (updatedGame){
+        // Set the status bar style
+        statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
+
+        statusBar()->show();
+
+        // Create a QTimer to hide the message after 3 seconds
+        QTimer::singleShot(3000, statusBar(), [this]() {
+            statusBar()->clearMessage(); // Clear the message after 3 seconds
+            statusBar()->hide(); // Hide the status bar
+        });
+
+        // Show the status message
+        statusBar()->showMessage(tr("Game updated."));
+    }
 
     if (goToGamesPage)
     {
@@ -650,13 +681,13 @@ void MainWindow::on_maxBtn_clicked()
     {
         this->showNormal(); // Restore the window to its normal size
         numCols = 5;        // Sets row to 4 when minimized
-        getGame(false);     // Refresh data
+        getGame(false, false);     // Refresh data
     }
     else
     {
         this->showMaximized(); // Maximize the window
         numCols = 8;           // Sets row to 8 when Maximize
-        getGame(false);        // Refresh data
+        getGame(false, false);        // Refresh data
     }
 }
 
@@ -988,8 +1019,22 @@ void MainWindow::deleteGame(int gameId, QString gameName)
 
         delete db;
 
+        // Set the status bar style
+        statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
+
+        statusBar()->show();
+
+        // Create a QTimer to hide the message after 3 seconds
+        QTimer::singleShot(3000, statusBar(), [this]() {
+            statusBar()->clearMessage(); // Clear the message after 3 seconds
+            statusBar()->hide(); // Hide the status bar
+        });
+
+        // Show the status message
+        statusBar()->showMessage(tr("Game deleted."));
+
         // Get games
-        getGame(true);
+        getGame(true, false);
     }
     else if (msgBox.clickedButton() == cancelButton)
     {
@@ -1002,7 +1047,7 @@ void MainWindow::updateGame(int gameId, QString gameName, QString gameExePath)
     UpdateGameForm *updateForm = new UpdateGameForm(gameId, gameName, gameExePath);
 
     connect(updateForm, &UpdateGameForm::gameUpdated, this, [this]()
-            { MainWindow::getGame(true); });
+            { MainWindow::getGame(true, true); });
 
     updateForm->show();
     // ui->stackedWidget->setCurrentIndex(0);
@@ -1043,5 +1088,5 @@ void MainWindow::on_radioBtnTimeIndicator_clicked()
 
 void MainWindow::on_reloadBtn_clicked()
 {
-    getGame(false);
+    getGame(false, false);
 }

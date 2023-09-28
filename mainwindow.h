@@ -28,7 +28,7 @@ public:
 private slots:
     void on_addGameBtn_clicked();
     void addedGame(const QString &gameName, const QString &gameExePath);
-    void getGame(bool goToGamesPage);
+    void getGame(bool goToGamesPage, bool updatedGame);
     void on_btnPlay_clicked(QString gameName, int gameId, QString gameExePath, QString gameExe);
     void checkRunningGame(int gameId, QString gameName);
     void on_btnClose_clicked();

@@ -57,14 +57,14 @@ border-radius: 10px;
 }
 
 QPushButton#searchGameExeBtn:hover{ 
-    background-color: rgb(33, 78, 203);
+    background-color: rgb(252, 196, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
 }
 
 QPushButton#searchGameExeBtn::focus:pressed{ 
-	background-color: rgb(38, 72, 184);
+    background-color: rgb(252, 72, 25);
 	font: 900 9pt &quot;Arial Black&quot;;
 	color: rgb(255, 255, 255);
     border: 0px;
