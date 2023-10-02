@@ -1,4 +1,4 @@
-name: CI
+name: Build and Test CI
 
 on:
   push:
@@ -16,16 +16,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install build essentials
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y build-essential libgl1-mesa-dev
+
       - name: Download and run custom Qt installer script
         run: |
           # Download the custom installer script (replace URL with your hosted script)
-          wget https://example.com/qt-installer.sh
+          wget https://download.qt.io/official_releases/qt/6.0/6.5.1/qt-opensource-linux-x64-6.5.1.run
           
           # Make the script executable
-          chmod +x qt-installer.sh
+          chmod +x qt-opensource-linux-x64-6.5.1.run
           
           # Run the installer script
-          ./qt-installer.sh
+          ./qt-opensource-linux-x64-6.5.1.run
           
           # Add Qt environment setup as needed
 
