@@ -16,22 +16,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Qt
+      - name: Download and run custom Qt installer script
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y build-essential libgl1-mesa-dev libxkbcommon-x11-0
-
-          # Download and install Qt (Adjust the version and installer link)
-          wget https://download.qt.io/official_releases/qt/6.0/6.5.1/qt-6.5.1-linux-x64-online.run -O qt-installer.run
-          chmod +x qt-installer.run
-          sudo ./qt-installer.run --silent --platform minimal
-
-      - name: Set up Qt environment
-        run: |
-          export QTDIR=$HOME/Qt/6.5.1/gcc_64
-          export PATH=$QTDIR/bin:$PATH
-          export LD_LIBRARY_PATH=$QTDIR/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-          export QMAKE=$QTDIR/bin/qmake
+          # Download the custom installer script (replace URL with your hosted script)
+          wget https://example.com/qt-installer.sh
+          
+          # Make the script executable
+          chmod +x qt-installer.sh
+          
+          # Run the installer script
+          ./qt-installer.sh
+          
+          # Add Qt environment setup as needed
 
       - name: Build the project
         run: |
