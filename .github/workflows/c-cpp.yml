@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Qt
+        uses: jurplel/setup-qt@v1
+        with:
+          qt-version: '6.5.1'
+
+      - name: Build the project
+        run: |
+          qmake
+          make
+
+      - name: Run tests
+        run: |
+          ./utiltest
+
