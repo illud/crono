@@ -22,13 +22,13 @@ jobs:
           sudo apt-get install -y build-essential libgl1-mesa-dev libxkbcommon-x11-0
 
           # Download and install Qt (Adjust the version and installer link)
-          wget https://download.qt.io/official_releases/qt/6.0/6.0.4/qt-6.0.4-linux-x64-online.run -O qt-installer.run
+          wget https://download.qt.io/official_releases/qt/6.0/6.5.1/qt-6.5.1-linux-x64-online.run -O qt-installer.run
           chmod +x qt-installer.run
           sudo ./qt-installer.run --silent --platform minimal
 
       - name: Set up Qt environment
         run: |
-          export QTDIR=$HOME/Qt/6.0.4/gcc_64
+          export QTDIR=$HOME/Qt/6.5.1/gcc_64
           export PATH=$QTDIR/bin:$PATH
           export LD_LIBRARY_PATH=$QTDIR/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
           export QMAKE=$QTDIR/bin/qmake
