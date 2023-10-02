@@ -1,8 +1,8 @@
-QT       += core gui network sql
+QT       += core gui network sql testlib
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++17
+CONFIG += c++17 testcase
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -16,7 +16,8 @@ SOURCES += \
     newgame.cpp \
     stats.cpp \
     updategameform.cpp \
-    util.cpp
+    util.cpp \
+    utiltest.cpp
 
 # Add libcurl lib
 # LIBS+=C:\Qt\6.5.1\mingw_64\lib\libcurl.a
@@ -33,7 +34,8 @@ HEADERS += \
     newgame.h \
     stats.h \
     updategameform.h \
-    util.h
+    util.h \
+    utiltest.h
 
 FORMS += \
     howlongtobeat.ui \
