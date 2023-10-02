@@ -16,10 +16,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Qt
-        uses: jurplel/setup-qt@v1
-        with:
-          qt-version: '6.5.1'
+      - name: Install Qt dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y qt5-default  # Adjust this for your Qt version
 
       - name: Build the project
         run: |
@@ -29,4 +29,3 @@ jobs:
       - name: Run tests
         run: |
           ./utiltest
-
