@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "newgame.h"
-#include <curl/curl.h>
 #include <QProcess>
 #include <QJsonDocument>
 #include <QJsonObject>

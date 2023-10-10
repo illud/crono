@@ -5,7 +5,6 @@
 #include <QHeaderView>
 #include "dbmanager.h"
 #include <charconv>
-#include <curl/curl.h>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>

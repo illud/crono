@@ -8,7 +8,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QTcpSocket>
-#include <curl/curl.h>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
