@@ -245,6 +245,35 @@ QString Util::getGameImage(QString gameName)
     return imageUrl;
 }
 
+QString Util::dayNumberToWeekDay(int day){
+    switch (day) {
+    case 0:
+        return "Sunday";
+        break;
+    case 1:
+        return "Monday";
+        break;
+    case 2:
+        return "Tuesday";
+        break;
+    case 3:
+        return "Wednesday";
+        break;
+    case 4:
+        return "Thursday";
+        break;
+    case 5:
+        return "Friday";
+        break;
+    case 6:
+        return "Saturday";
+        break;
+    default:
+        return "NO DAY";
+        break;
+    }
+}
+
 /*QString Util::getGameImage(QString gameName)
 {
     QVector<QString> splitWords = Util::removeDupWord(gameName.toStdString());

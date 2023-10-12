@@ -19,6 +19,7 @@ public:
     size_t writeCallback(char *contents, size_t size, size_t nmemb, void *userp);
     bool checkInternetConn();
     QString getGameImage(QString gameName);
+    QString dayNumberToWeekDay(int day);
 };
 
 #endif // UTIL_H

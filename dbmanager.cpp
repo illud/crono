@@ -698,3 +698,34 @@ bool DbManager::deleteGameHistorical(int gameId)
 
     return false;
 }
+
+QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData>  DbManager::hoursPlayedPerDayOfTheLastWeek(int gameId){
+    QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData> hoursPlayedPerDayOfTheLastWeekResult;
+
+    QSqlQuery query;
+    query.prepare("WITH DateRange AS (SELECT DATE('now', '-' || (row_number() OVER ()) || ' days') AS day FROM (SELECT 0 UNION SELECT 1 UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5 UNION SELECT 6)) SELECT DateRange.day AS day, STRFTIME('%w', DateRange.day) AS day_of_week, COALESCE(SUM(CASE WHEN game_historical.gameId = :gameId THEN game_historical.timePlayed ELSE 0 END), 0) AS total_time_played FROM DateRange LEFT JOIN game_historical ON DATE(game_historical.updatedAt) = DateRange.day AND game_historical.gameId = :gameId GROUP BY DateRange.day ORDER BY DateRange.day;");
+    query.bindValue(":gameId", gameId);
+
+    if (query.exec())
+    {
+        int day = query.record().indexOf("day");
+        int dayOfWeek = query.record().indexOf("day_of_week");
+        int totalTimePlayed = query.record().indexOf("total_time_played");
+
+        while (query.next())
+        {
+
+            QString dayResult = query.value(day).toString();
+            int dayOfWeekResult = query.value(dayOfWeek).toInt();
+            int totalTimePlayedResult = query.value(totalTimePlayed).toInt();
+
+            hoursPlayedPerDayOfTheLastWeekResult.push_back(DbManager::HoursPlayedPerDayOfTheLastWeekData{dayResult, dayOfWeekResult, totalTimePlayedResult});
+        }
+    }
+    else
+    {
+        qDebug() << "Error executing query int hoursPlayedPerDayOfTheLastWeek func:" << query.lastError().text();
+    }
+
+    return hoursPlayedPerDayOfTheLastWeekResult;
+}

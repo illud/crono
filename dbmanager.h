@@ -88,6 +88,13 @@ public:
         int timePlayed;
     };
 
+    struct HoursPlayedPerDayOfTheLastWeekData
+    {
+        QString day;
+        int dayOfWeek;
+        int totalTimePlayed;
+    };
+
     QVector<Games> getGames();
     QVector<Games> getGameById(int gameId);
 
@@ -109,6 +116,7 @@ public:
     bool deleteGame(int gameId);
     bool deleteGameHistorical(int gameId);
     int timePlayedFilter(int days);
+    QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData>  hoursPlayedPerDayOfTheLastWeek(int gameId);
 };
 
 #endif // DBMANAGER_H

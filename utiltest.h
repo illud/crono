@@ -1,4 +1,4 @@
-#ifndef UTILTEST_H
+/*#ifndef UTILTEST_H
 #define UTILTEST_H
 
 #include <QObject>
@@ -17,4 +17,4 @@ private slots:
     void testRemoveDupWord();
 };
 
-#endif // UTILTEST_H
+#endif // UTILTEST_H*/

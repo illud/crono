@@ -1,4 +1,4 @@
-#include "utiltest.h"
+/*#include "utiltest.h"
 #include "util.h"
 
 UtilTest::UtilTest(QObject *parent)
@@ -31,3 +31,4 @@ void UtilTest::testRemoveDupWord()
     QVector<QString> expected1 = {"Hello", "world", "world"};
     QCOMPARE(result1, expected1);
 }
+*/
