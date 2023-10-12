@@ -170,6 +170,7 @@ QHeaderView::section {
 	color: #ffffff;
     border: none;
     height: 28px;
+	font: 900 9pt &quot;Arial Black&quot;;
 }
 
 QTableCornerButton::section {

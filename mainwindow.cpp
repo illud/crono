@@ -410,33 +410,42 @@ void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QSt
     ui->tableWidget_2->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->tableWidget_2->setShowGrid(false);
 
-
     ui->tableWidget_2->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-
 
     ui->tableWidget_2->setRowCount(1);
     ui->tableWidget_2->scrollToTop();
 
+    // Sets table cell height
+    ui->tableWidget_2->setRowHeight(0, 10);
+
     // Get Hours Played Per Day Of The Last Week Data
-    QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData> dt = db->hoursPlayedPerDayOfTheLastWeek(gameId);
+    QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData> hoursPlayedPerDayOfTheLastWeekResult = db->hoursPlayedPerDayOfTheLastWeek(gameId);
 
     QVector<QString> days;
 
-    for (int var = 0; var < dt.count() ; ++var) {
-        //qDebug() << "---------------- " << dt[var].totalTimePlayed;
+    for (int idx = 0; idx < hoursPlayedPerDayOfTheLastWeekResult.count() ; ++idx) {
+        //qDebug() << "---------------- " << hoursPlayedPerDayOfTheLastWeekResult[var].totalTimePlayed;
 
-        days.push_back(util->dayNumberToWeekDay(dt[var].dayOfWeek));
+        days.push_back(util->dayNumberToWeekDay(hoursPlayedPerDayOfTheLastWeekResult[idx].dayOfWeek));
 
+        QTableWidgetItem* item = new QTableWidgetItem(util->secondsToTime(hoursPlayedPerDayOfTheLastWeekResult[idx].totalTimePlayed));
+        // Create a QFont to set the text style
+        QFont font;
+        font.setBold(true);  // Make the text bold
+        font.setItalic(false);  // Make the text italic
+        font.setUnderline(false);  // Underline the text
+        font.setPointSize(11);  // Set the font size to 14
+        // Set the QFont for the item
+        item->setFont(font);
 
-
-        ui->tableWidget_2->setItem(0, var, new QTableWidgetItem(util->secondsToTime(dt[var].totalTimePlayed)));
-        ui->tableWidget_2->item(0, var)->setTextAlignment(Qt::AlignCenter);
+        ui->tableWidget_2->setItem(0, idx, item);
+        ui->tableWidget_2->item(0, idx)->setTextAlignment(Qt::AlignCenter);
     }
-
 
     // Set horizontal header labels
     QStringList horizontalHeaderLabels;
     horizontalHeaderLabels << days[0] << days[1] << days[2]<< days[3]<< days[4]<< days[5]<< days[6];
+
     ui->tableWidget_2->setHorizontalHeaderLabels(horizontalHeaderLabels);
 
     delete db;

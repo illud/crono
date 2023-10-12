@@ -248,25 +248,25 @@ QString Util::getGameImage(QString gameName)
 QString Util::dayNumberToWeekDay(int day){
     switch (day) {
     case 0:
-        return "Sunday";
+        return "SUNDAY";
         break;
     case 1:
-        return "Monday";
+        return "MONDAY";
         break;
     case 2:
-        return "Tuesday";
+        return "TUESDAY";
         break;
     case 3:
-        return "Wednesday";
+        return "WEDNESDAY";
         break;
     case 4:
-        return "Thursday";
+        return "THURSDAY";
         break;
     case 5:
-        return "Friday";
+        return "FRIDAY";
         break;
     case 6:
-        return "Saturday";
+        return "SATURDAY";
         break;
     default:
         return "NO DAY";

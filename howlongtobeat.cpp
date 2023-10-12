@@ -186,13 +186,28 @@ void HowLongTobeat::on_btnSearch_clicked()
             // ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(jsonArray[var].toObject()["game_name"].toString()));
             // ui->tableWidget->item(currentRow, 1)->setTextAlignment(Qt::AlignCenter);
 
-            ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_main"].toInt())));
+            QTableWidgetItem* comp_main = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_main"].toInt()));
+            QTableWidgetItem* comp_plus = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_plus"].toInt()));
+            QTableWidgetItem* comp_100 = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_100"].toInt()));
+
+            // Create a QFont to set the text style
+            QFont font;
+            font.setBold(true);  // Make the text bold
+            font.setItalic(false);  // Make the text italic
+            font.setUnderline(false);  // Underline the text
+            font.setPointSize(11);  // Set the font size to 14
+            // Set the QFont for the items
+            comp_main->setFont(font);
+            comp_plus->setFont(font);
+            comp_100->setFont(font);
+
+            ui->tableWidget->setItem(currentRow, 1, comp_main);
             ui->tableWidget->item(currentRow, 1)->setTextAlignment(Qt::AlignCenter);
 
-            ui->tableWidget->setItem(currentRow, 2, new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_plus"].toInt())));
+            ui->tableWidget->setItem(currentRow, 2, comp_plus);
             ui->tableWidget->item(currentRow, 2)->setTextAlignment(Qt::AlignCenter);
 
-            ui->tableWidget->setItem(currentRow, 3, new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_100"].toInt())));
+            ui->tableWidget->setItem(currentRow, 3, comp_100);
             ui->tableWidget->item(currentRow, 3)->setTextAlignment(Qt::AlignCenter);
 
             currentRow = currentRow + 1;

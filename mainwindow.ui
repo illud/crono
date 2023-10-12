@@ -1157,24 +1157,33 @@ QPushButton::focus:pressed{
           </item>
           <item row="10" column="0" colspan="5">
            <widget class="QTableWidget" name="tableWidget_2">
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
             </property>
             <property name="styleSheet">
-             <string notr="true">QTableWidget {
+             <string notr="true">
+QTableWidget {
 	background-color: rgb(22, 22, 22);
     border: none;
     color: #ffffff;
 }
 
 QTableWidgetItem { border-radius: 10px; }
-
+QHeaderView {
+	font: 900 9pt &quot;Arial Black&quot;;
+}
 QHeaderView::section {
 	border-radius: 0px;
 	background-color: rgb(33, 33, 33);
 	color: #ffffff;
     border: none;
     height: 28px;
+	font: 900 9pt &quot;Arial Black&quot;;
 }
 
 QTableCornerButton::section {
@@ -1293,6 +1302,11 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
             <column>
              <property name="text">
               <string>1</string>
+             </property>
+             <property name="font">
+              <font>
+               <bold>true</bold>
+              </font>
              </property>
             </column>
             <column>
