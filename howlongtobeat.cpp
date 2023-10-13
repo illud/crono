@@ -21,8 +21,6 @@ HowLongTobeat::HowLongTobeat(QWidget *parent) : QWidget(parent),
 {
     ui->setupUi(this);
 
-    static const QString path = "crono.db";
-
     // Instance db conn
     DbManager *db = new DbManager(path);
 
@@ -39,7 +37,6 @@ HowLongTobeat::HowLongTobeat(QWidget *parent) : QWidget(parent),
     ui->tableWidget->setShowGrid(false);
 
     ui->tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
-
 }
 
 HowLongTobeat::~HowLongTobeat()
@@ -146,8 +143,8 @@ void HowLongTobeat::on_btnSearch_clicked()
                                    QPixmap pixmap = QPixmap::fromImage(image);
 
                                    // Create a rounded QPixmap
-                                   QPixmap roundedPixmap(pixmap.size());  // Create a QPixmap with the same size as the original pixmap
-                                   roundedPixmap.fill(Qt::transparent);     // Fill the QPixmap with a transparent background
+                                   QPixmap roundedPixmap(pixmap.size()); // Create a QPixmap with the same size as the original pixmap
+                                   roundedPixmap.fill(Qt::transparent);  // Fill the QPixmap with a transparent background
 
                                    // Create a QPainter to draw on the roundedPixmap
                                    QPainter painter(&roundedPixmap);
@@ -186,16 +183,16 @@ void HowLongTobeat::on_btnSearch_clicked()
             // ui->tableWidget->setItem(currentRow, 1, new QTableWidgetItem(jsonArray[var].toObject()["game_name"].toString()));
             // ui->tableWidget->item(currentRow, 1)->setTextAlignment(Qt::AlignCenter);
 
-            QTableWidgetItem* comp_main = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_main"].toInt()));
-            QTableWidgetItem* comp_plus = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_plus"].toInt()));
-            QTableWidgetItem* comp_100 = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_100"].toInt()));
+            QTableWidgetItem *comp_main = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_main"].toInt()));
+            QTableWidgetItem *comp_plus = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_plus"].toInt()));
+            QTableWidgetItem *comp_100 = new QTableWidgetItem(util->secondsToTime(jsonArray[var].toObject()["comp_100"].toInt()));
 
             // Create a QFont to set the text style
             QFont font;
-            font.setBold(true);  // Make the text bold
-            font.setItalic(false);  // Make the text italic
-            font.setUnderline(false);  // Underline the text
-            font.setPointSize(11);  // Set the font size to 14
+            font.setBold(true);       // Make the text bold
+            font.setItalic(false);    // Make the text italic
+            font.setUnderline(false); // Underline the text
+            font.setPointSize(11);    // Set the font size to 14
             // Set the QFont for the items
             comp_main->setFont(font);
             comp_plus->setFont(font);
@@ -220,4 +217,3 @@ void HowLongTobeat::on_btnSearch_clicked()
 
     reply->deleteLater();
 }
-

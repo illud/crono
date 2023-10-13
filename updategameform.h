@@ -17,6 +17,7 @@ public:
     ~UpdateGameForm();
     QString gameExePath;
     int gameId;
+    const QString path = "crono.db";
 
 private slots:
     void on_updateBtn_clicked();

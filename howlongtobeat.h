@@ -15,6 +15,7 @@ class HowLongTobeat : public QWidget
 public:
     explicit HowLongTobeat(QWidget *parent = nullptr);
     ~HowLongTobeat();
+    const QString path = "crono.db";
 
 private slots:
     void on_btnSearch_clicked();

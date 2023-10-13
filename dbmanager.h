@@ -116,7 +116,7 @@ public:
     bool deleteGame(int gameId);
     bool deleteGameHistorical(int gameId);
     int timePlayedFilter(int days);
-    QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData>  hoursPlayedPerDayOfTheLastWeek(int gameId);
+    QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData> hoursPlayedPerDayOfTheLastWeek(int gameId);
 };
 
 #endif // DBMANAGER_H

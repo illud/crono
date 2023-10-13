@@ -245,8 +245,10 @@ QString Util::getGameImage(QString gameName)
     return imageUrl;
 }
 
-QString Util::dayNumberToWeekDay(int day){
-    switch (day) {
+QString Util::dayNumberToWeekDay(int day)
+{
+    switch (day)
+    {
     case 0:
         return "SUNDAY";
         break;

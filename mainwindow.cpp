@@ -41,8 +41,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Install the event filter to capture mouse events for resizing
     this->installEventFilter(this);
 
-    static const QString path = "crono.db";
-
     // Instance db conn
     DbManager *db = new DbManager(path);
 
@@ -122,8 +120,6 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
 {
     Util *util = new Util();
 
-    static const QString path = "crono.db";
-
     // Get image url
     QString imageUrl = util->getGameImage(gameName);
 
@@ -141,10 +137,11 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
     statusBar()->show();
 
     // Create a QTimer to hide the message after 3 seconds
-    QTimer::singleShot(3000, statusBar(), [this]() {
-        statusBar()->clearMessage(); // Clear the message after 3 seconds
-        statusBar()->hide(); // Hide the status bar
-    });
+    QTimer::singleShot(3000, statusBar(), [this]()
+                       {
+                           statusBar()->clearMessage(); // Clear the message after 3 seconds
+                           statusBar()->hide();         // Hide the status bar
+                       });
 
     // Show the status message
     statusBar()->showMessage(tr("Game added."));
@@ -155,7 +152,6 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
 
 void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
 {
-    static const QString path = "crono.db";
 
     // Instance db conn
     DbManager *db = new DbManager(path);
@@ -343,17 +339,19 @@ void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
             goToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
         } });
 
-    if (updatedGame){
+    if (updatedGame)
+    {
         // Set the status bar style
         statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
 
         statusBar()->show();
 
         // Create a QTimer to hide the message after 3 seconds
-        QTimer::singleShot(3000, statusBar(), [this]() {
-            statusBar()->clearMessage(); // Clear the message after 3 seconds
-            statusBar()->hide(); // Hide the status bar
-        });
+        QTimer::singleShot(3000, statusBar(), [this]()
+                           {
+                               statusBar()->clearMessage(); // Clear the message after 3 seconds
+                               statusBar()->hide();         // Hide the status bar
+                           });
 
         // Show the status message
         statusBar()->showMessage(tr("Game updated."));
@@ -374,13 +372,13 @@ void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QSt
     gameExeValue = gameExe;
 
     // Update running
-    static const QString path = "crono.db";
     // Instance db conn
     DbManager *db = new DbManager(path);
 
     QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
 
     Util *util = new Util();
+
     // Set total time played
     ui->timePlayedText->setText(util->secondsToTime(gamesResult[0].timePlayed));
 
@@ -400,6 +398,22 @@ void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QSt
     // Set total time played today for specific game
     ui->timePlayedTodayText->setText(util->secondsToTime(db->totalPlayTimeToday(gamesResult[0].id)));
 
+    // Renders Hours Played Per Day Of The Last Week Table
+    MainWindow::hoursPlayedPerDayForTheLastWeekTable(gameId);
+
+    delete db;
+
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void MainWindow::hoursPlayedPerDayForTheLastWeekTable(int gameId)
+{
+    // Update running
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    Util *util = new Util();
+
     // Sets tableWidget row count
     ui->tableWidget_2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // Disable the vertical header (row index counter)
@@ -413,7 +427,8 @@ void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QSt
     ui->tableWidget_2->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     ui->tableWidget_2->setRowCount(1);
-    ui->tableWidget_2->scrollToTop();
+    ui->tableWidget_2->setColumnCount(8);
+    // ui->tableWidget_2->scrollToTop();
 
     // Sets table cell height
     ui->tableWidget_2->setRowHeight(0, 10);
@@ -423,18 +438,19 @@ void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QSt
 
     QVector<QString> days;
 
-    for (int idx = 0; idx < hoursPlayedPerDayOfTheLastWeekResult.count() ; ++idx) {
-        //qDebug() << "---------------- " << hoursPlayedPerDayOfTheLastWeekResult[var].totalTimePlayed;
+    for (int idx = 0; idx < hoursPlayedPerDayOfTheLastWeekResult.count(); ++idx)
+    {
+        // qDebug() << "---------------- " << idx;
 
         days.push_back(util->dayNumberToWeekDay(hoursPlayedPerDayOfTheLastWeekResult[idx].dayOfWeek));
 
-        QTableWidgetItem* item = new QTableWidgetItem(util->secondsToTime(hoursPlayedPerDayOfTheLastWeekResult[idx].totalTimePlayed));
+        QTableWidgetItem *item = new QTableWidgetItem(util->secondsToTime(hoursPlayedPerDayOfTheLastWeekResult[idx].totalTimePlayed));
         // Create a QFont to set the text style
         QFont font;
-        font.setBold(true);  // Make the text bold
-        font.setItalic(false);  // Make the text italic
-        font.setUnderline(false);  // Underline the text
-        font.setPointSize(11);  // Set the font size to 14
+        font.setBold(true);       // Make the text bold
+        font.setItalic(false);    // Make the text italic
+        font.setUnderline(false); // Underline the text
+        font.setPointSize(11);    // Set the font size to 14
         // Set the QFont for the item
         item->setFont(font);
 
@@ -444,19 +460,14 @@ void MainWindow::goToGame(QString gameName, int gameId, QString gameExePath, QSt
 
     // Set horizontal header labels
     QStringList horizontalHeaderLabels;
-    horizontalHeaderLabels << days[0] << days[1] << days[2]<< days[3]<< days[4]<< days[5]<< days[6];
+    horizontalHeaderLabels << days[0] << days[1] << days[2] << days[3] << days[4] << days[5] << days[6] << "TODAY";
 
     ui->tableWidget_2->setHorizontalHeaderLabels(horizontalHeaderLabels);
-
-    delete db;
-
-    ui->stackedWidget->setCurrentIndex(2);
 }
 
 void MainWindow::on_btnStartGame_clicked()
 {
     // Add new game_historical
-    static const QString path = "crono.db";
     // Instance db conn
     DbManager *db = new DbManager(path);
 
@@ -474,7 +485,6 @@ void MainWindow::on_btnStartGame_clicked()
 void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameExePath, QString gameExe)
 {
     // Update running
-    static const QString path = "crono.db";
     // Instance db conn
     DbManager *db = new DbManager(path);
 
@@ -579,13 +589,15 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
 {
     QString processNameToCheck = gameName;
 
-    static const QString path = "crono.db";
     // Instance db conn
     DbManager *db = new DbManager(path);
 
     Util *util = new Util();
     if (util->isProcessRunning(processNameToCheck))
     {
+        // Renders Hours Played Per Day Of The Last Week Table
+        MainWindow::hoursPlayedPerDayForTheLastWeekTable(gameId);
+
         QVector<DbManager::Games> gamesResult = db->getGameById(gameId);
         // qDebug() << gamesResult[0].gameName;
 
@@ -737,15 +749,15 @@ void MainWindow::on_maxBtn_clicked()
 {
     if (this->isMaximized())
     {
-        this->showNormal(); // Restore the window to its normal size
-        numCols = 5;        // Sets row to 4 when minimized
-        getGame(false, false);     // Refresh data
+        this->showNormal();    // Restore the window to its normal size
+        numCols = 5;           // Sets row to 4 when minimized
+        getGame(false, false); // Refresh data
     }
     else
     {
         this->showMaximized(); // Maximize the window
         numCols = 8;           // Sets row to 8 when Maximize
-        getGame(false, false);        // Refresh data
+        getGame(false, false); // Refresh data
     }
 }
 
@@ -1056,7 +1068,6 @@ void MainWindow::deleteGame(int gameId, QString gameName)
     if (msgBox.clickedButton() == yesButton)
     {
         // qDebug() << "YES";
-        static const QString path = "crono.db";
 
         // Instance db conn
         DbManager *db = new DbManager(path);
@@ -1083,10 +1094,11 @@ void MainWindow::deleteGame(int gameId, QString gameName)
         statusBar()->show();
 
         // Create a QTimer to hide the message after 3 seconds
-        QTimer::singleShot(3000, statusBar(), [this]() {
-            statusBar()->clearMessage(); // Clear the message after 3 seconds
-            statusBar()->hide(); // Hide the status bar
-        });
+        QTimer::singleShot(3000, statusBar(), [this]()
+                           {
+                               statusBar()->clearMessage(); // Clear the message after 3 seconds
+                               statusBar()->hide();         // Hide the status bar
+                           });
 
         // Show the status message
         statusBar()->showMessage(tr("Game deleted."));

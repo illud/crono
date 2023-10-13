@@ -8,8 +8,6 @@ Stats::Stats(QWidget *parent) : QWidget(parent),
 {
     ui->setupUi(this);
 
-    static const QString path = "crono.db";
-
     // Instance db conn
     DbManager *db = new DbManager(path);
 
@@ -47,7 +45,6 @@ Stats::~Stats()
 
 void Stats::refreshStats()
 {
-    static const QString path = "crono.db";
 
     // Instance db conn
     DbManager *db = new DbManager(path);

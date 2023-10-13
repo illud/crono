@@ -74,8 +74,6 @@ void UpdateGameForm::on_updateBtn_clicked()
 
         Util *util = new Util();
 
-        static const QString path = "crono.db";
-
         // Get image url
         QString imageUrl = util->getGameImage(ui->gameName->text());
 

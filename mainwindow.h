@@ -24,6 +24,7 @@ public:
     QString gameExeValue;
     Qt::WindowFlags initialFlags;
     QPoint initialPosition;
+    const QString path = "crono.db";
 
 private slots:
     void on_addGameBtn_clicked();
@@ -42,7 +43,7 @@ private slots:
     void on_btnHltb_clicked();
     void updateGame(int gameId, QString gameName, QString gameExeLocation);
     void on_radioBtnTimeIndicator_clicked();
-
+    void hoursPlayedPerDayForTheLastWeekTable(int gameId);
     void on_reloadBtn_clicked();
 
 public slots:

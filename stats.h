@@ -15,6 +15,7 @@ class Stats : public QWidget
 public:
     explicit Stats(QWidget *parent = nullptr);
     ~Stats();
+    const QString path = "crono.db";
 
 private slots:
 
