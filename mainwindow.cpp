@@ -152,12 +152,16 @@ void MainWindow::addedGame(const QString &gameName, const QString &gameExePath)
 
 void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
 {
+    // Reset tableWidget row count so it won´t create a copy of last item when deleting game
+    // This also prevents to repeat items when maximazing app
+    ui->tableWidget->setRowCount(0);
 
     // Instance db conn
     DbManager *db = new DbManager(path);
 
     QVector<DbManager::Games> gamesResult = db->getGames();
 
+    qDebug() << "------------------------" << gamesResult.count();
     delete db;
 
     // size of columns
