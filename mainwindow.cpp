@@ -161,7 +161,6 @@ void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
 
     QVector<DbManager::Games> gamesResult = db->getGames();
 
-    qDebug() << "------------------------" << gamesResult.count();
     delete db;
 
     // size of columns
@@ -328,20 +327,25 @@ void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
     }
 
     // Connect the cellClicked signal of the table widget
-    connect(ui->tableWidget, &QTableWidget::cellClicked, [=](int row, int col)
-            {
+    connect(ui->tableWidget, &QTableWidget::cellClicked, [=](int row, int col){
 
-        // Retrieve the QVariant containing game data from the user role of the clicked cell
-        QVariant gameDataVariant = ui->tableWidget->item(row, col)->data(Qt::UserRole);
+            // Retrieve the QTableWidgetItem at the specified row and column
+            QTableWidgetItem* item = ui->tableWidget->item(row, col);
 
-        // Check if the retrieved QVariant is valid
-        if (gameDataVariant.isValid()) {
-            // Retrieve the stored game data from the QVariant
-            DbManager::Games gameData = gameDataVariant.value<DbManager::Games>();
+            // Check if the item is not null (i.e., it exists) and if it has a user role
+            if (item && item->data(Qt::UserRole).isValid()) {
+                // The item has a user role set, and it's valid
+                QVariant gameDataVariant = item->data(Qt::UserRole);
 
-            // Perform the custom action using the retrieved game data
-            goToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
-        } });
+                // Now you can safely retrieve and use the user role data
+                DbManager::Games gameData = gameDataVariant.value<DbManager::Games>();
+                goToGame(gameData.gameName, gameData.id, gameData.gameExePath, gameData.gameExe);
+            } else {
+                // Handle the case where the item does not have a user role set
+                // or it does not exist (is null)
+                qDebug() << "No data found";
+            }
+    });
 
     if (updatedGame)
     {
