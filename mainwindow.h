@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "dbmanager.h"
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -45,6 +45,14 @@ private slots:
     void on_radioBtnTimeIndicator_clicked();
     void hoursPlayedPerDayForTheLastWeekTable(int gameId);
     void on_reloadBtn_clicked();
+    void on_btnGithub_clicked();
+    void on_btnAchivements_clicked();
+    void on_btnSilver_clicked();
+    void on_btnCrono_clicked();
+    void on_btnNova_clicked();
+    void on_btnPlatinum_clicked();
+    void on_btnDiamond_clicked();
+    void checkActiveTheme();
 
 public slots:
     void on_statsBtn_clicked();

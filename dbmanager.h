@@ -45,6 +45,14 @@ public:
         QString updatedAt;
     } table_game_historical;
 
+    typedef struct
+    {
+        int id;
+        QString achivement;
+        bool unlocked;
+        QString unlockedAt;
+    } table_achivements;
+
     /**
      * @brief It is the place where struct structures created in a parent field are collected and called from the same place.
      */
@@ -53,6 +61,7 @@ public:
 
         table_games _tableGames;
         table_game_historical _tblGameHistorical;
+        table_achivements _table_achivements;
     };
 
     const tablesAndColumns *allTables;
@@ -95,6 +104,16 @@ public:
         int totalTimePlayed;
     };
 
+    // Games struct
+    struct Achivements
+    {
+        int id;
+        QString achivement;
+        bool unlocked;
+        bool active;
+        QString unlockedAt;
+    };
+
     QVector<Games> getGames();
     QVector<Games> getGameById(int gameId);
 
@@ -117,6 +136,9 @@ public:
     bool deleteGameHistorical(int gameId);
     int timePlayedFilter(int days);
     QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData> hoursPlayedPerDayOfTheLastWeek(int gameId);
+    QVector<DbManager::Achivements> getAchivements() ;
+    bool updateAchivement(int id);
+    void updateActiveTheme(int id);
 };
 
 #endif // DBMANAGER_H

@@ -33,6 +33,40 @@ DbManager::DbManager(const QString &path)
         {
             qDebug() << "Table already game_historical created.";
         }
+
+        QSqlQuery queryAchivements;
+        queryAchivements.prepare("CREATE TABLE achivements(id INTEGER PRIMARY KEY AUTOINCREMENT, achivement TEXT, unlocked BOOLEAN, active BOOLEAN, unlockedAt TEXT);");
+
+        if (!queryAchivements.exec())
+        {
+            qDebug() << "Table already achivements created.";
+
+            QVector<DbManager::Achivements> getAchivements = DbManager::getAchivements();
+            if(getAchivements.count() == 0){
+                // Create achievements data
+                QSqlQuery queryAdd;
+                queryAdd.prepare("INSERT INTO achivements (achivement, unlocked, active, unlockedAt) VALUES "
+                                 "('crono', false, true, ''), "
+                                 "('silver', false, false, ''), "
+                                 "('nova', false, false,''), "
+                                 "('platinum', false, false,''), "
+                                 "('diamond', false, false,'')");
+
+                if (queryAdd.exec())
+                {
+                    qDebug() << "Data added to achivements";
+                }
+                else
+                {
+                    qDebug() << "Could add data to achivements: " << queryAdd.lastError();
+                }
+            }else{
+                qDebug() << "There is already data in achivements";
+            }
+
+        }else{
+
+        }
     }
 }
 
@@ -729,4 +763,70 @@ QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData> DbManager::hoursPlayedPer
     }
 
     return hoursPlayedPerDayOfTheLastWeekResult;
+}
+
+QVector<DbManager::Achivements> DbManager::getAchivements()
+{
+    QVector<Achivements> achivements;
+
+    QSqlQuery query("SELECT * FROM achivements");
+    int idIndex = query.record().indexOf("id");
+    int achivementIndex = query.record().indexOf("achivement");
+    int unlockedIndex = query.record().indexOf("unlocked");
+    int activeIndex = query.record().indexOf("active");
+    int unlockedAtIndex = query.record().indexOf("unlockedAt");
+
+    while (query.next())
+    {
+        int id = query.value(idIndex).toInt();
+        QString achivement = query.value(achivementIndex).toString();
+        bool unlocked = query.value(unlockedIndex).toBool();
+        bool active = query.value(activeIndex).toBool();
+        QString unlockedAt = query.value(unlockedAtIndex).toString();
+
+        achivements.push_back(DbManager::Achivements{id, achivement, unlocked, active, unlockedAt});
+    }
+
+    return achivements;
+}
+
+bool DbManager::updateAchivement(int id)
+{
+    QSqlQuery queryAdd;
+    queryAdd.prepare("UPDATE achivements SET unlocked = true, unlockedAt = :unlockedAt WHERE id = :id");
+
+    QDate currentDate = QDate::currentDate();
+    int year = currentDate.year();
+    int month = currentDate.month();
+    int day = currentDate.day();
+    QString formattedDate = QString("%1-%2-%3").arg(year).arg(month, 2, 10, QChar('0')).arg(day, 2, 10, QChar('0'));
+
+    queryAdd.bindValue(":unlockedAt", formattedDate);
+    queryAdd.bindValue(":id", id);
+
+    if (queryAdd.exec())
+    {
+        qDebug() << "Success updating achivements";
+        return true;
+    }
+    else
+    {
+        qDebug() << "Error updating achivements: " << queryAdd.lastError();
+        return false;
+    }
+}
+
+void DbManager::updateActiveTheme(int id){
+    QSqlQuery queryAdd;
+    queryAdd.prepare("UPDATE achivements SET active = CASE WHEN id IN (:id) THEN true ELSE false END;");
+    queryAdd.bindValue(":id", id);
+
+    if (queryAdd.exec())
+    {
+        qDebug() << "Success updating achivements theme";
+    }
+    else
+    {
+        qDebug() << "Error updating achivements theme: " << queryAdd.lastError();
+    }
 }

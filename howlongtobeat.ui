@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(22, 22, 22);</string>
+   <string notr="true">	/*background-color: rgb(22, 22, 22);*/</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0">
@@ -157,7 +157,7 @@ QPushButton#btnSearch::focus:pressed{
        </property>
        <property name="styleSheet">
         <string notr="true">QTableWidget {
-	background-color: rgb(22, 22, 22);
+	/*background-color: rgb(22, 22, 22);*/
     border: none;
     color: #ffffff;
 }
@@ -166,7 +166,7 @@ QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
 	border-radius: 0px;
-	background-color: rgb(33, 33, 33);
+background-color: rgba(44, 44, 44, 100);
 	color: #ffffff;
     border: none;
     height: 28px;
