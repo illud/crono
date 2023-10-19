@@ -30,6 +30,8 @@
 #include <QPainterPath>
 #include <QLabel>
 #include <QStatusBar>
+#include <QDesktopServices>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -618,6 +620,32 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
         // Gets time played this week filter by game id
         ui->timePlayedThisWeek->setText(util->secondsToTime(db->totalPlayTimeThisWeek(gamesResult[0].id)));
 
+        // Achivements
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 1){
+            bool silver = db->updateAchivement(1);
+            if(silver){
+                qDebug() << "Silver updated";
+            }
+        }
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 100){
+            bool silver = db->updateAchivement(2);
+            if(silver){
+                qDebug() << "Gold updated";
+            }
+        }
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 500){
+            bool silver = db->updateAchivement(3);
+            if(silver){
+                qDebug() << "Platinum updated";
+            }
+        }
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 1000){
+            bool silver = db->updateAchivement(4);
+            if(silver){
+                qDebug() << "Diamond updated";
+            }
+        }
+
         // Adds 30 seconds to timePlayed
         bool updateTime = db->updateTimePlayed(gameId, gamesResult[0].timePlayed + 30);
 
@@ -830,6 +858,28 @@ void MainWindow::on_btnGames_clicked()
                                "border: 0px;"
                                "}");
 
+    ui->btnAchivements->setStyleSheet("QPushButton {"
+                               " text-align: left;"
+                               " padding-left: 13px;"
+                               "border-left-color: rgb(255, 255, 255);"
+                               "border-left: 0px rgb(252, 196, 25);"
+                               "background-color:  transparent;"
+                               "font: 900 11pt 'Arial Black';"
+                               "color: rgb(255, 255, 255);"
+                               "border-style: outset;"
+                               "}"
+                               "QPushButton:hover{ "
+                               "font: 900 11pt 'Arial Black';"
+                               "color: rgb(163, 163, 163);"
+                               "border: 0px;"
+                               "}"
+
+                               "QPushButton::focus:pressed{ "
+                               "font: 900 11pt 'Arial Black';"
+                               "color: rgb(163, 163, 163);"
+                               "border: 0px;"
+                               "}");
+
     ui->statsBtn->setStyleSheet("QPushButton {"
                                 " text-align: left;"
                                 " padding-left: 13px;"
@@ -907,6 +957,28 @@ void MainWindow::on_statsBtn_clicked()
                                "border: 0px;"
                                "}");
 
+    ui->btnAchivements->setStyleSheet("QPushButton {"
+                                      " text-align: left;"
+                                      " padding-left: 13px;"
+                                      "border-left-color: rgb(255, 255, 255);"
+                                      "border-left: 0px rgb(252, 196, 25);"
+                                      "background-color:  transparent;"
+                                      "font: 900 11pt 'Arial Black';"
+                                      "color: rgb(255, 255, 255);"
+                                      "border-style: outset;"
+                                      "}"
+                                      "QPushButton:hover{ "
+                                      "font: 900 11pt 'Arial Black';"
+                                      "color: rgb(163, 163, 163);"
+                                      "border: 0px;"
+                                      "}"
+
+                                      "QPushButton::focus:pressed{ "
+                                      "font: 900 11pt 'Arial Black';"
+                                      "color: rgb(163, 163, 163);"
+                                      "border: 0px;"
+                                      "}");
+
     ui->statsBtn->setStyleSheet("QPushButton {"
                                 " text-align: left;"
                                 " padding-left: 13px;"
@@ -977,6 +1049,28 @@ void MainWindow::on_btnHltb_clicked()
                                 "color: rgb(163, 163, 163);"
                                 "border: 0px;"
                                 "}");
+
+    ui->btnAchivements->setStyleSheet("QPushButton {"
+                                      " text-align: left;"
+                                      " padding-left: 13px;"
+                                      "border-left-color: rgb(255, 255, 255);"
+                                      "border-left: 0px rgb(252, 196, 25);"
+                                      "background-color:  transparent;"
+                                      "font: 900 11pt 'Arial Black';"
+                                      "color: rgb(255, 255, 255);"
+                                      "border-style: outset;"
+                                      "}"
+                                      "QPushButton:hover{ "
+                                      "font: 900 11pt 'Arial Black';"
+                                      "color: rgb(163, 163, 163);"
+                                      "border: 0px;"
+                                      "}"
+
+                                      "QPushButton::focus:pressed{ "
+                                      "font: 900 11pt 'Arial Black';"
+                                      "color: rgb(163, 163, 163);"
+                                      "border: 0px;"
+                                      "}");
 
     ui->btnHltb->setStyleSheet("QPushButton {"
                                " text-align: left;"
@@ -1168,3 +1262,180 @@ void MainWindow::on_reloadBtn_clicked()
 {
     getGame(false, false);
 }
+
+void MainWindow::on_btnGithub_clicked()
+{
+    QUrl url("https://github.com/illud/crono");
+
+    if (QDesktopServices::openUrl(url)) {
+        qDebug() << "URL opened successfully";
+    } else {
+        qDebug() << "Failed to open the URL";
+    }
+}
+
+
+void MainWindow::on_btnAchivements_clicked()
+{
+    ui->btnGames->setStyleSheet("QPushButton {"
+                                " text-align: left;"
+                                " padding-left: 13px;"
+                                "border-left-color: rgb(255, 255, 255);"
+                                "border-left: 0px rgb(252, 196, 25);"
+                                "background-color:  transparent;"
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(255, 255, 255);"
+                                "border-style: outset;"
+                                "}"
+                                "QPushButton:hover{ "
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(163, 163, 163);"
+                                "border: 0px;"
+                                "}"
+
+                                "QPushButton::focus:pressed{ "
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(163, 163, 163);"
+                                "border: 0px;"
+                                "}");
+
+    ui->statsBtn->setStyleSheet("QPushButton {"
+                                " text-align: left;"
+                                " padding-left: 13px;"
+                                "border-left-color: rgb(255, 255, 255);"
+                                "border-left: 0px rgb(252, 196, 25);"
+                                "background-color:  transparent;"
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(255, 255, 255);"
+                                "border-style: outset;"
+                                "}"
+                                "QPushButton:hover{ "
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(163, 163, 163);"
+                                "border: 0px;"
+                                "}"
+
+                                "QPushButton::focus:pressed{ "
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(163, 163, 163);"
+                                "border: 0px;"
+                                "}");
+
+    ui->btnHltb->setStyleSheet("QPushButton {"
+                                " text-align: left;"
+                                " padding-left: 13px;"
+                                "border-left-color: rgb(255, 255, 255);"
+                                "border-left: 0px rgb(252, 196, 25);"
+                                "background-color:  transparent;"
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(255, 255, 255);"
+                                "border-style: outset;"
+                                "}"
+                                "QPushButton:hover{ "
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(163, 163, 163);"
+                                "border: 0px;"
+                                "}"
+
+                                "QPushButton::focus:pressed{ "
+                                "font: 900 11pt 'Arial Black';"
+                                "color: rgb(163, 163, 163);"
+                                "border: 0px;"
+                                "}");
+
+    ui->btnAchivements->setStyleSheet("QPushButton {"
+                               " text-align: left;"
+                               " padding-left: 13px;"
+                               "border-left-color: rgb(255, 255, 255);"
+                               "border-left: 2px rgb(252, 196, 25);"
+                               "background-color:  transparent;"
+                               "font: 900 11pt 'Arial Black';"
+                               "color: rgb(255, 255, 255);"
+                               "border-style: outset;"
+                               "}"
+                               "QPushButton:hover{ "
+                               "font: 900 11pt 'Arial Black';"
+                               "color: rgb(163, 163, 163);"
+                               "border: 0px;"
+                               "}"
+
+                               "QPushButton::focus:pressed{ "
+                               "font: 900 11pt 'Arial Black';"
+                               "color: rgb(163, 163, 163);"
+                               "border: 0px;"
+                               "}");
+
+
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    QVector<DbManager::Achivements> achivementsData = db->getAchivements();
+
+    if(achivementsData[0].unlocked == true){
+        QIcon icon(":/silver.png");
+        ui->btnSilver->setIcon(icon);
+        ui->btnSilver->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnSilver->update();
+        ui->silverTxt->setStyleSheet("color: white;");
+        //ui->btnSilver->setDisabled(false);
+
+    }else{
+        QIcon icon(":/silver0.png");
+        ui->btnSilver->setIcon(icon);
+        ui->btnSilver->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnSilver->update();
+        ui->silverTxt->setStyleSheet("color: grey;");
+        //ui->btnSilver->setDisabled(true);
+    }
+
+    if(achivementsData[1].unlocked == true){
+        //ui->btnGold->setDisabled(false);
+        QIcon icon(":/gold.png");
+        ui->btnGold->setIcon(icon);
+        ui->btnGold->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnGold->update();
+        ui->goldTxt->setStyleSheet("color: white;");
+    }else{
+        //ui->btnGold->setDisabled(true);
+        QIcon icon(":/silver0.png");
+        ui->btnGold->setIcon(icon);
+        ui->btnGold->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnGold->update();
+        ui->goldTxt->setStyleSheet("color: grey;");
+    }
+
+    if(achivementsData[2].unlocked == true){
+        //ui->btnPlatinum->setDisabled(false);
+        QIcon icon(":/platinum.png");
+        ui->btnPlatinum->setIcon(icon);
+        ui->btnPlatinum->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnPlatinum->update();
+        ui->platinumTxt->setStyleSheet("color: white;");
+    }else{
+        //ui->btnPlatinum->setDisabled(true);
+        QIcon icon(":/silver0.png");
+        ui->btnPlatinum->setIcon(icon);
+        ui->btnPlatinum->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnPlatinum->update();
+        ui->platinumTxt->setStyleSheet("color: grey;");
+    }
+
+    if(achivementsData[3].unlocked == true){
+        //ui->btnDiamond->setDisabled(false);
+        QIcon icon(":/diamond.png");
+        ui->btnDiamond->setIcon(icon);
+        ui->btnDiamond->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnDiamond->update();
+        ui->diamondTxt->setStyleSheet("color: white;");
+    }else{
+       //ui->btnDiamond->setDisabled(true);
+        QIcon icon(":/silver0.png");
+        ui->btnDiamond->setIcon(icon);
+        ui->btnDiamond->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnDiamond->update();
+        ui->diamondTxt->setStyleSheet("color: grey;");
+    }
+
+    ui->stackedWidget->setCurrentIndex(4);
+}
+

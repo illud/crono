@@ -11,5 +11,12 @@
         <file>games_logo.png</file>
         <file>h_logo.png</file>
         <file>stats_logo.png</file>
+        <file>achivements.png</file>
+        <file>github.png</file>
+        <file>silver.png</file>
+        <file>silver0.png</file>
+        <file>gold.png</file>
+        <file>platinum.png</file>
+        <file>diamond.png</file>
     </qresource>
 </RCC>
