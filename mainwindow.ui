@@ -240,7 +240,7 @@ QPushButton#btnClose::focus:pressed{
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -406,6 +406,7 @@ QPushButton#reloadBtn::focus:pressed{
     border:none;
     color: #ffffff;
 }
+
 QTableWidgetItem {
 border: 1px;
                  border-radius: 15px;
@@ -415,10 +416,11 @@ QTableWidget::item:focus {border:none;}
 
 QHeaderView::section {
 	border-radius: 0px;
-    background-color: rgb(39, 39, 39);
+background-color: rgba(44, 44, 44, 100);
 	color: #ffffff;
     border: none;
     height: 28px;
+	font: 900 9pt &quot;Arial Black&quot;;
 }
 
 QTableCornerButton::section {
@@ -834,7 +836,7 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
             <property name="styleSheet">
              <string notr="true">
 QTableWidget {
-	background-color: rgb(22, 22, 22);
+	/*background-color: rgb(22, 22, 22);*/
     border: none;
     color: #ffffff;
 }
@@ -1494,11 +1496,14 @@ QPushButton::focus:pressed{
          <widget class="QPushButton" name="btnSilver">
           <property name="geometry">
            <rect>
-            <x>30</x>
-            <y>50</y>
+            <x>138</x>
+            <y>60</y>
             <width>81</width>
             <height>61</height>
            </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 1 hour to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1542,21 +1547,24 @@ QPushButton#btnSilver::focus:pressed{
            <bool>true</bool>
           </property>
          </widget>
-         <widget class="QPushButton" name="btnGold">
+         <widget class="QPushButton" name="btnNova">
           <property name="geometry">
            <rect>
-            <x>140</x>
-            <y>50</y>
+            <x>248</x>
+            <y>60</y>
             <width>80</width>
             <height>61</height>
            </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 100 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">
-QPushButton#btnGold { 
+QPushButton#btnNova { 
 	text-align: left;
 	padding-left: 13px;
     background-color:  transparent;
@@ -1567,13 +1575,13 @@ QPushButton#btnGold {
 	border-style: outset;
 }
 
-QPushButton#btnGold:hover{ 
+QPushButton#btnNova:hover{ 
 font: 900 11pt 'Arial Black';
 	color: rgb(163, 163, 163);
     border: 0px;
 }
 
-QPushButton#btnGold::focus:pressed{ 
+QPushButton#btnNova::focus:pressed{ 
 	font: 900 11pt 'Arial Black';
 	color: rgb(163, 163, 163);
     border: 0px;
@@ -1587,11 +1595,14 @@ QPushButton#btnGold::focus:pressed{
          <widget class="QPushButton" name="btnPlatinum">
           <property name="geometry">
            <rect>
-            <x>240</x>
-            <y>50</y>
+            <x>348</x>
+            <y>60</y>
             <width>80</width>
             <height>61</height>
            </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 500 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1629,11 +1640,14 @@ QPushButton#btnPlatinum::focus:pressed{
          <widget class="QPushButton" name="btnDiamond">
           <property name="geometry">
            <rect>
-            <x>340</x>
-            <y>50</y>
+            <x>448</x>
+            <y>60</y>
             <width>80</width>
             <height>61</height>
            </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 1000 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1672,9 +1686,9 @@ QPushButton#btnDiamond::focus:pressed{
           <property name="geometry">
            <rect>
             <x>40</x>
-            <y>10</y>
+            <y>8</y>
             <width>531</width>
-            <height>16</height>
+            <height>21</height>
            </rect>
           </property>
           <property name="styleSheet">
@@ -1688,9 +1702,9 @@ color: rgb(255, 255, 255);</string>
          <widget class="QLabel" name="silverTxt">
           <property name="geometry">
            <rect>
-            <x>52</x>
-            <y>120</y>
-            <width>51</width>
+            <x>165</x>
+            <y>130</y>
+            <width>61</width>
             <height>16</height>
            </rect>
           </property>
@@ -1705,8 +1719,8 @@ color: rgb(255, 255, 255);</string>
          <widget class="QLabel" name="goldTxt">
           <property name="geometry">
            <rect>
-            <x>160</x>
-            <y>120</y>
+            <x>275</x>
+            <y>130</y>
             <width>51</width>
             <height>16</height>
            </rect>
@@ -1716,14 +1730,14 @@ color: rgb(255, 255, 255);</string>
 color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
-           <string>GOLD</string>
+           <string>NOVA</string>
           </property>
          </widget>
          <widget class="QLabel" name="platinumTxt">
           <property name="geometry">
            <rect>
-            <x>245</x>
-            <y>120</y>
+            <x>362</x>
+            <y>130</y>
             <width>71</width>
             <height>16</height>
            </rect>
@@ -1739,8 +1753,8 @@ color: rgb(255, 255, 255);</string>
          <widget class="QLabel" name="diamondTxt">
           <property name="geometry">
            <rect>
-            <x>350</x>
-            <y>120</y>
+            <x>470</x>
+            <y>130</y>
             <width>71</width>
             <height>16</height>
            </rect>
@@ -1751,6 +1765,99 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
            <string>DIAMOND</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="btnCrono">
+          <property name="geometry">
+           <rect>
+            <x>38</x>
+            <y>60</y>
+            <width>81</width>
+            <height>61</height>
+           </rect>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="toolTip">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+QPushButton#btnSilver { 
+	text-align: left;
+	padding-left: 13px;
+    background-color:  transparent;
+	font: 900 11pt 'Arial Black';
+	color: rgb(255, 255, 255);
+    border: 0px;
+	border-color: rgb(255,255,255);
+	border-style: outset;
+}
+
+QPushButton#btnSilver:hover{ 
+font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+
+QPushButton#btnSilver::focus:pressed{ 
+	font: 900 11pt 'Arial Black';
+	color: rgb(163, 163, 163);
+    border: 0px;
+}
+</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normalon>:/crono_icon.ico</normalon>
+           </iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>60</width>
+            <height>60</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+         <widget class="QLabel" name="silverTxt_2">
+          <property name="geometry">
+           <rect>
+            <x>56</x>
+            <y>130</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>CRONO</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_5">
+          <property name="geometry">
+           <rect>
+            <x>40</x>
+            <y>25</y>
+            <width>531</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 900 8pt &quot;Arial Black&quot;;
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>To change theme just click on any unlocked logo.</string>
           </property>
          </widget>
         </widget>

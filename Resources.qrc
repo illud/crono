@@ -13,10 +13,13 @@
         <file>stats_logo.png</file>
         <file>achivements.png</file>
         <file>github.png</file>
+        <file>nova.png</file>
+        <file>nova0.png</file>
+        <file>platinum0.png</file>
+        <file>platinum.png</file>
+        <file>dimond.png</file>
+        <file>dimond0.png</file>
         <file>silver.png</file>
         <file>silver0.png</file>
-        <file>gold.png</file>
-        <file>platinum.png</file>
-        <file>diamond.png</file>
     </qresource>
 </RCC>

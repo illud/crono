@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     MainWindow::setWindowFlags(Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
 
+    MainWindow::checkActiveTheme();
+
     // Install the event filter to capture mouse events for resizing
     this->installEventFilter(this);
 
@@ -625,24 +627,81 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
             bool silver = db->updateAchivement(1);
             if(silver){
                 qDebug() << "Silver updated";
+
+                // Set the status bar style
+                statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
+
+                statusBar()->show();
+
+                // Create a QTimer to hide the message after 3 seconds
+                QTimer::singleShot(3000, statusBar(), [this]()
+                                   {
+                                       statusBar()->clearMessage(); // Clear the message after 3 seconds
+                                       statusBar()->hide();         // Hide the status bar
+                                   });
+
+                // Show the status message
+                statusBar()->showMessage(tr("Achivement unlock Silver."));
             }
         }
         if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 100){
             bool silver = db->updateAchivement(2);
             if(silver){
-                qDebug() << "Gold updated";
+                qDebug() << "Nova updated";
+                // Set the status bar style
+                statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
+
+                statusBar()->show();
+
+                // Create a QTimer to hide the message after 3 seconds
+                QTimer::singleShot(3000, statusBar(), [this]()
+                                   {
+                                       statusBar()->clearMessage(); // Clear the message after 3 seconds
+                                       statusBar()->hide();         // Hide the status bar
+                                   });
+
+                // Show the status message
+                statusBar()->showMessage(tr("Achivement unlock Nova."));
             }
         }
         if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 500){
             bool silver = db->updateAchivement(3);
             if(silver){
                 qDebug() << "Platinum updated";
+                // Set the status bar style
+                statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
+
+                statusBar()->show();
+
+                // Create a QTimer to hide the message after 3 seconds
+                QTimer::singleShot(3000, statusBar(), [this]()
+                                   {
+                                       statusBar()->clearMessage(); // Clear the message after 3 seconds
+                                       statusBar()->hide();         // Hide the status bar
+                                   });
+
+                // Show the status message
+                statusBar()->showMessage(tr("Achivement unlock Platinum."));
             }
         }
         if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 1000){
             bool silver = db->updateAchivement(4);
             if(silver){
                 qDebug() << "Diamond updated";
+                // Set the status bar style
+                statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
+
+                statusBar()->show();
+
+                // Create a QTimer to hide the message after 3 seconds
+                QTimer::singleShot(3000, statusBar(), [this]()
+                                   {
+                                       statusBar()->clearMessage(); // Clear the message after 3 seconds
+                                       statusBar()->hide();         // Hide the status bar
+                                   });
+
+                // Show the status message
+                statusBar()->showMessage(tr("Achivement unlock Diamond."));
             }
         }
 
@@ -1371,13 +1430,13 @@ void MainWindow::on_btnAchivements_clicked()
 
     QVector<DbManager::Achivements> achivementsData = db->getAchivements();
 
-    if(achivementsData[0].unlocked == true){
+    if(achivementsData[1].unlocked == true){
         QIcon icon(":/silver.png");
         ui->btnSilver->setIcon(icon);
         ui->btnSilver->setIconSize(icon.actualSize(ui->btnSilver->size()));
         ui->btnSilver->update();
         ui->silverTxt->setStyleSheet("color: white;");
-        //ui->btnSilver->setDisabled(false);
+        ui->btnSilver->setDisabled(false);
 
     }else{
         QIcon icon(":/silver0.png");
@@ -1385,51 +1444,51 @@ void MainWindow::on_btnAchivements_clicked()
         ui->btnSilver->setIconSize(icon.actualSize(ui->btnSilver->size()));
         ui->btnSilver->update();
         ui->silverTxt->setStyleSheet("color: grey;");
-        //ui->btnSilver->setDisabled(true);
-    }
-
-    if(achivementsData[1].unlocked == true){
-        //ui->btnGold->setDisabled(false);
-        QIcon icon(":/gold.png");
-        ui->btnGold->setIcon(icon);
-        ui->btnGold->setIconSize(icon.actualSize(ui->btnSilver->size()));
-        ui->btnGold->update();
-        ui->goldTxt->setStyleSheet("color: white;");
-    }else{
-        //ui->btnGold->setDisabled(true);
-        QIcon icon(":/silver0.png");
-        ui->btnGold->setIcon(icon);
-        ui->btnGold->setIconSize(icon.actualSize(ui->btnSilver->size()));
-        ui->btnGold->update();
-        ui->goldTxt->setStyleSheet("color: grey;");
+        ui->btnSilver->setDisabled(true);
     }
 
     if(achivementsData[2].unlocked == true){
-        //ui->btnPlatinum->setDisabled(false);
+        ui->btnNova->setDisabled(false);
+        QIcon icon(":/nova.png");
+        ui->btnNova->setIcon(icon);
+        ui->btnNova->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnNova->update();
+        ui->goldTxt->setStyleSheet("color: white;");
+    }else{
+        ui->btnNova->setDisabled(true);
+        QIcon icon(":/nova0.png");
+        ui->btnNova->setIcon(icon);
+        ui->btnNova->setIconSize(icon.actualSize(ui->btnSilver->size()));
+        ui->btnNova->update();
+        ui->goldTxt->setStyleSheet("color: grey;");
+    }
+
+    if(achivementsData[3].unlocked == true){
+        ui->btnPlatinum->setDisabled(false);
         QIcon icon(":/platinum.png");
         ui->btnPlatinum->setIcon(icon);
         ui->btnPlatinum->setIconSize(icon.actualSize(ui->btnSilver->size()));
         ui->btnPlatinum->update();
         ui->platinumTxt->setStyleSheet("color: white;");
     }else{
-        //ui->btnPlatinum->setDisabled(true);
-        QIcon icon(":/silver0.png");
+        ui->btnPlatinum->setDisabled(true);
+        QIcon icon(":/platinum0.png");
         ui->btnPlatinum->setIcon(icon);
         ui->btnPlatinum->setIconSize(icon.actualSize(ui->btnSilver->size()));
         ui->btnPlatinum->update();
         ui->platinumTxt->setStyleSheet("color: grey;");
     }
 
-    if(achivementsData[3].unlocked == true){
-        //ui->btnDiamond->setDisabled(false);
-        QIcon icon(":/diamond.png");
+    if(achivementsData[4].unlocked == true){
+        ui->btnDiamond->setDisabled(false);
+        QIcon icon(":/dimond.png");
         ui->btnDiamond->setIcon(icon);
         ui->btnDiamond->setIconSize(icon.actualSize(ui->btnSilver->size()));
         ui->btnDiamond->update();
         ui->diamondTxt->setStyleSheet("color: white;");
     }else{
-       //ui->btnDiamond->setDisabled(true);
-        QIcon icon(":/silver0.png");
+        ui->btnDiamond->setDisabled(true);
+        QIcon icon(":/dimond0.png");
         ui->btnDiamond->setIcon(icon);
         ui->btnDiamond->setIconSize(icon.actualSize(ui->btnSilver->size()));
         ui->btnDiamond->update();
@@ -1439,3 +1498,84 @@ void MainWindow::on_btnAchivements_clicked()
     ui->stackedWidget->setCurrentIndex(4);
 }
 
+
+void MainWindow::on_btnCrono_clicked()
+{
+    MainWindow::setStyleSheet("background-color: rgb(22, 22, 22)");
+
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    db->updateActiveTheme(1);
+}
+
+void MainWindow::on_btnSilver_clicked()
+{
+    MainWindow::setStyleSheet("background-color: rgb(40,40,40)");
+
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    db->updateActiveTheme(2);
+}
+
+
+void MainWindow::on_btnNova_clicked()
+{
+    MainWindow::setStyleSheet("background-color: rgb(0, 68, 129)");
+
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    db->updateActiveTheme(3);
+}
+
+
+void MainWindow::on_btnPlatinum_clicked()
+{
+      MainWindow::setStyleSheet("background-color: rgb(34,58,64)");
+
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    db->updateActiveTheme(4);
+}
+
+
+void MainWindow::on_btnDiamond_clicked()
+{
+    MainWindow::setStyleSheet("background-color: rgb(23, 111, 107)");
+
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    db->updateActiveTheme(5);
+}
+
+void MainWindow::checkActiveTheme(){
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    QVector<DbManager::Achivements> achivementsData = db->getAchivements();
+
+    if(achivementsData[0].active){
+        MainWindow::setStyleSheet("background-color: rgb(22, 22, 22)");
+    }
+
+    if(achivementsData[1].active){
+        MainWindow::setStyleSheet("background-color: rgb(40,40,40)");
+    }
+
+    if(achivementsData[2].active){
+        MainWindow::setStyleSheet("background-color: rgb(0, 68, 129)");
+    }
+
+    if(achivementsData[3].active){
+        MainWindow::setStyleSheet("background-color: rgb(34,58,64)");
+    }
+
+    if(achivementsData[4].active){
+        MainWindow::setStyleSheet("background-color: rgb(23, 111, 107)");
+    }
+
+}

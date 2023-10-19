@@ -110,6 +110,7 @@ public:
         int id;
         QString achivement;
         bool unlocked;
+        bool active;
         QString unlockedAt;
     };
 
@@ -137,6 +138,7 @@ public:
     QVector<DbManager::HoursPlayedPerDayOfTheLastWeekData> hoursPlayedPerDayOfTheLastWeek(int gameId);
     QVector<DbManager::Achivements> getAchivements() ;
     bool updateAchivement(int id);
+    void updateActiveTheme(int id);
 };
 
 #endif // DBMANAGER_H

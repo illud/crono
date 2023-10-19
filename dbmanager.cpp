@@ -35,7 +35,7 @@ DbManager::DbManager(const QString &path)
         }
 
         QSqlQuery queryAchivements;
-        queryAchivements.prepare("CREATE TABLE achivements(id INTEGER PRIMARY KEY AUTOINCREMENT, achivement TEXT, unlocked BOOLEAN, unlockedAt TEXT);");
+        queryAchivements.prepare("CREATE TABLE achivements(id INTEGER PRIMARY KEY AUTOINCREMENT, achivement TEXT, unlocked BOOLEAN, active BOOLEAN, unlockedAt TEXT);");
 
         if (!queryAchivements.exec())
         {
@@ -45,11 +45,12 @@ DbManager::DbManager(const QString &path)
             if(getAchivements.count() == 0){
                 // Create achievements data
                 QSqlQuery queryAdd;
-                queryAdd.prepare("INSERT INTO achivements (achivement, unlocked, unlockedAt) VALUES "
-                                 "('silver', false, ''), "
-                                 "('gold', false, ''), "
-                                 "('platinum', false, ''), "
-                                 "('diamond', false, '')");
+                queryAdd.prepare("INSERT INTO achivements (achivement, unlocked, active, unlockedAt) VALUES "
+                                 "('crono', false, true, ''), "
+                                 "('silver', false, false, ''), "
+                                 "('nova', false, false,''), "
+                                 "('platinum', false, false,''), "
+                                 "('diamond', false, false,'')");
 
                 if (queryAdd.exec())
                 {
@@ -772,6 +773,7 @@ QVector<DbManager::Achivements> DbManager::getAchivements()
     int idIndex = query.record().indexOf("id");
     int achivementIndex = query.record().indexOf("achivement");
     int unlockedIndex = query.record().indexOf("unlocked");
+    int activeIndex = query.record().indexOf("active");
     int unlockedAtIndex = query.record().indexOf("unlockedAt");
 
     while (query.next())
@@ -779,10 +781,10 @@ QVector<DbManager::Achivements> DbManager::getAchivements()
         int id = query.value(idIndex).toInt();
         QString achivement = query.value(achivementIndex).toString();
         bool unlocked = query.value(unlockedIndex).toBool();
+        bool active = query.value(activeIndex).toBool();
         QString unlockedAt = query.value(unlockedAtIndex).toString();
 
-
-        achivements.push_back(DbManager::Achivements{id, achivement, unlocked, unlockedAt});
+        achivements.push_back(DbManager::Achivements{id, achivement, unlocked, active, unlockedAt});
     }
 
     return achivements;
@@ -811,5 +813,20 @@ bool DbManager::updateAchivement(int id)
     {
         qDebug() << "Error updating achivements: " << queryAdd.lastError();
         return false;
+    }
+}
+
+void DbManager::updateActiveTheme(int id){
+    QSqlQuery queryAdd;
+    queryAdd.prepare("UPDATE achivements SET active = CASE WHEN id IN (:id) THEN true ELSE false END;");
+    queryAdd.bindValue(":id", id);
+
+    if (queryAdd.exec())
+    {
+        qDebug() << "Success updating achivements theme";
+    }
+    else
+    {
+        qDebug() << "Error updating achivements theme: " << queryAdd.lastError();
     }
 }
