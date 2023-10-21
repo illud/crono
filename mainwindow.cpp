@@ -637,7 +637,7 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
 
         // Achivements
         if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 1){
-            bool silver = db->updateAchivement(1);
+            bool silver = db->updateAchivement(2);
             if(silver){
                 qDebug() << "Silver updated";
 
@@ -658,7 +658,7 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
             }
         }
         if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 2){
-            bool nova = db->updateAchivement(2);
+            bool nova = db->updateAchivement(3);
             if(nova){
                 qDebug() << "Nova updated";
                 // Set the status bar style
@@ -678,7 +678,7 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
             }
         }
         if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 3){
-            bool platinum = db->updateAchivement(3);
+            bool platinum = db->updateAchivement(4);
             if(platinum){
                 qDebug() << "Platinum updated";
                 // Set the status bar style
@@ -698,7 +698,7 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
             }
         }
         if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 4){
-            bool dimond = db->updateAchivement(4);
+            bool dimond = db->updateAchivement(5);
             if(dimond){
                 qDebug() << "Diamond updated";
                 // Set the status bar style
