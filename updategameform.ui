@@ -26,7 +26,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(39, 39, 39);</string>
+    <string notr="true">background-color: rgba(39, 39, 39, 52);</string>
    </property>
    <widget class="QPushButton" name="closeBtn">
     <property name="geometry">
@@ -79,7 +79,8 @@ QPushButton#closeBtn::focus:pressed{
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);</string>
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: transparent;</string>
     </property>
     <property name="text">
      <string>UPDATING GAME</string>
@@ -115,7 +116,8 @@ border-radius:0px;</string>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 900 7pt &quot;Arial Black&quot;;
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+background-color: transparent;</string>
    </property>
    <property name="text">
     <string>GAME NAME</string>

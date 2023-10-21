@@ -25,6 +25,7 @@ private slots:
     void on_searchGameExeBtn_clicked();
 
     void on_closeBtn_clicked();
+    void checkActiveTheme();
 
 signals:
     void gameUpdated();

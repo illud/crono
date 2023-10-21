@@ -51,8 +51,6 @@ MainWindow::MainWindow(QWidget *parent)
     // Sets all running column to false at start of the app
     db->updateAllGameRunning();
 
-    delete db;
-
     // Get games and start of the app
     getGame(true, false);
 
@@ -67,9 +65,59 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableWidget->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
-    QMenu *menu = new QMenu();
 
-    menu->setStyleSheet("QMenu{background-color: rgba(33, 31, 29, 100); color: white;}");
+    initialFlags = ui->timePlayedTodayText->windowFlags();
+    initialPosition = ui->timePlayedTodayText->pos();
+
+    // hoursPlayedPerdayTheLastWeek
+
+    // Set the fixed width for the horizontal header
+    ui->tableWidget_2->horizontalHeader()->setDefaultSectionSize(145);
+
+    // Set the fixed height for the vertical header
+    ui->tableWidget_2->verticalHeader()->setDefaultSectionSize(145);
+
+    ui->tableWidget_2->horizontalHeader()->setStretchLastSection(true);
+
+    // Action menu
+    MainWindow::actionsMenu();
+
+    delete db;
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::actionsMenu(){
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    // Gets achivements
+    QVector<DbManager::Achivements> achivementsData = db->getAchivements();
+
+    QMenu *menu = new QMenu();
+    if(achivementsData[0].active){
+        menu->setStyleSheet("QMenu{background-color: rgb(22, 24, 22); color: white;}");
+    }
+
+    if(achivementsData[1].active){
+        menu->setStyleSheet("QMenu{background-color: rgb(40,42,40); color: white;}");
+    }
+
+    if(achivementsData[2].active){
+        menu->setStyleSheet("QMenu{background-color: rgb(0, 70, 129); color: white;}");
+    }
+
+    if(achivementsData[3].active){
+        menu->setStyleSheet("QMenu{background-color: rgb(34,60,64); color: white;}");
+    }
+
+    if(achivementsData[4].active){
+        menu->setStyleSheet("QMenu{background-color: rgb(23, 113, 107); color: white;}");
+    }
+
     QAction *actionEdit = new QAction("Edit", this);
     menu->addAction(actionEdit);
 
@@ -84,24 +132,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->toolButton->setMenu(menu);
     ui->toolButton->setPopupMode(QToolButton::InstantPopup);
-
-    initialFlags = ui->timePlayedTodayText->windowFlags();
-    initialPosition = ui->timePlayedTodayText->pos();
-
-    // hoursPlayedPerdayTheLastWeek
-
-    // Set the fixed width for the horizontal header
-    ui->tableWidget_2->horizontalHeader()->setDefaultSectionSize(145);
-
-    // Set the fixed height for the vertical header
-    ui->tableWidget_2->verticalHeader()->setDefaultSectionSize(145);
-
-    ui->tableWidget_2->horizontalHeader()->setStretchLastSection(true);
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
 }
 
 // NewGame form dialog
@@ -1168,7 +1198,30 @@ void MainWindow::deleteGame(int gameId, QString gameName)
     QMessageBox msgBox;
     msgBox.setWindowFlags(Qt::FramelessWindowHint);
 
-    msgBox.setStyleSheet("QMessageBox{background-color: rgba(33, 31, 29, 90);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    QVector<DbManager::Achivements> achivementsData = db->getAchivements();
+
+    if(achivementsData[0].active){
+        msgBox.setStyleSheet("QMessageBox{background-color: rgb(22, 24, 22);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
+    }
+
+    if(achivementsData[1].active){
+        msgBox.setStyleSheet("QMessageBox{background-color: rgb(40,42,40);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
+    }
+
+    if(achivementsData[2].active){
+        msgBox.setStyleSheet("QMessageBox{background-color: rgb(0, 70, 129);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
+    }
+
+    if(achivementsData[3].active){
+        msgBox.setStyleSheet("QMessageBox{background-color: rgb(34,60,64);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
+    }
+
+    if(achivementsData[4].active){
+        msgBox.setStyleSheet("QMessageBox{background-color: rgb(23, 113, 107);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
+    }
     msgBox.setText("¿Are you shure you want to delete " + gameName + "? ");
 
     // Add custom buttons
@@ -1507,6 +1560,9 @@ void MainWindow::on_btnCrono_clicked()
     DbManager *db = new DbManager(path);
 
     db->updateActiveTheme(1);
+
+    // Action menu
+    MainWindow::actionsMenu();
 }
 
 void MainWindow::on_btnSilver_clicked()
@@ -1517,6 +1573,9 @@ void MainWindow::on_btnSilver_clicked()
     DbManager *db = new DbManager(path);
 
     db->updateActiveTheme(2);
+
+    // Action menu
+    MainWindow::actionsMenu();
 }
 
 
@@ -1528,6 +1587,9 @@ void MainWindow::on_btnNova_clicked()
     DbManager *db = new DbManager(path);
 
     db->updateActiveTheme(3);
+
+    // Action menu
+    MainWindow::actionsMenu();
 }
 
 
@@ -1539,6 +1601,9 @@ void MainWindow::on_btnPlatinum_clicked()
     DbManager *db = new DbManager(path);
 
     db->updateActiveTheme(4);
+
+    // Action menu
+    MainWindow::actionsMenu();
 }
 
 
@@ -1550,6 +1615,9 @@ void MainWindow::on_btnDiamond_clicked()
     DbManager *db = new DbManager(path);
 
     db->updateActiveTheme(5);
+
+    // Action menu
+    MainWindow::actionsMenu();
 }
 
 void MainWindow::checkActiveTheme(){

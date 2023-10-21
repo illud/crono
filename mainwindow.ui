@@ -240,7 +240,7 @@ QPushButton#btnClose::focus:pressed{
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>4</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="page">
          <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -845,7 +845,7 @@ QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
 	border-radius: 0px;
-	background-color: rgb(33, 33, 33);
+	background-color: rgba(33, 33, 33,70);
 	color: #ffffff;
     border: none;
     height: 28px;

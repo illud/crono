@@ -53,6 +53,7 @@ private slots:
     void on_btnPlatinum_clicked();
     void on_btnDiamond_clicked();
     void checkActiveTheme();
+    void actionsMenu();
 
 public slots:
     void on_statsBtn_clicked();

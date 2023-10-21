@@ -14,6 +14,8 @@ UpdateGameForm::UpdateGameForm(int _gameId, QString _gameName, QString _gameExeL
 
     UpdateGameForm::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
 
+    UpdateGameForm::checkActiveTheme();
+
     ui->gameName->setText(_gameName);
     gameExePath = _gameExeLocation;
     gameId = _gameId;
@@ -104,4 +106,31 @@ void UpdateGameForm::on_closeBtn_clicked()
 {
     this->close();
     this->deleteLater();
+}
+
+void UpdateGameForm::checkActiveTheme(){
+    // Instance db conn
+    DbManager *db = new DbManager(path);
+
+    QVector<DbManager::Achivements> achivementsData = db->getAchivements();
+
+    if(achivementsData[0].active){
+        UpdateGameForm::setStyleSheet("background-color: rgb(33, 33, 33)");
+    }
+
+    if(achivementsData[1].active){
+        UpdateGameForm::setStyleSheet("background-color: rgb(40,45,40)");
+    }
+
+    if(achivementsData[2].active){
+        UpdateGameForm::setStyleSheet("background-color: rgb(0, 72, 129)");
+    }
+
+    if(achivementsData[3].active){
+        UpdateGameForm::setStyleSheet("background-color: rgb(34,61,64)");
+    }
+
+    if(achivementsData[4].active){
+        UpdateGameForm::setStyleSheet("background-color: rgb(23, 116, 107)");
+    }
 }

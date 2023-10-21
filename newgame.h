@@ -15,6 +15,7 @@ class NewGame : public QDialog
 public:
     explicit NewGame(QWidget *parent = nullptr);
     ~NewGame();
+    const QString path = "crono.db";
 
 signals:
     void gameAdded(const QString &gameName, const QString &gameExePath);
@@ -25,6 +26,7 @@ private slots:
     void on_searchGameExeBtn_clicked();
 
     void on_closeBtn_clicked();
+    void checkActiveTheme();
 
 private:
     Ui::NewGame *ui;
