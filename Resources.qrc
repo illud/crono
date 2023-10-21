@@ -21,5 +21,10 @@
         <file>dimond0.png</file>
         <file>silver.png</file>
         <file>silver0.png</file>
+        <file>bg.jpg</file>
+        <file>bg1.png</file>
+        <file>bg2.jpg</file>
+        <file>bg3.jpg</file>
+        <file>bg4.jpg</file>
     </qresource>
 </RCC>

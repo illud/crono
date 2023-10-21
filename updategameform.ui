@@ -13,8 +13,11 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="windowOpacity">
+   <double>0.900000000000000</double>
+  </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(42, 42, 42); </string>
+   <string notr="true">background-color: rgba(33, 33, 33, 80); </string>
   </property>
   <widget class="QWidget" name="widget_2" native="true">
    <property name="geometry">
@@ -97,11 +100,12 @@ background-color: transparent;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border-style: solid;
+    <string notr="true">background-color: transparent;
+border-style: solid;
 font: 900 9pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);
 border-bottom-width: 1px;
-border-color: none none gray none;
+border-color: none none white none;
 border-radius:0px;</string>
    </property>
   </widget>

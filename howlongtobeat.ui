@@ -43,7 +43,7 @@ border-style: solid;
 font: 900 9pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);
 border-bottom-width: 1px;
-border-color: none none gray none;
+border-color: none none white none;
 border-radius: 0px;</string>
      </property>
     </widget>
@@ -157,7 +157,7 @@ QPushButton#btnSearch::focus:pressed{
        </property>
        <property name="styleSheet">
         <string notr="true">QTableWidget {
-	/*background-color: rgb(22, 22, 22);*/
+	background-color: transparent;
     border: none;
     color: #ffffff;
 }
@@ -166,7 +166,7 @@ QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
 	border-radius: 0px;
-background-color: rgba(44, 44, 44, 100);
+background-color: rgba(44, 44, 44, 180);
 	color: #ffffff;
     border: none;
     height: 28px;
@@ -322,6 +322,13 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
        <column>
         <property name="text">
          <string>IMAGE</string>
+        </property>
+        <property name="background">
+         <color alpha="0">
+          <red>0</red>
+          <green>0</green>
+          <blue>0</blue>
+         </color>
         </property>
        </column>
        <column>

@@ -17,12 +17,15 @@
    <double>1.000000000000000</double>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(22, 22, 22);</string>
+   <string notr="true">background-color: rgb(22,22,22);</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="sizeConstraint">
      <enum>QLayout::SetDefaultConstraint</enum>
@@ -138,58 +141,6 @@ QPushButton#minimizeBtn::focus:pressed{
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="maxBtn">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Arial Black</family>
-          <pointsize>9</pointsize>
-          <italic>false</italic>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton#maxBtn { 
-background-color: transparent;
-	/*background-color: rgb(251, 192, 45);*/
-	
-	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 0px;
-	border-radius: 10px;
-	border-style: outset;
-	height: 20px;
-}
-
-QPushButton#maxBtn:hover{ 
-    background-color: rgb(251, 160, 45);
-	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 0px;
-}
-
-QPushButton#maxBtn::focus:pressed{ 
-	background-color: rgb(251, 160, 45);
-	font: 900 9pt &quot;Arial Black&quot;;
-	color: rgb(255, 255, 255);
-    border: 0px;
-}
-</string>
-        </property>
-        <property name="text">
-         <string>□</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="btnClose">
         <property name="minimumSize">
          <size>
@@ -239,6 +190,9 @@ QPushButton#btnClose::focus:pressed{
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="currentIndex">
          <number>2</number>
         </property>
@@ -403,6 +357,7 @@ QPushButton#reloadBtn::focus:pressed{
             </property>
             <property name="styleSheet">
              <string notr="true">QTableWidget {
+background-color: transparent;
     border:none;
     color: #ffffff;
 }
@@ -836,7 +791,7 @@ font: 900 12pt &quot;Arial Black&quot;;</string>
             <property name="styleSheet">
              <string notr="true">
 QTableWidget {
-	/*background-color: rgb(22, 22, 22);*/
+	background-color:  transparent;
     border: none;
     color: #ffffff;
 }
@@ -845,7 +800,7 @@ QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
 	border-radius: 0px;
-	background-color: rgba(33, 33, 33,70);
+background-color: rgba(44, 44, 44, 180);
 	color: #ffffff;
     border: none;
     height: 28px;
@@ -1121,7 +1076,7 @@ QPushButton::focus:pressed{
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 100);
+               <string notr="true">background-color: rgba(44, 44, 44, 180);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">
@@ -1173,7 +1128,7 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
             <item row="1" column="1">
              <widget class="QFrame" name="frame_6">
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 100);
+               <string notr="true">background-color: rgba(44, 44, 44, 180);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">
@@ -1231,7 +1186,7 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 100);
+               <string notr="true">background-color: rgba(44, 44, 44, 180);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">
@@ -1283,7 +1238,7 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
             <item row="0" column="1">
              <widget class="QFrame" name="frame_4">
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 100);
+               <string notr="true">background-color: rgba(44, 44, 44, 180);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">
@@ -1560,7 +1515,7 @@ QPushButton#btnSilver::focus:pressed{
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 100 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 2 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">
@@ -1605,7 +1560,7 @@ QPushButton#btnNova::focus:pressed{
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 500 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 3 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">
@@ -1650,7 +1605,7 @@ QPushButton#btnPlatinum::focus:pressed{
            <cursorShape>PointingHandCursor</cursorShape>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 1000 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play for 4 hours to unlock.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="styleSheet">
            <string notr="true">
@@ -1858,6 +1813,23 @@ color: rgb(255, 255, 255);</string>
           </property>
           <property name="text">
            <string>To change theme just click on any unlocked logo.</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_6">
+          <property name="geometry">
+           <rect>
+            <x>50</x>
+            <y>150</y>
+            <width>151</width>
+            <height>21</height>
+           </rect>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 900 8pt &quot;Arial Black&quot;;
+color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Images from freepik.com</string>
           </property>
          </widget>
         </widget>

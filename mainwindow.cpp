@@ -98,25 +98,8 @@ void MainWindow::actionsMenu(){
     QVector<DbManager::Achivements> achivementsData = db->getAchivements();
 
     QMenu *menu = new QMenu();
-    if(achivementsData[0].active){
-        menu->setStyleSheet("QMenu{background-color: rgb(22, 24, 22); color: white;}");
-    }
 
-    if(achivementsData[1].active){
-        menu->setStyleSheet("QMenu{background-color: rgb(40,42,40); color: white;}");
-    }
-
-    if(achivementsData[2].active){
-        menu->setStyleSheet("QMenu{background-color: rgb(0, 70, 129); color: white;}");
-    }
-
-    if(achivementsData[3].active){
-        menu->setStyleSheet("QMenu{background-color: rgb(34,60,64); color: white;}");
-    }
-
-    if(achivementsData[4].active){
-        menu->setStyleSheet("QMenu{background-color: rgb(23, 113, 107); color: white;}");
-    }
+    menu->setStyleSheet("QMenu{background-color: rgba(44, 44, 44, 100); color: white;}");
 
     QAction *actionEdit = new QAction("Edit", this);
     menu->addAction(actionEdit);
@@ -674,9 +657,9 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                 statusBar()->showMessage(tr("Achivement unlock Silver."));
             }
         }
-        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 100){
-            bool silver = db->updateAchivement(2);
-            if(silver){
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 2){
+            bool nova = db->updateAchivement(2);
+            if(nova){
                 qDebug() << "Nova updated";
                 // Set the status bar style
                 statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
@@ -694,9 +677,9 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                 statusBar()->showMessage(tr("Achivement unlock Nova."));
             }
         }
-        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 500){
-            bool silver = db->updateAchivement(3);
-            if(silver){
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 3){
+            bool platinum = db->updateAchivement(3);
+            if(platinum){
                 qDebug() << "Platinum updated";
                 // Set the status bar style
                 statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
@@ -714,9 +697,9 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                 statusBar()->showMessage(tr("Achivement unlock Platinum."));
             }
         }
-        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 1000){
-            bool silver = db->updateAchivement(4);
-            if(silver){
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 4){
+            bool dimond = db->updateAchivement(4);
+            if(dimond){
                 qDebug() << "Diamond updated";
                 // Set the status bar style
                 statusBar()->setStyleSheet("color: #ffffff; background-color: #388E3C; font-size: 13px;");
@@ -1554,7 +1537,14 @@ void MainWindow::on_btnAchivements_clicked()
 
 void MainWindow::on_btnCrono_clicked()
 {
-    MainWindow::setStyleSheet("background-color: rgb(22, 22, 22)");
+    //MainWindow::setStyleSheet("background-color: rgb(22, 22, 22)");
+
+    MainWindow::setStyleSheet("QMainWindow {"
+                              "background-image: url(:/bg.jpg);"
+                              "background-repeat: no-repeat;"
+                              "background-position: center;"
+                              "background-size: 100% 100%;"
+                              "}");
 
     // Instance db conn
     DbManager *db = new DbManager(path);
@@ -1567,7 +1557,14 @@ void MainWindow::on_btnCrono_clicked()
 
 void MainWindow::on_btnSilver_clicked()
 {
-    MainWindow::setStyleSheet("background-color: rgb(40,40,40)");
+    //MainWindow::setStyleSheet("background-color: rgb(40,40,40)");
+
+    MainWindow::setStyleSheet("QMainWindow {"
+                              "background-image: url(:/bg1.png);"
+                              "background-repeat: no-repeat;"
+                              "background-position: center;"
+                              "background-size: 100% 100%;"
+                              "}");
 
     // Instance db conn
     DbManager *db = new DbManager(path);
@@ -1581,7 +1578,14 @@ void MainWindow::on_btnSilver_clicked()
 
 void MainWindow::on_btnNova_clicked()
 {
-    MainWindow::setStyleSheet("background-color: rgb(0, 68, 129)");
+    //MainWindow::setStyleSheet("background-color: rgb(0, 68, 129)");
+
+    MainWindow::setStyleSheet("QMainWindow {"
+                              "background-image: url(:/bg2.jpg);"
+                              "background-repeat: no-repeat;"
+                              "background-position: center;"
+                              "background-size: cover;"
+                              "}");
 
     // Instance db conn
     DbManager *db = new DbManager(path);
@@ -1595,7 +1599,14 @@ void MainWindow::on_btnNova_clicked()
 
 void MainWindow::on_btnPlatinum_clicked()
 {
-      MainWindow::setStyleSheet("background-color: rgb(34,58,64)");
+    //MainWindow::setStyleSheet("background-color: rgb(34,58,64)");
+
+    MainWindow::setStyleSheet("QMainWindow {"
+                              "background-image: url(:/bg3.jpg);"
+                              "background-repeat: no-repeat;"
+                              "background-position: center;"
+                              "background-size: 100% 100%;"
+                              "}");
 
     // Instance db conn
     DbManager *db = new DbManager(path);
@@ -1609,7 +1620,14 @@ void MainWindow::on_btnPlatinum_clicked()
 
 void MainWindow::on_btnDiamond_clicked()
 {
-    MainWindow::setStyleSheet("background-color: rgb(23, 111, 107)");
+    //MainWindow::setStyleSheet("background-color: rgb(23, 111, 107)");
+
+    MainWindow::setStyleSheet("QMainWindow {"
+                              "background-image: url(:/bg4.jpg);"
+                              "background-repeat: no-repeat;"
+                              "background-position: center;"
+                              "background-size: 100% 100%;"
+                              "}");
 
     // Instance db conn
     DbManager *db = new DbManager(path);
@@ -1627,23 +1645,54 @@ void MainWindow::checkActiveTheme(){
     QVector<DbManager::Achivements> achivementsData = db->getAchivements();
 
     if(achivementsData[0].active){
-        MainWindow::setStyleSheet("background-color: rgb(22, 22, 22)");
+       // MainWindow::setStyleSheet("background-color: rgb(22, 22, 22)");
+
+        MainWindow::setStyleSheet("QMainWindow {"
+                                  "background-image: url(:/bg.jpg);"
+                                  "background-repeat: no-repeat;"
+                                  "background-position: center;"
+                                  "background-size: cover;"
+                                  "}");
     }
 
     if(achivementsData[1].active){
-        MainWindow::setStyleSheet("background-color: rgb(40,40,40)");
+        //MainWindow::setStyleSheet("background-color: rgb(40,40,40)");
+        MainWindow::setStyleSheet("QMainWindow {"
+                                  "background-image: url(:/bg1.png);"
+                                  "background-repeat: no-repeat;"
+                                  "background-position: center;"
+                                  "background-size: 100% 100%;"
+                                  "}");
     }
 
     if(achivementsData[2].active){
-        MainWindow::setStyleSheet("background-color: rgb(0, 68, 129)");
+        //MainWindow::setStyleSheet("background-color: rgb(0, 68, 129)");
+        MainWindow::setStyleSheet("QMainWindow {"
+                                  "background-image: url(:/bg2.jpg);"
+                                  "background-repeat: no-repeat;"
+                                  "background-position: center;"
+                                  "background-size: 100% 100%;"
+                                  "}");
     }
 
     if(achivementsData[3].active){
-        MainWindow::setStyleSheet("background-color: rgb(34,58,64)");
+        //MainWindow::setStyleSheet("background-color: rgb(34,58,64)");
+        MainWindow::setStyleSheet("QMainWindow {"
+                                  "background-image: url(:/bg3.jpg);"
+                                  "background-repeat: no-repeat;"
+                                  "background-position: center;"
+                                  "background-size: 100% 100%;"
+                                  "}");
     }
 
     if(achivementsData[4].active){
-        MainWindow::setStyleSheet("background-color: rgb(23, 111, 107)");
+        //MainWindow::setStyleSheet("background-color: rgb(23, 111, 107)");
+        MainWindow::setStyleSheet("QMainWindow {"
+                                  "background-image: url(:/bg4.jpg);"
+                                  "background-repeat: no-repeat;"
+                                  "background-position: center;"
+                                  "background-size: 100% 100%;"
+                                  "}");
     }
 
 }
