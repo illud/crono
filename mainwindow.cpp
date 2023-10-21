@@ -635,8 +635,13 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
         // Gets time played this week filter by game id
         ui->timePlayedThisWeek->setText(util->secondsToTime(db->totalPlayTimeThisWeek(gamesResult[0].id)));
 
+
+
+        QVector<DbManager::Achivements> getAchivements = db->getAchivements();
+
+
         // Achivements
-        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 1){
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 1 && !getAchivements[1].unlocked){
             bool silver = db->updateAchivement(2);
             if(silver){
                 qDebug() << "Silver updated";
@@ -657,7 +662,7 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                 statusBar()->showMessage(tr("Achivement unlock Silver."));
             }
         }
-        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 2){
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 2 && !getAchivements[2].unlocked){
             bool nova = db->updateAchivement(3);
             if(nova){
                 qDebug() << "Nova updated";
@@ -677,7 +682,7 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                 statusBar()->showMessage(tr("Achivement unlock Nova."));
             }
         }
-        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 3){
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 3 && !getAchivements[3].unlocked){
             bool platinum = db->updateAchivement(4);
             if(platinum){
                 qDebug() << "Platinum updated";
@@ -697,7 +702,7 @@ void MainWindow::checkRunningGame(int gameId, QString gameName)
                 statusBar()->showMessage(tr("Achivement unlock Platinum."));
             }
         }
-        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 4){
+        if(static_cast<double>(db->totalTimePlayed()) / (60 * 60) > 4 && !getAchivements[4].unlocked){
             bool dimond = db->updateAchivement(5);
             if(dimond){
                 qDebug() << "Diamond updated";
