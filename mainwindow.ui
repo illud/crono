@@ -800,7 +800,7 @@ QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
 	border-radius: 0px;
-background-color: rgba(44, 44, 44, 180);
+background-color: rgba(44, 44, 44, 80);
 	color: #ffffff;
     border: none;
     height: 28px;
@@ -1076,7 +1076,7 @@ QPushButton::focus:pressed{
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 180);
+               <string notr="true">background-color: rgba(255, 255, 255,80);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">
@@ -1128,7 +1128,7 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
             <item row="1" column="1">
              <widget class="QFrame" name="frame_6">
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 180);
+               <string notr="true">background-color: rgba(255, 255, 255,80);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">
@@ -1186,7 +1186,7 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 180);
+               <string notr="true">background-color: rgba(255, 255, 255,80);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">
@@ -1238,7 +1238,7 @@ font: 900 13pt &quot;Arial Black&quot;;</string>
             <item row="0" column="1">
              <widget class="QFrame" name="frame_4">
               <property name="styleSheet">
-               <string notr="true">background-color: rgba(44, 44, 44, 180);
+               <string notr="true">background-color: rgba(255, 255, 255,80);
 border: 1px; border-radius: 10px;</string>
               </property>
               <property name="frameShape">

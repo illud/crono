@@ -99,7 +99,7 @@ void MainWindow::actionsMenu(){
 
     QMenu *menu = new QMenu();
 
-    menu->setStyleSheet("QMenu{background-color: rgba(44, 44, 44, 100); color: white;}");
+    menu->setStyleSheet("QMenu{background-color: rgba(255, 255, 255, 80); color: white;}");
 
     QAction *actionEdit = new QAction("Edit", this);
     menu->addAction(actionEdit);
@@ -1181,30 +1181,8 @@ void MainWindow::deleteGame(int gameId, QString gameName)
     QMessageBox msgBox;
     msgBox.setWindowFlags(Qt::FramelessWindowHint);
 
-    // Instance db conn
-    DbManager *db = new DbManager(path);
+    msgBox.setStyleSheet("QMessageBox{background-color: rgba(255, 255, 255,80);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
 
-    QVector<DbManager::Achivements> achivementsData = db->getAchivements();
-
-    if(achivementsData[0].active){
-        msgBox.setStyleSheet("QMessageBox{background-color: rgb(22, 24, 22);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
-    }
-
-    if(achivementsData[1].active){
-        msgBox.setStyleSheet("QMessageBox{background-color: rgb(40,42,40);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
-    }
-
-    if(achivementsData[2].active){
-        msgBox.setStyleSheet("QMessageBox{background-color: rgb(0, 70, 129);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
-    }
-
-    if(achivementsData[3].active){
-        msgBox.setStyleSheet("QMessageBox{background-color: rgb(34,60,64);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
-    }
-
-    if(achivementsData[4].active){
-        msgBox.setStyleSheet("QMessageBox{background-color: rgb(23, 113, 107);} QMessageBox QLabel {color: white; font: 900 10pt 'Arial Black';}");
-    }
     msgBox.setText("¿Are you shure you want to delete " + gameName + "? ");
 
     // Add custom buttons

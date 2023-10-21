@@ -166,7 +166,7 @@ QTableWidgetItem { border-radius: 10px; }
 
 QHeaderView::section {
 	border-radius: 0px;
-background-color: rgba(44, 44, 44, 180);
+background-color: rgba(44, 44, 44, 80);
 	color: #ffffff;
     border: none;
     height: 28px;

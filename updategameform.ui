@@ -17,7 +17,8 @@
    <double>0.900000000000000</double>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgba(33, 33, 33, 80); </string>
+   <string notr="true">/*background-color: rgba(33, 33, 33, 80); */
+background-color: rgba(44, 44, 44, 128);</string>
   </property>
   <widget class="QWidget" name="widget_2" native="true">
    <property name="geometry">
