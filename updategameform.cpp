@@ -26,7 +26,7 @@ UpdateGameForm::~UpdateGameForm()
 
 void UpdateGameForm::on_updateBtn_clicked()
 {
-    if (ui->gameName->text() == "" || gameExePath == "")
+    if (ui->gameName->text().isEmpty() || gameExePath.isEmpty())
     {
         QMessageBox msgBox;
         msgBox.setWindowFlags(Qt::FramelessWindowHint);

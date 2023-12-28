@@ -4,12 +4,10 @@
 #include <QTableWidget>
 #include <QHeaderView>
 #include "dbmanager.h"
-#include <charconv>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QVector>
-#include <sstream>
 #include <QPainter>
 #include <QPainterPath>
 #include <QDesktopServices>
@@ -108,8 +106,6 @@ void HowLongTobeat::on_btnSearch_clicked()
     connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
 
-    QString imageUrl = "";
-
     if (reply->error() == QNetworkReply::NoError)
     {
         QByteArray responseData = reply->readAll();
@@ -134,7 +130,7 @@ void HowLongTobeat::on_btnSearch_clicked()
             // Download image from url and set image as icon
             ImageUtil *imageUtil = new ImageUtil();
             imageUtil->loadFromUrl(QUrl("https://howlongtobeat.com/games/" + jsonArray[var].toObject()["game_image"].toString()));
-            imageUtil->connect(imageUtil, &ImageUtil::loaded,
+            imageUtil->connect(imageUtil, &ImageUtil::loaded, this,
                                [=]()
                                {
                                    QImage image = imageUtil->image(); // Get the image from ImageUtil

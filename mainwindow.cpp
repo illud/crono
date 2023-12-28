@@ -6,7 +6,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QVector>
-#include <sstream>
 #include <QTimer>
 #include "ImageUtil.h"
 #include "dbmanager.h"
@@ -91,12 +90,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::actionsMenu(){
-    // Instance db conn
-    DbManager *db = new DbManager(path);
-
-    // Gets achivements
-    QVector<DbManager::Achivements> achivementsData = db->getAchivements();
-
     QMenu *menu = new QMenu();
 
     menu->setStyleSheet("QMenu{background-color: rgba(255, 255, 255, 80); color: white;}");
@@ -104,13 +97,13 @@ void MainWindow::actionsMenu(){
     QAction *actionEdit = new QAction("Edit", this);
     menu->addAction(actionEdit);
 
-    connect(actionEdit, &QAction::triggered, [=]()
+    connect(actionEdit, &QAction::triggered, this, [=]()
             { MainWindow::updateGame(gameIdValue, gameNameValue, gameExePathValue); });
 
     QAction *actionDelete = new QAction("Delete", this);
     menu->addAction(actionDelete);
 
-    connect(actionDelete, &QAction::triggered, [=]()
+    connect(actionDelete, &QAction::triggered, this, [=]()
             { MainWindow::deleteGame(gameIdValue, gameNameValue); });
 
     ui->toolButton->setMenu(menu);
@@ -286,7 +279,7 @@ void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
             // Download image from url and set image as icon
             ImageUtil *imageUtil = new ImageUtil();
             imageUtil->loadFromUrl(QUrl(gamesResult[col].gameImage));
-            imageUtil->connect(imageUtil, &ImageUtil::loaded,
+            imageUtil->connect(imageUtil, &ImageUtil::loaded, this,
                                [=]()
                                {
                                    QImage image = imageUtil->image(); // Get the image from ImageUtil
@@ -344,7 +337,7 @@ void MainWindow::getGame(bool goToGamesPage, bool updatedGame)
     }
 
     // Connect the cellClicked signal of the table widget
-    connect(ui->tableWidget, &QTableWidget::cellClicked, [=](int row, int col){
+    connect(ui->tableWidget, &QTableWidget::cellClicked, this, [=](int row, int col){
 
             // Retrieve the QTableWidgetItem at the specified row and column
             QTableWidgetItem* item = ui->tableWidget->item(row, col);
@@ -578,7 +571,7 @@ void MainWindow::on_btnPlay_clicked(QString gameName, int gameId, QString gameEx
     QEventLoop loop;
 
     // Create a lambda function to execute after the delay
-    QObject::connect(&timerDelay, &QTimer::timeout, [&]()
+    QObject::connect(&timerDelay, &QTimer::timeout, this, [&]()
                      {
                          qDebug() << "One minute has passed.";
                          loop.quit(); // Exit the event loop

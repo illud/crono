@@ -1,5 +1,4 @@
 #include "newgame.h"
-#include "dbmanager.h"
 #include "qmessagebox.h"
 #include "ui_newgame.h"
 #include <QDir>
@@ -22,7 +21,7 @@ NewGame::~NewGame()
 
 void NewGame::on_addBtn_clicked()
 {
-    if (ui->gameName->text() == "" || gameExe == "")
+    if (ui->gameName->text().isEmpty() || gameExe.isEmpty())
     {
         QMessageBox msgBox;
         msgBox.setWindowFlags(Qt::FramelessWindowHint);
