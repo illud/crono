@@ -211,7 +211,7 @@ QString Util::getGameImage(QString gameName)
     QString jsonstr = QString(jsonDocument.toJson(QJsonDocument::Compact));
 
     QNetworkAccessManager manager;
-    QNetworkRequest request(QUrl("https://www.howlongtobeat.com/api/search"));
+    QNetworkRequest request(QUrl("https://www.howlongtobeat.com/api/search/21fda17e4a1d49be"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Accept", "*/*");
     request.setRawHeader("Origin", "https://howlongtobeat.com");
