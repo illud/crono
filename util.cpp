@@ -18,6 +18,15 @@
 #include <QHttpMultiPart>
 #include <QObject>
 
+#include <QCoreApplication>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QRegularExpression>
+#include <QRegularExpressionMatchIterator>
+#include <QDebug>
+#include <QEventLoop>
+
 Util::Util()
 {
 }
@@ -41,6 +50,52 @@ QVector<QString> Util::removeDupWord(std::string str)
 
     return words;
 }
+
+QStringList Util::getAllImageSrc(const QString &url, const QString &gameName) {
+    QNetworkAccessManager manager;
+    QNetworkRequest request((QUrl(url)));
+
+    // Sending the GET request
+    QNetworkReply *reply = manager.get(request);
+
+    // Event loop to wait for the request to finish
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    // Check for errors
+    if (reply->error() != QNetworkReply::NoError) {
+        qDebug() << "Error fetching the URL:" << reply->errorString();
+        reply->deleteLater();
+        return {};  // Return an empty list on error
+    }
+
+    // Read the response data (HTML content)
+    QByteArray responseData = reply->readAll();
+    QString htmlContent = QString::fromUtf8(responseData);
+
+    // Regular expression to match the 'src' attribute of all <img> tags
+
+    // Construct the regular expression string with the gameName included
+    QString pattern = QString(R"(<img[^>]*\s+src\s*=\s*['\"]([^'\"]*%1[^'\"]+)['\"])").arg(gameName);
+
+    // Create the regular expression with the pattern
+    QRegularExpression regex(pattern, QRegularExpression::CaseInsensitiveOption);
+
+
+        QRegularExpressionMatchIterator i = regex.globalMatch(htmlContent);
+
+    // List to store all image src URLs
+    QStringList imageSrcList;
+    while (i.hasNext()) {
+        QRegularExpressionMatch match = i.next();
+        imageSrcList.append(match.captured(1));  // Add captured src URL to list
+    }
+
+    reply->deleteLater();  // Clean up the network reply object
+    return imageSrcList;
+}
+
 
 // Converts secons to hours and minutes
 QString Util::secondsToTime(int time)
@@ -170,7 +225,37 @@ bool Util::checkInternetConn()
 
 QString Util::getGameImage(QString gameName)
 {
-    QVector<QString> splitWords = Util::removeDupWord(gameName.toStdString());
+    // Convert the input string to a QString
+    QString inputStr = QString::fromStdString(gameName.toStdString());
+
+    // Split the string into words based on spaces
+    QStringList words = inputStr.split(" ");
+
+
+ qDebug() << gameName.replace(' ', '+');
+    // URL to fetch
+   // https://store.steampowered.com/search/?snr=1_4_4__12&term=
+   //https://www.skidrowreloaded.com/?s=
+    // fetch skydrowreloaded web to get game image if found
+    QString url = "https://www.skidrowreloaded.com/?s=" + gameName.replace(' ', '+');
+
+    // Get all image srcs
+    QStringList imageSrcList =  Util::getAllImageSrc(url,words[0]);
+
+    // Print out all image sources
+    if (!imageSrcList.isEmpty()) {
+        qDebug() << "Found" << imageSrcList.count() << "images:";
+        for (const QString &src : imageSrcList) {
+            qDebug() << src;
+        }
+        return imageSrcList[0];
+    } else {
+        qDebug() << "No images found or error fetching the page.";
+        return "";
+    }
+
+
+    /*QVector<QString> splitWords = Util::removeDupWord(gameName.toStdString());
 
     // Build a JSON array of search terms
     QJsonArray searchTermsArray;
@@ -211,9 +296,9 @@ QString Util::getGameImage(QString gameName)
     QString jsonstr = QString(jsonDocument.toJson(QJsonDocument::Compact));
 
     QNetworkAccessManager manager;
-    QNetworkRequest request(QUrl("https://www.howlongtobeat.com/api/search/21fda17e4a1d49be"));
+    QNetworkRequest request(QUrl("https://howlongtobeat.com/api/s/5b26492381a39f40"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Accept", "*/*");
+    //request.setRawHeader("Accept", "*");
     request.setRawHeader("Origin", "https://howlongtobeat.com");
     request.setRawHeader("Referer", "https://howlongtobeat.com");
     request.setRawHeader("User-Agent", "Mozilla/4.0 (Windows 7 6.1) Java/1.7.0_51");
@@ -239,10 +324,11 @@ QString Util::getGameImage(QString gameName)
     else
     {
         qDebug() << "Error: " << reply->errorString();
+        qDebug() << "Response: " << reply->readAll();
     }
 
     reply->deleteLater();
-    return imageUrl;
+    return imageUrl;*/
 }
 
 QString Util::dayNumberToWeekDay(int day)

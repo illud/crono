@@ -11,6 +11,7 @@ class Util : public QObject
 public:
     Util();
     QVector<QString> removeDupWord(std::string str);
+    QStringList getAllImageSrc(const QString &url, const QString &gameName);
     QString secondsToTime(int time);
     QString findLastBackSlashWord(std::string path);
     bool isProcessRunning(const QString &processName);
