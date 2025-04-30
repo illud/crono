@@ -1,5 +1,9 @@
 #include "newgame.h"
+#include "ImageUtil.h"
 #include "qmessagebox.h"
+#include "qpainter.h"
+#include "qpainterpath.h"
+#include "qtablewidget.h"
 #include "ui_newgame.h"
 #include <QDir>
 #include <QFileDialog>
@@ -10,6 +14,54 @@ NewGame::NewGame(QWidget *parent) : QDialog(parent),
 {
     ui->setupUi(this);
     NewGame::setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+
+    // Inside your slot where you are handling the image download and set the icon
+
+    // Inside your slot where you are handling the image download and set the icon
+
+    ImageUtil *imageUtil = new ImageUtil();
+    imageUtil->loadFromUrl(QUrl("https://i6.imageban.ru/out/2024/12/13/5ccf1fb10ab8d0a59066983058ac3270.jpg"));
+    imageUtil->connect(imageUtil, &ImageUtil::loaded, this,
+                       [=]() {
+                           QImage image = imageUtil->image();  // Get the image from ImageUtil
+
+                           // Scale the image to a larger size (e.g., 100x100)
+                           QImage scaledImage = image.scaled(50, 50, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+                           // Convert the scaled QImage to QPixmap for display
+                           QPixmap pixmap = QPixmap::fromImage(scaledImage);
+
+                           // Create a rounded QPixmap
+                           QPixmap roundedPixmap(pixmap.size());
+                           roundedPixmap.fill(Qt::transparent);  // Transparent background
+
+                           // Use QPainter to draw rounded corners
+                           QPainter painter(&roundedPixmap);
+                           painter.setRenderHint(QPainter::Antialiasing, true);
+
+                           QPainterPath path;
+                           path.addRoundedRect(0, 0, pixmap.width(), pixmap.height(), 15, 15);  // Rounded corners
+                           painter.setClipPath(path);
+
+                           painter.drawPixmap(0, 0, pixmap);
+
+                           // Now add the icon to your combo box
+                           QIcon icon(roundedPixmap);  // Create QIcon from the rounded QPixmap
+
+                           // Add the item to the combo box (with text "text" and the rounded icon)
+                           ui->imagePicker->addItem(icon, "");
+
+                           // Increase the size of the items in the combo box (adjust icon size)
+                           ui->imagePicker->setIconSize(QSize(50, 50));  // Set larger icon size
+
+                           // Optionally, adjust the height of the combo box if needed
+                           ui->imagePicker->setFixedHeight(50);  // Adjust combo box height
+
+                           // Clean up
+                           imageUtil->deleteLater();
+                       });
+
+
 }
 
 QString gameExe;

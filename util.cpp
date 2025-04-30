@@ -232,18 +232,18 @@ QString Util::getGameImage(QString gameName)
     QStringList words = inputStr.split(" ");
 
 
- qDebug() << gameName.replace(' ', '+');
+    qDebug() << gameName.replace(' ', '+');
     // URL to fetch
    // https://store.steampowered.com/search/?snr=1_4_4__12&term=
    //https://www.skidrowreloaded.com/?s=
     // fetch skydrowreloaded web to get game image if found
-    QString url = "https://www.skidrowreloaded.com/?s=" + gameName.replace(' ', '+');
+    //QString url = "https://www.skidrowreloaded.com/?s=" + gameName.replace(' ', '+');
 
     // Get all image srcs
-    QStringList imageSrcList =  Util::getAllImageSrc(url,words[0]);
+    //QStringList imageSrcList =  Util::getAllImageSrc(url,words[0]);
 
     // Print out all image sources
-    if (!imageSrcList.isEmpty()) {
+    /*if (!imageSrcList.isEmpty()) {
         qDebug() << "Found" << imageSrcList.count() << "images:";
         for (const QString &src : imageSrcList) {
             qDebug() << src;
@@ -252,7 +252,7 @@ QString Util::getGameImage(QString gameName)
     } else {
         qDebug() << "No images found or error fetching the page.";
         return "";
-    }
+    }*/
 
 
     /*QVector<QString> splitWords = Util::removeDupWord(gameName.toStdString());
@@ -329,6 +329,68 @@ QString Util::getGameImage(QString gameName)
 
     reply->deleteLater();
     return imageUrl;*/
+
+
+    QNetworkAccessManager manager;
+    QNetworkRequest request(QUrl("https://www.steamgriddb.com/api/public/search/main/games"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Origin", "https://www.steamgriddb.com");
+    request.setRawHeader("Referer", "https://www.steamgriddb.com");
+    request.setRawHeader("User-Agent", "Mozilla/4.0 (Windows 7 6.1) Java/1.7.0_51");
+
+    // Construct JSON body
+    QJsonObject filters;
+    filters["styles"] = QJsonArray{"all"};
+    filters["dimensions"] = QJsonArray{"all"};
+    filters["type"] = QJsonArray{"all"};
+    filters["order"] = "score_desc";
+
+    QJsonObject mainObj;
+    mainObj["asset_type"] = "grid";
+    mainObj["term"] = inputStr;
+    mainObj["offset"] = 0;
+    mainObj["filters"] = filters;
+
+    // Convert JSON to QByteArray
+    QJsonDocument jsonDoc(mainObj);
+    QByteArray postData = jsonDoc.toJson();
+
+    QNetworkReply *reply = manager.post(request, postData);
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    QString imageUrl = "";
+
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        QByteArray responseData = reply->readAll();
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
+
+        QJsonObject rootObj = jsonResponse.object();
+        QJsonObject dataObj = rootObj["data"].toObject();
+        QJsonArray gamesArray = dataObj["games"].toArray();
+
+        if (!gamesArray.isEmpty())
+        {
+            QJsonObject firstGame = gamesArray[0].toObject();
+            QJsonArray assetsArray = firstGame["assets"].toArray();
+
+            if (!assetsArray.isEmpty())
+            {
+                QJsonObject firstAsset = assetsArray[0].toObject();
+                imageUrl = firstAsset["url"].toString();
+            }
+        }
+    }
+    else
+    {
+        qDebug() << "Error: " << reply->errorString();
+        qDebug() << "Response: " << reply->readAll();
+    }
+
+    reply->deleteLater();
+    return imageUrl;
 }
 
 QString Util::dayNumberToWeekDay(int day)

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>767</width>
-    <height>215</height>
+    <height>201</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,7 +43,7 @@ border-radius:0px;</string>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>120</y>
+     <y>110</y>
      <width>741</width>
      <height>31</height>
     </rect>
@@ -87,7 +87,7 @@ QPushButton#searchGameExeBtn::focus:pressed{
    <property name="geometry">
     <rect>
      <x>650</x>
-     <y>170</y>
+     <y>160</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -216,6 +216,16 @@ background-color: transparent;</string>
      <string>ADDING NEW GAME</string>
     </property>
    </widget>
+  </widget>
+  <widget class="QComboBox" name="imagePicker">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>240</y>
+     <width>741</width>
+     <height>24</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

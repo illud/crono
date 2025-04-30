@@ -176,7 +176,7 @@ QVector<DbManager::Games> DbManager::getGames()
 {
     QVector<Games> games;
 
-    QSqlQuery query("SELECT * FROM games ORDER BY updatedAt DESC");
+    QSqlQuery query("SELECT * FROM games ORDER BY id DESC");
     int idIndex = query.record().indexOf("id");
     int gameImageIndex = query.record().indexOf("gameImage");
     int gameNameIndex = query.record().indexOf("gameName");

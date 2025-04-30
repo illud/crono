@@ -906,7 +906,7 @@ void MainWindow::on_btnGames_clicked()
                                 "border: 0px;"
                                 "}");
 
-    ui->btnHltb->setStyleSheet("QPushButton {"
+   /* ui->btnHltb->setStyleSheet("QPushButton {"
                                " text-align: left;"
                                " padding-left: 13px;"
                                "border-left-color: rgb(255, 255, 255);"
@@ -926,7 +926,7 @@ void MainWindow::on_btnGames_clicked()
                                "font: 900 11pt 'Arial Black';"
                                "color: rgb(163, 163, 163);"
                                "border: 0px;"
-                               "}");
+                               "}");*/
 
     ui->btnAchivements->setStyleSheet("QPushButton {"
                                " text-align: left;"
@@ -1005,7 +1005,7 @@ void MainWindow::on_statsBtn_clicked()
                                 "border: 0px;"
                                 "}");
 
-    ui->btnHltb->setStyleSheet("QPushButton {"
+    /*ui->btnHltb->setStyleSheet("QPushButton {"
                                " text-align: left;"
                                " padding-left: 13px;"
                                "border-left-color: rgb(255, 255, 255);"
@@ -1025,7 +1025,7 @@ void MainWindow::on_statsBtn_clicked()
                                "font: 900 11pt 'Arial Black';"
                                "color: rgb(163, 163, 163);"
                                "border: 0px;"
-                               "}");
+                               "}");*/
 
     ui->btnAchivements->setStyleSheet("QPushButton {"
                                       " text-align: left;"
@@ -1074,7 +1074,7 @@ void MainWindow::on_statsBtn_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-void MainWindow::on_btnHltb_clicked()
+void MainWindow::on_btnHltb_clicked()//btn removed
 {
     ui->btnGames->setStyleSheet("QPushButton {"
                                 " text-align: left;"
@@ -1142,7 +1142,7 @@ void MainWindow::on_btnHltb_clicked()
                                       "border: 0px;"
                                       "}");
 
-    ui->btnHltb->setStyleSheet("QPushButton {"
+    /*ui->btnHltb->setStyleSheet("QPushButton {"
                                " text-align: left;"
                                " padding-left: 13px;"
                                "border-left-color: rgb(255, 255, 255);"
@@ -1162,7 +1162,7 @@ void MainWindow::on_btnHltb_clicked()
                                "font: 900 11pt 'Arial Black';"
                                "color: rgb(163, 163, 163);"
                                "border: 0px;"
-                               "}");
+                               "}");*/
 
     ui->stackedWidget->setCurrentIndex(3);
 }
@@ -1392,7 +1392,7 @@ void MainWindow::on_btnAchivements_clicked()
                                 "border: 0px;"
                                 "}");
 
-    ui->btnHltb->setStyleSheet("QPushButton {"
+    /*ui->btnHltb->setStyleSheet("QPushButton {"
                                 " text-align: left;"
                                 " padding-left: 13px;"
                                 "border-left-color: rgb(255, 255, 255);"
@@ -1412,7 +1412,7 @@ void MainWindow::on_btnAchivements_clicked()
                                 "font: 900 11pt 'Arial Black';"
                                 "color: rgb(163, 163, 163);"
                                 "border: 0px;"
-                                "}");
+                                "}");*/
 
     ui->btnAchivements->setStyleSheet("QPushButton {"
                                " text-align: left;"
